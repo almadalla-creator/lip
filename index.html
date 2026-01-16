@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="robots" content="noindex,nofollow" />
+  <title>LIP</title>
+  <style>
+    :root{--bg:#0b0b0c;--fg:#e9e9ea;--muted:#a7a7ab;--dim:#6b6b70;--line:#1a1a1d;--max:980px;}
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0;background:var(--bg);color:var(--fg);font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial;letter-spacing:0.2px;}
+    main{max-width:var(--max);margin:0 auto;padding:56px 20px 80px;}
+    header{margin-bottom:34px;}
+    .logo{display:block;width:140px;height:auto;margin:0 0 22px 0;}
+    .date{color:var(--muted);font-size:14px;margin:0;}
+    .content{display:grid;grid-template-columns:1.25fr 0.75fr;gap:48px;align-items:start;margin-top:26px;}
+    .text{font-size:18px;line-height:1.7;margin:0;white-space:pre-wrap;}
+    .bookVisual{opacity:0.9;filter:saturate(0.9) contrast(0.98);}
+    .bookVisual img{width:100%;height:auto;display:block;}
+    .bookCaption{margin-top:10px;font-size:13px;color:var(--muted);}
+    .bookLink{display:block;text-decoration:none;color:inherit;}
+    .bookLink:hover .bookCaption{color:var(--fg);}
+    footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);color:var(--dim);font-size:12px;}
+    @media (max-width: 900px){
+      .content{grid-template-columns:1fr;gap:34px;}
+      .bookVisual{max-width:420px;}
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <img src="lip.png" alt="LIP" class="logo" />
+      <p class="date" id="dateLine"></p>
+    </header>
+
+    <div class="content">
+      <p class="text" id="manifesto">
+LIP is not a philosophy.
+Not a method.
+Not a promise.
+Not a refuge.
+
+Lucidity,Intelligence,Presence.
+Not to feel better.
+To stop cooperating with what is false.
+
+If you are looking for reassurance,leave.
+If you are looking for identity,leave.
+If you are looking for explanations that let you continue,leave.
+
+This is not for everyone.
+That is the point.
+
+This is for those who are no longer asking to be guided.
+      </p>
+
+      <div class="bookVisual" id="bookVisual">
+        <img src="book-cover.png" alt="LIP book cover" />
+        <div class="bookCaption" id="bookCaption">Book - Available when the time is right</div>
+      </div>
+    </div>
+
+    <footer>Nothing here is optimized for you.</footer>
+  </main>
+
+  <script>
+    const CONFIG={bookEnabled:false,bookUrl:"BOOK_LINK_GOES_HERE",locale:"en-GB"};
+    const d=new Date();
+    document.getElementById("dateLine").textContent=d.toLocaleDateString(CONFIG.locale,{year:"numeric",month:"long",day:"2-digit"});
+    const wrap=(url)=>{
+      const box=document.getElementById("bookVisual");
+      const img=box.querySelector("img");
+      const cap=document.getElementById("bookCaption");
+      const a=document.createElement("a");
+      a.className="bookLink";
+      a.href=url;
+      a.rel="noopener";
+      box.innerHTML="";
+      a.appendChild(img);
+      a.appendChild(cap);
+      box.appendChild(a);
+      cap.textContent="Book — Available";
+    };
+    if(CONFIG.bookEnabled && CONFIG.bookUrl && CONFIG.bookUrl!=="BOOK_LINK_GOES_HERE"){wrap(CONFIG.bookUrl);}
+  </script>
+</body>
+</html>
