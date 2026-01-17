@@ -5,55 +5,62 @@
   <title>LIP</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
+    :root{--bg:#000;--fg:#e6e6e6;--muted:#bdbdbd;}
     body{
       margin:0;
-      background:#000;
-      color:#e6e6e6;
+      padding:60px;
+      background:var(--bg);
+      color:var(--fg);
       font-family:Georgia,"Times New Roman",serif;
     }
-
-    .page{
+    .container{
       max-width:1100px;
       margin:0 auto;
-      padding:60px;
     }
-
     .top{
       display:grid;
       grid-template-columns:1fr 420px;
       gap:60px;
       align-items:start;
     }
-
     .text{
       white-space:pre-line;
       line-height:1.6;
       font-size:16px;
     }
 
-    .book{
-      width:420px;
-      max-width:100%;
-      justify-self:end;
+    .header{
+      display:flex;
+      align-items:flex-end;
+      gap:16px;
+      margin-bottom:12px;
     }
-
     .logo{
-      width:120px;
-      height:120px;
-      margin-bottom:18px;
-      background:#000;
+      width:42px;
+      height:42px;
       display:flex;
       align-items:center;
       justify-content:center;
     }
-
     .logo img{
-      display:block;
       width:100%;
       height:100%;
       object-fit:contain;
+      display:block;
+    }
+    .title{
+      font-size:18px;
+      letter-spacing:0.5px;
     }
 
+    .book{
+      width:420px;
+      max-width:100%;
+    }
+    .bookTopSpacer{
+      height:42px;
+      margin-bottom:12px;
+    }
     .book img{
       display:block;
       width:100%;
@@ -61,7 +68,6 @@
       max-height:70vh;
       object-fit:contain;
     }
-
     .bookCaption{
       margin-top:14px;
       font-size:12px;
@@ -75,17 +81,13 @@
       font-size:14px;
       letter-spacing:0.5px;
     }
-
     .links a{
       display:block;
-      color:#bdbdbd;
+      color:var(--muted);
       text-decoration:none;
       margin-bottom:8px;
     }
-
-    .links a:hover{
-      color:#ffffff;
-    }
+    .links a:hover{color:#fff;}
 
     .footer{
       margin-top:40px;
@@ -93,23 +95,29 @@
       opacity:0.6;
     }
 
-    @media (max-width:900px){
-      .page{padding:30px;}
-      .top{grid-template-columns:1fr; gap:30px;}
-      .book{width:360px; justify-self:start;}
-      .logo{width:100px;height:100px;}
+    @media (max-width: 980px){
+      body{padding:32px;}
+      .top{
+        grid-template-columns:1fr;
+        gap:28px;
+      }
+      .book{width:100%;}
+      .bookTopSpacer{display:none;}
     }
   </style>
 </head>
 
 <body>
-  <div class="page">
+  <div class="container">
     <div class="top">
       <div class="text">
-        <div class="logo" aria-label="LIP logo">
-          <img src="lip.png" alt="LIP" />
+        <div class="header">
+          <div class="logo">
+            <img src="lip.png" alt="LIP" />
+          </div>
+          <div class="title">LIP</div>
         </div>
-LIP
+
 17 January 2026
 
 LIP is not a philosophy.
@@ -131,16 +139,17 @@ That is the point.
 This is for those who are no longer asking to be guided.
       </div>
 
-      <div class="book" id="bookVisual">
+      <div class="book">
+        <div class="bookTopSpacer"></div>
         <img src="book-cover.png" alt="LIP book cover" />
-        <div class="bookCaption" id="bookCaption">Book - Available when the time is right</div>
+        <div class="bookCaption">Book - Available when the time is right</div>
       </div>
     </div>
 
     <div class="links">
       <a href="https://x.com/lipgenerations/status/2010358445128798445" target="_blank" rel="noopener">Read LIP on X</a>
       <a href="https://lipgenerations.substack.com" target="_blank" rel="noopener">Read longer form on Substack</a>
-      <a href="https://www.linkedin.com/posts/lip-editorial-9469953a3_most-people-dont-live-in-contradiction-activity-7418163695865733120-QzF0?utm_source=share&utm_medium=member_desktop" target="_blank" rel="noopener">LIP on LinkedIn</a>
+      <a href="https://www.linkedin.com/posts/lip-editorial-9469953a3_most-people-dont-live-in-contradiction-activity-7418163695865733120-QzF0" target="_blank" rel="noopener">LIP on LinkedIn</a>
     </div>
 
     <div class="footer">Nothing here is optimized for you.</div>
