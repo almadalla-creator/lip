@@ -50,24 +50,30 @@
 
     /* Book block: width matches image, caption matches book, aligned to left edge */
     figure.book{
-      margin:0;
-      width:var(--book);
-      justify-self:start;
-    }
-    .book img{
-      display:block;
-      width:100%;
-      height:auto;
-      max-height:62vh;
-      object-fit:contain;
-    }
-    .bookCaption{
-      margin-top:14px;
-      font-size:14px;
-      color:var(--muted);
-      text-align:left;
-      padding-left:2px;
-    }
+  width:min(420px,100%);
+  margin:0 auto;           /* centers the whole book block */
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;  /* caption aligns to left edge of the book */
+}
+
+figure.book img{
+  width:100%;
+  height:auto;
+  display:block;
+  margin:0;                /* kills any accidental centering */
+  max-height:none;         /* remove this until it behaves */
+  object-fit:initial;
+}
+
+.bookCaption{
+  margin-top:14px;
+  font-size:14px;
+  color:var(--muted);
+  text-align:left;
+  width:100%;              /* caption width = book width */
+}
+
 
     .links{
       margin-top:60px;
@@ -123,9 +129,9 @@ That is the point.
 This is for those who are no longer asking to be guided.</p>
 
       <figure class="book">
-        <img src="book-cover.png" alt="LIP book cover" />
-        <figcaption class="bookCaption">Book - Available when the time is right</figcaption>
-      </figure>
+  <img src="book-cover.png" alt="LIP book cover">
+  <figcaption class="bookCaption">Book - Available when the time is right</figcaption>
+</figure>
     </div>
 
     <div class="links">
@@ -138,4 +144,5 @@ This is for those who are no longer asking to be guided.</p>
   </div>
 </body>
 </html>
+
 
