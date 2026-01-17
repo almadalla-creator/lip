@@ -2,10 +2,16 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>LIP</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LIP</title>
   <style>
-    :root{--bg:#000;--fg:#e6e6e6;--muted:#bdbdbd;}
+    :root{
+      --bg:#000;
+      --fg:#e6e6e6;
+      --muted:#bdbdbd;
+      --dim:rgba(230,230,230,.6);
+    }
+    *{box-sizing:border-box;}
     body{
       margin:0;
       padding:60px;
@@ -13,73 +19,57 @@
       color:var(--fg);
       font-family:Georgia,"Times New Roman",serif;
     }
-    .container{
+    .wrap{
       max-width:1100px;
       margin:0 auto;
     }
-    .top{
+    .logo{
+      width:92px;
+      height:auto;
+      display:block;
+      margin:0 0 34px 0;
+    }
+    .container{
       display:grid;
       grid-template-columns:1fr 420px;
       gap:60px;
       align-items:start;
+    }
+    .left h1{
+      margin:0;
+      font-size:22px;
+      font-weight:400;
+      letter-spacing:.4px;
+    }
+    .date{
+      margin:10px 0 28px 0;
+      font-size:16px;
+      opacity:.95;
     }
     .text{
       white-space:pre-line;
       line-height:1.6;
       font-size:16px;
     }
-
-    .header{
-      display:flex;
-      align-items:flex-end;
-      gap:16px;
-      margin-bottom:12px;
-    }
-    .logo{
-      width:42px;
-      height:42px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-    }
-    .logo img{
-      width:100%;
-      height:100%;
-      object-fit:contain;
-      display:block;
-    }
-    .title{
-      font-size:18px;
-      letter-spacing:0.5px;
-    }
-
-    .book{
-      width:420px;
-      max-width:100%;
-    }
-    .bookTopSpacer{
-      height:42px;
-      margin-bottom:12px;
-    }
+    .book{margin:0;}
     .book img{
       display:block;
       width:100%;
+      max-width:420px;
       height:auto;
-      max-height:70vh;
+      max-height:62vh;
       object-fit:contain;
     }
     .bookCaption{
       margin-top:14px;
-      font-size:12px;
-      opacity:0.7;
+      font-size:14px;
+      color:var(--muted);
       text-align:left;
-      padding-left:6px;
     }
-
     .links{
       margin-top:60px;
       font-size:14px;
-      letter-spacing:0.5px;
+      letter-spacing:.5px;
     }
     .links a{
       display:block;
@@ -88,38 +78,28 @@
       margin-bottom:8px;
     }
     .links a:hover{color:#fff;}
-
     .footer{
-      margin-top:40px;
+      margin-top:34px;
       font-size:12px;
-      opacity:0.6;
+      color:var(--dim);
     }
-
     @media (max-width: 980px){
-      body{padding:32px;}
-      .top{
-        grid-template-columns:1fr;
-        gap:28px;
-      }
-      .book{width:100%;}
-      .bookTopSpacer{display:none;}
+      body{padding:40px 22px;}
+      .container{grid-template-columns:1fr;gap:34px;}
+      .book img{max-width:520px;}
     }
   </style>
 </head>
-
 <body>
-  <div class="container">
-    <div class="top">
-      <div class="text">
-        <div class="header">
-          <div class="logo">
-            <img src="lip.png" alt="LIP" />
-          </div>
-          <div class="title">LIP</div>
-        </div>
+  <div class="wrap">
+    <img class="logo" src="lip.png" alt="LIP" />
 
-17 January 2026
+    <div class="container">
+      <div class="left">
+        <h1>LIP</h1>
+        <div class="date">17 January 2026</div>
 
+        <div class="text">
 LIP is not a philosophy.
 Not a method.
 Not a promise.
@@ -137,10 +117,10 @@ This is not for everyone.
 That is the point.
 
 This is for those who are no longer asking to be guided.
+        </div>
       </div>
 
       <div class="book">
-        <div class="bookTopSpacer"></div>
         <img src="book-cover.png" alt="LIP book cover" />
         <div class="bookCaption">Book - Available when the time is right</div>
       </div>
