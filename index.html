@@ -50,20 +50,20 @@
 
     /* Book block: width matches image, caption matches book, aligned to left edge */
     figure.book{
-  width:min(420px,100%);
-  margin:0 auto;           /* centers the whole book block */
-  display:flex;
-  flex-direction:column;
-  align-items:flex-start;  /* caption aligns to left edge of the book */
+  margin:0;
+  width:320px;
+}
+
 }
 
 figure.book img{
+  display:block;
   width:100%;
   height:auto;
-  display:block;
-  margin:0;                /* kills any accidental centering */
-  max-height:none;         /* remove this until it behaves */
-  object-fit:initial;
+  max-height:56vh;
+  object-fit:contain;
+}
+
 }
 
 .bookCaption{
@@ -144,6 +144,7 @@ This is for those who are no longer asking to be guided.</p>
   </div>
 </body>
 </html>
+
 
 
 
