@@ -35,12 +35,12 @@
       opacity:.95;
     }
     .container{
-      display:grid;
-      grid-template-columns:1fr var(--book);
-      gap:60px;
-      align-items:start;
-      margin-top:28px;
-    }
+  display:grid;
+  grid-template-columns:1fr 340px;
+  gap:60px;
+  align-items:start;
+}
+
     .text{
       white-space:pre-line;
       line-height:1.6;
@@ -51,11 +51,9 @@
     /* Book block: width matches image, caption matches book, aligned to left edge */
     figure.book{
   margin:0;
-  width:320px;
+  width:340px;
+  max-width:340px;
 }
-
-}
-
 figure.book img{
   display:block;
   width:100%;
@@ -63,15 +61,11 @@ figure.book img{
   max-height:56vh;
   object-fit:contain;
 }
-
-}
-
 .bookCaption{
   margin-top:14px;
   font-size:14px;
   color:var(--muted);
   text-align:left;
-  width:100%;              /* caption width = book width */
 }
 
 
@@ -144,6 +138,7 @@ This is for those who are no longer asking to be guided.</p>
   </div>
 </body>
 </html>
+
 
 
 
