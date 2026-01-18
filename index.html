@@ -79,6 +79,30 @@
       color:var(--fg);
     }
 
+    /* Archive under email */
+    .archive{
+      margin-top:16px;
+    }
+    .archiveLink{
+      display:block;
+      color:var(--muted);
+      text-decoration:none;
+      font-size:14px;
+      letter-spacing:.5px;
+      cursor:pointer;
+      margin-bottom:10px;
+    }
+    .archiveLink:hover{color:#fff;}
+    .archiveThumb{
+      display:block;
+      width:35%;
+      min-width:110px;
+      max-width:160px;
+      height:auto;
+      opacity:.92;
+      cursor:pointer;
+    }
+
     .links{
       margin-top:60px;
       font-size:14px;
@@ -92,48 +116,30 @@
     }
     .links a:hover{color:#fff;}
 
-    /* Archive link + thumb */
-    .archiveLink{
-      display:block;
-      color:var(--muted);
-      text-decoration:none;
-      margin-top:16px;
-      margin-bottom:10px;
-      cursor:pointer;
-    }
-    .archiveLink:hover{color:#fff;}
-    .archiveThumb{
-      display:block;
-      width:35%;
-      min-width:120px;
-      max-width:160px;
-      height:auto;
-      opacity:.9;
-    }
-
     .footer{
       margin-top:34px;
       font-size:12px;
       color:var(--dim);
     }
 
-    /* Archive overlay */
-    .archiveOverlay{
+    /* Full image overlay (click outside closes) */
+    .imgOverlay{
       position:fixed;
       inset:0;
       background:rgba(0,0,0,.92);
       display:none;
+      align-items:center;
+      justify-content:center;
+      padding:30px 18px;
       z-index:999;
-      padding:40px 22px;
-      overflow:auto;
     }
-    .archiveBox{
-      max-width:720px;
-      margin:0 auto;
-      color:var(--fg);
-      font-size:15px;
-      line-height:1.6;
-      white-space:pre-line;
+    .imgOverlay img{
+      max-width:95vw;
+      max-height:95vh;
+      width:auto;
+      height:auto;
+      display:block;
+      object-fit:contain;
     }
 
     @media (max-width: 980px){
@@ -174,8 +180,14 @@ This is for those who are no longer asking to be guided.</p>
       <figure class="book">
         <img src="book-cover.png" alt="LIP book cover">
         <figcaption class="bookCaption">Book - Available when the time is right, not before.</figcaption>
+
         <div class="bookEmail">
           <a href="mailto:contact@lipgenerations.com">contact@lipgenerations.com</a>
+        </div>
+
+        <div class="archive">
+          <span class="archiveLink" id="archiveTextOpen">LIP Archive Edition</span>
+          <img class="archiveThumb" id="archiveImgOpen" src="archive-cover.png" alt="LIP Archive Edition cover">
         </div>
       </figure>
     </div>
@@ -184,54 +196,44 @@ This is for those who are no longer asking to be guided.</p>
       <a href="https://x.com/lipgenerations/status/2010358445128798445" target="_blank" rel="noopener">Read LIP on X</a>
       <a href="https://lipgenerations.substack.com" target="_blank" rel="noopener">Read longer form on Substack</a>
       <a href="https://www.linkedin.com/posts/lip-editorial-9469953a3_most-people-dont-live-in-contradiction-activity-7418163695865733120-QzF0" target="_blank" rel="noopener">LIP on LinkedIn</a>
-
-      <a class="archiveLink" id="archiveOpen">LIP Archive Edition</a>
-      <img class="archiveThumb" src="archive-cover.png" alt="LIP Archive Edition cover">
     </div>
 
     <div class="footer">Nothing here is optimized for you.</div>
   </div>
 
-  <div class="archiveOverlay" id="archiveOverlay">
-    <div class="archiveBox">
-This edition is not an upgrade.
-It is not a premium version.
-It is not an object of distinction.
-
-The Archive Edition exists to preserve a fixed moment.
-A closed form.
-A complete interruption.
-
-This text will not be revised.
-It will not be expanded.
-It will not be corrected.
-It will not be adapted to future readers.
-
-Not because it is perfect.
-But because revision often serves continuity, not truth.
-
-The Archive Edition is released only when explanation is no longer necessary.
-When justification would weaken it.
-When silence carries more precision than context.
-
-It is not offered to everyone.
-And it is not meant to be found easily.
-
-Those who arrive here already know why they are here.
-    </div>
+  <!-- Full image overlay -->
+  <div class="imgOverlay" id="imgOverlay">
+    <img id="imgOverlayPic" src="" alt="Expanded image">
   </div>
 
   <script>
     (function(){
-      const el=document.getElementById("currentDate");
-      el.textContent=new Date().toLocaleDateString("en-GB",{day:"2-digit",month:"long",year:"numeric"});
+      const dateEl=document.getElementById("currentDate");
+      dateEl.textContent=new Date().toLocaleDateString("en-GB",{day:"2-digit",month:"long",year:"numeric"});
 
-      const open=document.getElementById("archiveOpen");
-      const overlay=document.getElementById("archiveOverlay");
+      const overlay=document.getElementById("imgOverlay");
+      const overlayPic=document.getElementById("imgOverlayPic");
+      const imgOpen=document.getElementById("archiveImgOpen");
 
-      open.addEventListener("click",()=>{overlay.style.display="block";});
-      overlay.addEventListener("click",(e)=>{if(e.target===overlay)overlay.style.display="none";});
-      document.addEventListener("keydown",(e)=>{if(e.key==="Escape")overlay.style.display="none";});
+      imgOpen.addEventListener("click",(e)=>{
+        e.stopPropagation();
+        overlayPic.src="archive-cover.png";
+        overlay.style.display="flex";
+      });
+
+      overlay.addEventListener("click",(e)=>{
+        if(e.target===overlay){
+          overlay.style.display="none";
+          overlayPic.src="";
+        }
+      });
+
+      document.addEventListener("keydown",(e)=>{
+        if(e.key==="Escape"){
+          overlay.style.display="none";
+          overlayPic.src="";
+        }
+      });
     })();
   </script>
 </body>
