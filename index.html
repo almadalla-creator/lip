@@ -11,7 +11,6 @@
       --muted:#bdbdbd;
       --dim:rgba(230,230,230,.6);
       --max:1100px;
-      --book:420px;
     }
     *{box-sizing:border-box;}
     body{
@@ -79,7 +78,19 @@
       color:var(--fg);
     }
 
-    /* Archive under email */
+    .leftLinks{
+      margin-top:28px;
+      font-size:14px;
+      letter-spacing:.5px;
+    }
+    .leftLinks a{
+      display:block;
+      color:var(--muted);
+      text-decoration:none;
+      margin-bottom:8px;
+    }
+    .leftLinks a:hover{color:#fff;}
+
     .archive{
       margin-top:16px;
     }
@@ -103,26 +114,12 @@
       cursor:pointer;
     }
 
-    .links{
-      margin-top:60px;
-      font-size:14px;
-      letter-spacing:.5px;
-    }
-    .links a{
-      display:block;
-      color:var(--muted);
-      text-decoration:none;
-      margin-bottom:8px;
-    }
-    .links a:hover{color:#fff;}
-
     .footer{
       margin-top:34px;
       font-size:12px;
       color:var(--dim);
     }
 
-    /* Full image overlay (click outside closes) */
     .imgOverlay{
       position:fixed;
       inset:0;
@@ -140,6 +137,25 @@
       height:auto;
       display:block;
       object-fit:contain;
+      cursor:pointer;
+    }
+
+    .textOverlay{
+      position:fixed;
+      inset:0;
+      background:rgba(0,0,0,.92);
+      display:none;
+      z-index:1000;
+      padding:40px 22px;
+      overflow:auto;
+    }
+    .textOverlayBox{
+      max-width:720px;
+      margin:0 auto;
+      font-size:15px;
+      line-height:1.6;
+      color:var(--fg);
+      white-space:pre-line;
     }
 
     @media (max-width: 980px){
@@ -159,7 +175,8 @@
     </header>
 
     <div class="container">
-      <p class="text">LIP is not a philosophy.
+      <div>
+        <p class="text">LIP is not a philosophy.
 Not a method.
 Not a promise.
 Not a refuge.
@@ -177,6 +194,13 @@ That is the point.
 
 This is for those who are no longer asking to be guided.</p>
 
+        <div class="leftLinks">
+          <a href="https://x.com/lipgenerations/status/2010358445128798445" target="_blank" rel="noopener">Read LIP on X</a>
+          <a href="https://lipgenerations.substack.com" target="_blank" rel="noopener">Read longer form on Substack</a>
+          <a href="https://www.linkedin.com/posts/lip-editorial-9469953a3_most-people-dont-live-in-contradiction-activity-7418163695865733120-QzF0" target="_blank" rel="noopener">LIP on LinkedIn</a>
+        </div>
+      </div>
+
       <figure class="book">
         <img src="book-cover.png" alt="LIP book cover">
         <figcaption class="bookCaption">Book - Available when the time is right, not before.</figcaption>
@@ -192,18 +216,40 @@ This is for those who are no longer asking to be guided.</p>
       </figure>
     </div>
 
-    <div class="links">
-      <a href="https://x.com/lipgenerations/status/2010358445128798445" target="_blank" rel="noopener">Read LIP on X</a>
-      <a href="https://lipgenerations.substack.com" target="_blank" rel="noopener">Read longer form on Substack</a>
-      <a href="https://www.linkedin.com/posts/lip-editorial-9469953a3_most-people-dont-live-in-contradiction-activity-7418163695865733120-QzF0" target="_blank" rel="noopener">LIP on LinkedIn</a>
-    </div>
-
     <div class="footer">Nothing here is optimized for you.</div>
   </div>
 
-  <!-- Full image overlay -->
   <div class="imgOverlay" id="imgOverlay">
     <img id="imgOverlayPic" src="" alt="Expanded image">
+  </div>
+
+  <div class="textOverlay" id="archiveOverlay">
+    <div class="textOverlayBox">
+This edition is not an upgrade.
+It is not a premium version.
+It is not an object of distinction.
+
+The Archive Edition exists to preserve a fixed moment.
+A closed form.
+A complete interruption.
+
+This text will not be revised.
+It will not be expanded.
+It will not be corrected.
+It will not be adapted to future readers.
+
+Not because it is perfect.
+But because revision often serves continuity, not truth.
+
+The Archive Edition is released only when explanation is no longer necessary.
+When justification would weaken it.
+When silence carries more precision than context.
+
+It is not offered to everyone.
+And it is not meant to be found easily.
+
+Those who arrive here already know why they are here.
+    </div>
   </div>
 
   <script>
@@ -211,28 +257,51 @@ This is for those who are no longer asking to be guided.</p>
       const dateEl=document.getElementById("currentDate");
       dateEl.textContent=new Date().toLocaleDateString("en-GB",{day:"2-digit",month:"long",year:"numeric"});
 
-      const overlay=document.getElementById("imgOverlay");
-      const overlayPic=document.getElementById("imgOverlayPic");
+      const imgOverlay=document.getElementById("imgOverlay");
+      const imgOverlayPic=document.getElementById("imgOverlayPic");
       const imgOpen=document.getElementById("archiveImgOpen");
+
+      const archiveOpen=document.getElementById("archiveTextOpen");
+      const archiveOverlay=document.getElementById("archiveOverlay");
+
+      function openArchiveText(){
+        archiveOverlay.style.display="block";
+      }
+
+      function closeAll(){
+        imgOverlay.style.display="none";
+        imgOverlayPic.src="";
+        archiveOverlay.style.display="none";
+      }
 
       imgOpen.addEventListener("click",(e)=>{
         e.stopPropagation();
-        overlayPic.src="archive-cover.png";
-        overlay.style.display="flex";
+        imgOverlayPic.src="archive-cover.png";
+        imgOverlay.style.display="flex";
       });
 
-      overlay.addEventListener("click",(e)=>{
-        if(e.target===overlay){
-          overlay.style.display="none";
-          overlayPic.src="";
-        }
+      imgOverlayPic.addEventListener("click",(e)=>{
+        e.stopPropagation();
+        imgOverlay.style.display="none";
+        imgOverlayPic.src="";
+        openArchiveText();
+      });
+
+      imgOverlay.addEventListener("click",(e)=>{
+        if(e.target===imgOverlay) closeAll();
+      });
+
+      archiveOpen.addEventListener("click",(e)=>{
+        e.stopPropagation();
+        openArchiveText();
+      });
+
+      archiveOverlay.addEventListener("click",(e)=>{
+        if(e.target===archiveOverlay) closeAll();
       });
 
       document.addEventListener("keydown",(e)=>{
-        if(e.key==="Escape"){
-          overlay.style.display="none";
-          overlayPic.src="";
-        }
+        if(e.key==="Escape") closeAll();
       });
     })();
   </script>
