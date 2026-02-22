@@ -169,3 +169,46 @@ nav a.active{font-weight:bold;}
   .primer-card img{width:280px;}
   .core-card img{width:320px;}
 }
+/* HOME FIX OVERRIDES */
+.page-hero{padding:28px 20px 8px !important;}
+.section{padding:18px 20px !important;}
+
+.section-title{
+  text-align:center !important;
+  font-size:34px !important;
+  margin:0 0 8px !important;
+}
+
+.section-subtitle{
+  text-align:center !important;
+  max-width:760px !important;
+  margin:0 auto 18px !important;
+}
+
+.primers-grid{
+  display:grid !important;
+  grid-template-columns:repeat(2,1fr) !important;
+  gap:28px 50px !important;
+  max-width:1020px !important;
+  margin:0 auto !important;
+}
+
+.primer-card{ text-align:center !important; }
+.primer-card img{ width:260px !important; max-width:100% !important; }
+
+.core-grid{
+  display:grid !important;
+  grid-template-columns:repeat(2,1fr) !important;
+  gap:40px !important;
+  max-width:1020px !important;
+  margin:0 auto !important;
+  align-items:start !important;
+}
+
+.core-card{ text-align:center !important; }
+.core-card img{ width:280px !important; max-width:100% !important; }
+
+@media(max-width:820px){
+  .primers-grid{grid-template-columns:1fr !important;}
+  .core-grid{grid-template-columns:1fr !important;}
+}
