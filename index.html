@@ -1,309 +1,119 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>LIP</title>
-  <style>
-    :root{
-      --bg:#000;
-      --fg:#e6e6e6;
-      --muted:#bdbdbd;
-      --dim:rgba(230,230,230,.6);
-      --max:1100px;
-    }
-    *{box-sizing:border-box;}
-    body{
-      margin:0;
-      padding:60px;
-      background:var(--bg);
-      color:var(--fg);
-      font-family:Georgia,"Times New Roman",serif;
-    }
-    .wrap{max-width:var(--max);margin:0 auto;}
-    header{margin:0 0 34px 0;}
-    .logo{
-      width:150px;
-      height:auto;
-      display:block;
-      margin:0 0 10px 0;
-    }
-    .date{
-      margin:0;
-      font-size:16px;
-      opacity:.95;
-    }
-    .container{
-      display:grid;
-      grid-template-columns:1fr 340px;
-      gap:60px;
-      align-items:start;
-    }
-    .text{
-      white-space:pre-line;
-      line-height:1.6;
-      font-size:16px;
-      margin:0;
-    }
-
-    figure.book{
-      margin:0;
-      width:340px;
-      max-width:340px;
-    }
-    figure.book img{
-      display:block;
-      width:100%;
-      height:auto;
-      max-height:56vh;
-      object-fit:contain;
-    }
-    .bookCaption{
-      margin-top:14px;
-      font-size:14px;
-      color:var(--muted);
-      text-align:left;
-    }
-    .bookEmail{
-      margin-top:6px;
-      font-size:13px;
-      color:var(--dim);
-      letter-spacing:.3px;
-    }
-    .bookEmail a{
-      color:inherit;
-      text-decoration:none;
-    }
-    .bookEmail a:hover{
-      color:var(--fg);
-    }
-
-    .leftLinks{
-      margin-top:28px;
-      font-size:14px;
-      letter-spacing:.5px;
-    }
-    .leftLinks a{
-      display:block;
-      color:var(--muted);
-      text-decoration:none;
-      margin-bottom:8px;
-    }
-    .leftLinks a:hover{color:#fff;}
-
-    .archive{
-      margin-top:16px;
-    }
-    .archiveLink{
-      display:block;
-      color:var(--muted);
-      text-decoration:none;
-      font-size:14px;
-      letter-spacing:.5px;
-      cursor:pointer;
-      margin-bottom:10px;
-    }
-    .archiveLink:hover{color:#fff;}
-    .archiveThumb{
-      display:block;
-      width:35%;
-      min-width:110px;
-      max-width:160px;
-      height:auto;
-      opacity:.92;
-      cursor:pointer;
-    }
-
-    .footer{
-      margin-top:34px;
-      font-size:12px;
-      color:var(--dim);
-    }
-
-    .imgOverlay{
-      position:fixed;
-      inset:0;
-      background:rgba(0,0,0,.92);
-      display:none;
-      align-items:center;
-      justify-content:center;
-      padding:30px 18px;
-      z-index:999;
-    }
-    .imgOverlay img{
-      max-width:95vw;
-      max-height:95vh;
-      width:auto;
-      height:auto;
-      display:block;
-      object-fit:contain;
-      cursor:pointer;
-    }
-
-    .textOverlay{
-      position:fixed;
-      inset:0;
-      background:rgba(0,0,0,.92);
-      display:none;
-      z-index:1000;
-      padding:40px 22px;
-      overflow:auto;
-    }
-    .textOverlayBox{
-      max-width:720px;
-      margin:0 auto;
-      font-size:15px;
-      line-height:1.6;
-      color:var(--fg);
-      white-space:pre-line;
-    }
-
-    @media (max-width: 980px){
-      body{padding:40px 22px;}
-      .container{grid-template-columns:1fr;gap:34px;}
-      figure.book{width:min(520px,100%);max-width:none;}
-      .archiveThumb{width:45%;max-width:180px;}
-    }
-  </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LIP Editorial</title>
+  <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-  <div class="wrap">
-    <header>
-      <img class="logo" src="lip2.png" alt="LIP" />
-      <p class="date" id="currentDate"></p>
-    </header>
 
-    <div class="container">
-      <div>
-        <p class="text">LIP is not a philosophy.
-Not a method.
-Not a promise.
-Not a refuge.
+<header class="site-header">
+  <div class="container nav">
+    <div class="logo">LIP Editorial</div>
+    <nav>
+      <a href="index.html" class="active">Home</a>
+      <a href="primers.html">Primers</a>
+      <a href="books.html">Books</a>
+      <a href="editorial.html">Editorial</a>
+      <a href="archive.html">Archive</a>
+    </nav>
+  </div>
+</header>
 
-Lucidity,Intelligence,Presence.
-Not to feel better.
-To stop cooperating with what is false.
+<section class="page-hero">
+  <h1>LIP Editorial</h1>
+  <p>Structural texts on identity,work,success,relationships and belief.</p>
+</section>
 
-If you are looking for reassurance,leave.
-If you are looking for identity,leave.
-If you are looking for explanations that let you continue,leave.
+<section class="section">
+  <div class="container">
+    <h2 style="text-align:center;font-size:32px;margin:0 0 10px;">Start Here</h2>
+    <p style="text-align:center;max-width:720px;margin:0 auto 60px;">Before It Became You,entry texts designed to be read fast and felt deeply.</p>
 
-This is not for everyone.
-That is the point.
+    <div class="primers-grid">
 
-This is for those who are no longer asking to be guided.</p>
-
-        <div class="leftLinks">
-          <a href="https://x.com/lipgenerations/status/2010358445128798445" target="_blank" rel="noopener">Read LIP on X</a>
-          <a href="https://lipgenerations.substack.com" target="_blank" rel="noopener">Read longer form on Substack</a>
-          <a href="https://www.linkedin.com/posts/lip-editorial-9469953a3_most-people-dont-live-in-contradiction-activity-7418163695865733120-QzF0" target="_blank" rel="noopener">LIP on LinkedIn</a>
-        </div>
+      <div class="primer-card">
+        <a href="PASTE_PAYHIP_LINK_WORK" target="_blank" rel="noopener noreferrer" class="cover-link">
+          <img src="assets/primers/work.png" alt="Before It Became You – Work cover">
+        </a>
+        <h3>Work</h3>
+        <p style="max-width:520px;margin:0 auto 14px;">When work stops being an activity and becomes a self.</p>
+        <a href="PASTE_PAYHIP_LINK_WORK" target="_blank" rel="noopener noreferrer">Download Free</a>
       </div>
 
-      <figure class="book">
-        <img src="book-cover.png" alt="LIP book cover">
-        <figcaption class="bookCaption">Book - Available when the time is right, not before.</figcaption>
+      <div class="primer-card">
+        <a href="PASTE_PAYHIP_LINK_SUCCESS" target="_blank" rel="noopener noreferrer" class="cover-link">
+          <img src="assets/primers/success.png" alt="Before It Became You – Success cover">
+        </a>
+        <h3>Success</h3>
+        <p style="max-width:520px;margin:0 auto 14px;">When achievement becomes survival and status becomes peace.</p>
+        <a href="PASTE_PAYHIP_LINK_SUCCESS" target="_blank" rel="noopener noreferrer">Download Free</a>
+      </div>
 
-        <div class="bookEmail">
-          <a href="mailto:contact@lipgenerations.com">contact@lipgenerations.com</a>
-        </div>
+      <div class="primer-card">
+        <a href="PASTE_PAYHIP_LINK_RELATIONSHIPS" target="_blank" rel="noopener noreferrer" class="cover-link">
+          <img src="assets/primers/relationships.png" alt="Before It Became You – Relationships cover">
+        </a>
+        <h3>Relationships</h3>
+        <p style="max-width:520px;margin:0 auto 14px;">When closeness becomes regulation and approval becomes identity.</p>
+        <a href="PASTE_PAYHIP_LINK_RELATIONSHIPS" target="_blank" rel="noopener noreferrer">Download Free</a>
+      </div>
 
-        <div class="archive">
-          <span class="archiveLink" id="archiveTextOpen">LIP Archive Edition</span>
-          <img class="archiveThumb" id="archiveImgOpen" src="archive-cover.png" alt="LIP Archive Edition cover">
-        </div>
-      </figure>
-    </div>
+      <div class="primer-card">
+        <a href="PASTE_PAYHIP_LINK_FAITH" target="_blank" rel="noopener noreferrer" class="cover-link">
+          <img src="assets/primers/faith.png" alt="Before It Became You – Faith cover">
+        </a>
+        <h3>Faith</h3>
+        <p style="max-width:520px;margin:0 auto 14px;">When belief stops being meaning and becomes identity architecture.</p>
+        <a href="PASTE_PAYHIP_LINK_FAITH" target="_blank" rel="noopener noreferrer">Download Free</a>
+      </div>
 
-    <div class="footer">Nothing here is optimized for you.</div>
-  </div>
-
-  <div class="imgOverlay" id="imgOverlay">
-    <img id="imgOverlayPic" src="" alt="Expanded image">
-  </div>
-
-  <div class="textOverlay" id="archiveOverlay">
-    <div class="textOverlayBox">
-This edition is not an upgrade.
-It is not a premium version.
-It is not an object of distinction.
-
-The Archive Edition exists to preserve a fixed moment.
-A closed form.
-A complete interruption.
-
-This text will not be revised.
-It will not be expanded.
-It will not be corrected.
-It will not be adapted to future readers.
-
-Not because it is perfect.
-But because revision often serves continuity, not truth.
-
-The Archive Edition is released only when explanation is no longer necessary.
-When justification would weaken it.
-When silence carries more precision than context.
-
-It is not offered to everyone.
-And it is not meant to be found easily.
-
-Those who arrive here already know why they are here.
     </div>
   </div>
+</section>
 
-  <script>
-    (function(){
-      const dateEl=document.getElementById("currentDate");
-      dateEl.textContent=new Date().toLocaleDateString("en-GB",{day:"2-digit",month:"long",year:"numeric"});
+<section class="section">
+  <div class="container">
+    <h2 style="text-align:center;font-size:32px;margin:0 0 50px;">Core Books</h2>
 
-      const imgOverlay=document.getElementById("imgOverlay");
-      const imgOverlayPic=document.getElementById("imgOverlayPic");
-      const imgOpen=document.getElementById("archiveImgOpen");
+    <div class="book" style="margin-bottom:90px;">
+      <a href="https://payhip.com/b/iZajQ" target="_blank" rel="noopener noreferrer" class="cover-link">
+        <img src="assets/covers/beyond.png" alt="Beyond the Social Mask cover">
+      </a>
+      <h2 style="font-size:28px;margin:0 0 14px;">Beyond the Social Mask</h2>
+      <p style="max-width:640px;margin:0 auto 18px;">A structural dissection of identity,performance,adaptation and collapse,it shows how belonging becomes function,and how function becomes self.</p>
+      <a href="https://payhip.com/b/iZajQ" target="_blank" rel="noopener noreferrer" class="book-link">Access the Book</a>
+    </div>
 
-      const archiveOpen=document.getElementById("archiveTextOpen");
-      const archiveOverlay=document.getElementById("archiveOverlay");
+    <div class="book" style="margin-bottom:0;">
+      <a href="https://payhip.com/b/EmGWA" target="_blank" rel="noopener noreferrer" class="cover-link">
+        <img src="assets/covers/origin.png" alt="The Origin of Everything cover">
+      </a>
+      <h2 style="font-size:28px;margin:0 0 14px;">The Origin of Everything</h2>
+      <p style="max-width:640px;margin:0 auto 18px;">A structural autobiography tracing how identity forms before awareness,not confession,mechanism in motion,from early adaptations to responsibility.</p>
+      <a href="https://payhip.com/b/EmGWA" target="_blank" rel="noopener noreferrer" class="book-link">Access the Book</a>
+    </div>
 
-      function openArchiveText(){
-        archiveOverlay.style.display="block";
-      }
+  </div>
+</section>
 
-      function closeAll(){
-        imgOverlay.style.display="none";
-        imgOverlayPic.src="";
-        archiveOverlay.style.display="none";
-      }
+<section class="section">
+  <div class="container" style="text-align:center;">
+    <p style="max-width:760px;margin:0 auto;">
+      LIP is not self-help,it does not promise transformation,it exposes structure so responsibility becomes visible.
+    </p>
+    <p style="margin:16px 0 0;">
+      <a href="editorial.html" class="book-link">Read the Editorial Position</a>
+    </p>
+  </div>
+</section>
 
-      imgOpen.addEventListener("click",(e)=>{
-        e.stopPropagation();
-        imgOverlayPic.src="archive-cover.png";
-        imgOverlay.style.display="flex";
-      });
+<footer class="footer">
+  <div class="container">
+    <div>contact@lipgenerations.com</div>
+  </div>
+</footer>
 
-      imgOverlayPic.addEventListener("click",(e)=>{
-        e.stopPropagation();
-        imgOverlay.style.display="none";
-        imgOverlayPic.src="";
-        openArchiveText();
-      });
-
-      imgOverlay.addEventListener("click",(e)=>{
-        if(e.target===imgOverlay) closeAll();
-      });
-
-      archiveOpen.addEventListener("click",(e)=>{
-        e.stopPropagation();
-        openArchiveText();
-      });
-
-      archiveOverlay.addEventListener("click",(e)=>{
-        if(e.target===archiveOverlay) closeAll();
-      });
-
-      document.addEventListener("keydown",(e)=>{
-        if(e.key==="Escape") closeAll();
-      });
-    })();
-  </script>
 </body>
 </html>
