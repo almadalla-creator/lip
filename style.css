@@ -269,3 +269,66 @@ nav a.active{font-weight:bold;}
     flex-grow:1;
 }
 .pdf-frame{margin-top:16px;border:1px solid #DDDBD4;height:80vh;background:#fff;}
+.books-hero {
+  padding: 100px 0 60px;
+  text-align: center;
+}
+
+.books-hero h1 {
+  font-size: 48px;
+  margin-bottom: 10px;
+}
+
+.books-hero h2,
+.books-hero h3 {
+  font-weight: 400;
+  margin: 5px 0;
+}
+
+.books-hero .subline {
+  margin-top: 20px;
+  opacity: 0.7;
+}
+
+.book-section {
+  padding: 80px 0;
+}
+
+.book-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+
+.book-cover img {
+  width: 100%;
+  max-width: 420px;
+}
+
+.book-text ul {
+  margin: 20px 0;
+  padding-left: 20px;
+}
+
+.book-text li {
+  margin-bottom: 10px;
+}
+
+.book-section.alt {
+  background: #f4f4f4;
+}
+
+.books-close {
+  padding: 100px 0;
+  text-align: center;
+}
+
+.books-close .statement {
+  font-size: 28px;
+  margin-bottom: 20px;
+}
+
+.btn.primary {
+  margin-top: 30px;
+}
