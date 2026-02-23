@@ -268,3 +268,4 @@ nav a.active{font-weight:bold;}
 .primer-card p{
     flex-grow:1;
 }
+.pdf-frame{margin-top:16px;border:1px solid #DDDBD4;height:80vh;background:#fff;}
