@@ -82,9 +82,12 @@ nav a.active{font-weight:bold;}
 }
 
 .section-subtitle{
+  font-size:18px;
+  font-weight:600;
+  letter-spacing:0.5px;
   text-align:left;
-  max-width:760px;
-  margin:0 0 28px 0;
+  margin:0 0 34px 0;
+  color:#1F2A35;
 }
 .primers-grid{
   display:grid;
