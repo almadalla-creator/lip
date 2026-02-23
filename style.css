@@ -207,3 +207,26 @@ nav a.active{font-weight:bold;}
   .primers-grid{grid-template-columns:1fr !important;}
   .core-grid{grid-template-columns:1fr !important;}
 }
+.section-soft{
+  background:#ECEFF1;
+  padding:40px 20px;
+}
+
+.narrow{
+  max-width:760px;
+  margin:0 auto;
+}
+
+.section-title{
+  position:relative;
+  display:inline-block;
+}
+
+.section-title::after{
+  content:"";
+  display:block;
+  height:2px;
+  width:60px;
+  margin:10px auto 0;
+  background:#1F2A35;
+}
