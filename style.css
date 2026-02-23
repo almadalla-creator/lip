@@ -105,13 +105,14 @@ nav a.active{font-weight:bold;}
 }
 
 .core-grid{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:70px;
-  max-width:1020px;
-  margin:0 auto;
-  align-items:start;
+  display:grid !important;
+  grid-template-columns:repeat(2,1fr) !important;
+  gap:12px !important;
+  max-width:860px !important;
+  margin:0 auto !important;
+  align-items:start !important;
 }
+.core-card img{width:260px !important;max-width:100% !important;}
 
 .core-card{
   text-align:center;
