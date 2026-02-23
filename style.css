@@ -185,12 +185,6 @@ nav a.active{font-weight:bold;}
   margin:0 auto 18px !important;
 }
 
-.primers-grid{
-  display:grid !important;
-  grid-template-columns:repeat(4,1fr) !important;
-  gap:22px 28px !important;
-  max-width:1020px !important;
-  margin:0 auto !important;
 }
 
 .primer-card{ text-align:center !important; }
