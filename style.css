@@ -78,7 +78,7 @@ nav a.active{font-weight:bold;}
 
 .primers-grid{
   display:grid;
-  grid-template-columns:repeat(2,1fr);
+  grid-template-columns:repeat(4,1fr);
   gap:22px 28px;
   max-width:1020px;
   margin:0 auto;
@@ -187,7 +187,7 @@ nav a.active{font-weight:bold;}
 
 .primers-grid{
   display:grid !important;
-  grid-template-columns:repeat(2,1fr) !important;
+  grid-template-columns:repeat(4,1fr) !important;
   gap:22px 28px !important;
   max-width:1020px !important;
   margin:0 auto !important;
