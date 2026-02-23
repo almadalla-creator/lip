@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Editorial Position | LIP Editorial</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container nav">
+    <div class="logo">LIP Editorial</div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="primers.html">Primers</a>
+      <a href="books.html">Books</a>
+      <a href="editorial.html" class="active">Editorial</a>
+      <a href="archive.html">Archive</a>
+    </nav>
+  </div>
+</header>
+
+<section class="page-hero">
+  <h1>The Editorial Position</h1>
+</section>
+
+<section class="section">
+  <div class="container narrow">
+
+    <h2 class="section-title">Why LIP Exists</h2>
+
+    <p>Most modern discourse treats identity as something to improve, express, defend or optimize.</p>
+
+    <p>LIP treats identity as something constructed.</p>
+
+    <p>Not morally. Not politically. Structurally.</p>
+
+    <p>The aim is not self-improvement. It is understanding.</p>
+
+    <p>Once the structure becomes visible, responsibility changes.</p>
+
+
+    <h2 class="section-title">Why These Books Were Written</h2>
+
+    <p><em>The Origin of Everything</em> began as an introspective investigation.</p>
+
+    <p>Not to justify a life, but to examine it. To understand how decisions formed. Why reactions repeated. Why certain patterns felt inevitable.</p>
+
+    <p>It was not written as confession. It was written as analysis.</p>
+
+    <p>From that examination emerged a broader question: if one identity can be traced, can the structure behind identity itself be mapped?</p>
+
+    <p><em>Beyond the Social Mask</em> expands that question beyond one person. It examines how work, success, belonging and belief quietly shape who we become.</p>
+
+    <p>One book studies a life. The other studies the system behind lives.</p>
+
+
+    <h2 class="section-title">What LIP Refuses</h2>
+
+    <p>LIP does not offer motivation.</p>
+    <p>LIP does not provide ideology.</p>
+    <p>LIP does not promise transformation.</p>
+
+    <p>It exposes patterns.</p>
+
+
+    <h2 class="section-title">How To Use These Texts</h2>
+
+    <p>These works are not meant to be agreed with. They are meant to be tested.</p>
+
+    <p>If something feels uncomfortable, examine it.</p>
+
+    <p>If something feels familiar, examine it.</p>
+
+    <p>The point is not agreement. The point is visibility.</p>
+
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div>contact@lipgenerations.com</div>
+  </div>
+</footer>
+
+</body>
+</html>
