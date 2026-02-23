@@ -1,101 +1,105 @@
-<main>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Books | LIP Editorial</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
 
-  <section class="books-hero warm">
-    <div class="container center">
-      <h1>Core Works</h1>
-      <p class="lead">
-        The primers help you recognize patterns fast.
-        These books take you deeper,slowly,clearly,without motivational noise.
-      </p>
-      <p class="breakline">
-        No more justification.
-        No more performing a version of yourself to keep life stable.
-      </p>
-      <p class="example">
-        If you’ve ever said “I’m just tired” when you were actually avoiding a decision,
-        you already know what this is about.
-      </p>
+<body>
+  <header class="site-header">
+    <div class="container nav">
+      <div class="logo">LIP Editorial</div>
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="primers.html">Primers</a>
+        <a href="books.html" class="active">Books</a>
+        <a href="editorial.html">Editorial</a>
+        <a href="archive.html">Archive</a>
+      </nav>
     </div>
-  </section>
+  </header>
 
-  <section class="book-section">
-    <div class="container book-grid">
+  <main>
+    <section class="books-hero">
+      <div class="container center">
+        <h1 class="page-title">Core Works</h1>
+        <p class="page-subtitle">The primers help you recognize patterns fast,these books take you deeper,slowly,clearly,without motivational noise.</p>
 
-      <div class="book-cover">
-        <a class="cover-link" href="https://payhip.com/b/iZajQ" target="_blank" rel="noopener noreferrer">
-          <img src="assets/covers/beyond.jpg" alt="Beyond the Social Mask cover" loading="lazy">
-        </a>
-      </div>
-
-      <div class="book-text">
-        <h2>Beyond the Social Mask</h2>
-        <p>A structural dissection of identity,performance,adaptation and collapse.</p>
-        <p class="soft-strong">
-          It’s not about becoming better.
-          It’s about seeing what has been running you.
+        <p class="books-punch">
+          No more justification,No more explanation,No more “this is just who I am.”
         </p>
-        <ul>
-          <li>Why belonging turns into function</li>
-          <li>Why function slowly becomes self</li>
-          <li>Why collapse feels sudden,but is never sudden</li>
-        </ul>
 
-        <a class="btn primary" href="https://payhip.com/b/iZajQ" target="_blank" rel="noopener noreferrer">
-          Get Beyond the Social Mask
-        </a>
-      </div>
-
-    </div>
-  </section>
-
-  <section class="book-section alt">
-    <div class="container book-grid">
-
-      <div class="book-text">
-        <h2>The Origin of Everything</h2>
-        <p>
-          A structural autobiography.
-          Not confession,not redemption.
-          An attempt to understand how a life becomes a person.
+        <p class="books-example">
+          If you’ve ever said “I’m just tired” when you were actually avoiding a decision,you already know what this is about.
         </p>
-        <p class="soft-strong">This is the lived formation behind the framework.</p>
-        <ul>
-          <li>How early pressure turns into personality</li>
-          <li>How decisions become predictable</li>
-          <li>How “who I am” is often what worked</li>
-        </ul>
-
-        <a class="btn primary" href="https://payhip.com/b/EmGWA" target="_blank" rel="noopener noreferrer">
-          Get The Origin of Everything
-        </a>
       </div>
+    </section>
 
-      <div class="book-cover">
-        <a class="cover-link" href="https://payhip.com/b/EmGWA" target="_blank" rel="noopener noreferrer">
-          <img src="assets/covers/origin.jpg" alt="The Origin of Everything cover" loading="lazy">
-        </a>
+    <section class="section">
+      <div class="container">
+        <div class="books-grid">
+          <article class="book-card">
+            <a class="cover-link" href="https://payhip.com/b/iZajQ" target="_blank" rel="noopener noreferrer">
+              <img class="book-cover" src="assets/covers/beyond.jpg" alt="Beyond the Social Mask cover" loading="lazy" />
+            </a>
+
+            <h2 class="book-title">Beyond the Social Mask</h2>
+
+            <p class="book-lead">A structural dissection of identity,performance,adaptation and collapse,it shows how belonging becomes function,and how function becomes self.</p>
+
+            <ul class="book-points">
+              <li>Why “authenticity” often becomes performance</li>
+              <li>Why collapse is not an accident,but a structure</li>
+              <li>What you keep protecting when you keep “coping”</li>
+            </ul>
+
+            <div class="cta-row">
+              <a class="btn" href="https://payhip.com/b/iZajQ" target="_blank" rel="noopener noreferrer">Access the Book</a>
+            </div>
+          </article>
+
+          <article class="book-card">
+            <a class="cover-link" href="https://payhip.com/b/EmGWA" target="_blank" rel="noopener noreferrer">
+              <img class="book-cover" src="assets/covers/origin.jpg" alt="The Origin of Everything cover" loading="lazy" />
+            </a>
+
+            <h2 class="book-title">The Origin of Everything</h2>
+
+            <p class="book-lead">Not a memoir,Not confession,Not redemption,A structural introspection tracing how identity forms before awareness.</p>
+
+            <ul class="book-points">
+              <li>How fear shaped decisions without being noticed</li>
+              <li>How compensation becomes character</li>
+              <li>How responsibility becomes who you are</li>
+            </ul>
+
+            <div class="cta-row">
+              <a class="btn" href="https://payhip.com/b/EmGWA" target="_blank" rel="noopener noreferrer">Access the Book</a>
+            </div>
+          </article>
+        </div>
       </div>
+    </section>
 
+    <section class="escalation">
+      <div class="container center">
+        <h3 class="escalation-title">No more</h3>
+        <p class="escalation-lines">
+          No more justification,No more “it’s complicated”,No more “later”,No more “I’m working on it”.
+        </p>
+        <p class="escalation-lines">
+          If you continue,you do so consciously.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <a class="footer-link" href="mailto:contact@lipgenerations.com">contact@lipgenerations.com</a>
     </div>
-  </section>
-
-  <section class="books-close warm">
-    <div class="container center">
-      <p class="statement">
-        LIP is not self-improvement.
-        It is clarity,and the responsibility that follows.
-      </p>
-      <p class="closing">
-        No drama.
-        No rituals.
-        No promises.
-        Just structure,language,and choices you can’t unsee.
-      </p>
-
-      <a class="btn" href="https://payhip.com/b/OKh6x" target="_blank" rel="noopener noreferrer">
-        Get the Complete Set
-      </a>
-    </div>
-  </section>
-
-</main>
+  </footer>
+</body>
+</html>
