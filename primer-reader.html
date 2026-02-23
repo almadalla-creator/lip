@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Primer Reader | LIP Editorial</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container nav">
+    <div class="logo">LIP Editorial</div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="primers.html" class="active">Primers</a>
+      <a href="books.html">Books</a>
+      <a href="editorial.html">Editorial</a>
+      <a href="archive.html">Archive</a>
+    </nav>
+  </div>
+</header>
+
+<section class="section">
+  <div class="container">
+    <h1 id="readerTitle" style="margin:0 0 10px 0;">Primer</h1>
+    <p style="margin:0 0 18px 0;">If the PDF does not load,use the download button.</p>
+
+    <div class="btn-row" style="justify-content:flex-start;">
+      <a id="openPdf" class="btn" href="#" target="_blank" rel="noopener noreferrer">Open in new tab</a>
+      <a class="btn btn-ghost" href="primers.html">Back</a>
+    </div>
+
+    <div class="pdf-frame">
+      <iframe id="pdfFrame" src="" title="PDF reader"></iframe>
+    </div>
+  </div>
+</section>
+
+<script>
+  const params=new URLSearchParams(window.location.search);
+  const pdf=params.get("pdf")||"";
+  const title=params.get("title")||"Primer";
+  document.getElementById("readerTitle").textContent=title;
+  document.getElementById("pdfFrame").src=pdf;
+  document.getElementById("openPdf").href=pdf;
+</script>
+
+</body>
+</html>
