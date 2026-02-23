@@ -191,12 +191,12 @@ nav a.active{font-weight:bold;}
 .primer-card img{ width:260px !important; max-width:100% !important; }
 
 .core-grid{
-  display:grid !important;
-  grid-template-columns:repeat(2,1fr) !important;
-  gap:22px !important;
-  max-width:1020px !important;
-  margin:0 auto !important;
-  align-items:start !important;
+ display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:18px;
+  max-width:900px;
+  margin:0 auto;
+  align-items:start;
 }
 
 .core-card{ text-align:center !important; }
