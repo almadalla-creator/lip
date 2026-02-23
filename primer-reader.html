@@ -24,7 +24,7 @@
 <section class="section">
   <div class="container">
     <h1 id="readerTitle" style="margin:0 0 10px 0;">Primer</h1>
-    <p style="margin:0 0 18px 0;">If the PDF does not load,use the download button.</p>
+    <p style="margin:0 0 18px 0;">If the PDF preview does not load,open it in a new tab.</p>
 
     <div class="btn-row" style="justify-content:flex-start;">
       <a id="openPdf" class="btn" href="#" target="_blank" rel="noopener noreferrer">Open in new tab</a>
@@ -32,18 +32,31 @@
     </div>
 
     <div class="pdf-frame">
-      <iframe id="pdfFrame" src="" title="PDF reader"></iframe>
+      <object id="pdfObject" data="" type="application/pdf" width="100%" height="100%">
+        <p style="margin:16px;">
+          PDF preview not supported in this browser.
+          <a id="fallbackLink" href="#" target="_blank" rel="noopener noreferrer">Open in new tab</a>
+        </p>
+      </object>
     </div>
   </div>
 </section>
 
 <script>
-  const params=new URLSearchParams(window.location.search);
-  const pdf=params.get("pdf")||"";
-  const title=params.get("title")||"Primer";
-  document.getElementById("readerTitle").textContent=title;
-  document.getElementById("pdfFrame").src=pdf;
-  document.getElementById("openPdf").href=pdf;
+  const params = new URLSearchParams(window.location.search);
+  const pdfParam = params.get("pdf") || "";
+  const title = params.get("title") || "Primer";
+
+  document.getElementById("readerTitle").textContent = title;
+
+  // Normalize to a root-relative URL so embeds don't mis-resolve
+  const pdf = pdfParam.startsWith("http")
+    ? pdfParam
+    : (pdfParam.startsWith("/") ? pdfParam : ("/" + pdfParam));
+
+  document.getElementById("openPdf").href = pdf;
+  document.getElementById("pdfObject").data = pdf;
+  document.getElementById("fallbackLink").href = pdf;
 </script>
 
 </body>
