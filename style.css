@@ -585,3 +585,62 @@ nav a.active{font-weight:bold;}
   .books-grid{ grid-template-columns:1fr; }
   .book-cover img{ max-width:360px; }
 }
+.bundle-section{
+  display:flex;
+  justify-content:center;
+  margin:40px 0 60px;
+}
+
+.bundle-box{
+  max-width:760px;
+  padding:40px;
+  border:2px solid rgba(0,0,0,.15);
+  text-align:center;
+  background:rgba(255,255,255,.35);
+}
+
+.bundle-box h2{
+  margin-top:0;
+}
+
+.bundle-lead{
+  margin:14px auto 0;
+  max-width:620px;
+  line-height:1.6;
+}
+
+.bundle-strong{
+  margin-top:12px;
+  font-weight:600;
+}
+
+.bundle-box ul{
+  list-style:none;
+  padding:0;
+  margin:20px 0;
+}
+
+.bundle-box li{
+  margin:6px 0;
+}
+
+.bundle-price{
+  margin:18px 0;
+  font-size:1.4rem;
+}
+
+.bundle-old{
+  text-decoration:line-through;
+  opacity:.5;
+  margin-right:10px;
+}
+
+.bundle-new{
+  font-weight:700;
+  font-size:1.8rem;
+}
+
+.bundle-btn{
+  padding:14px 28px;
+  font-size:1rem;
+}
