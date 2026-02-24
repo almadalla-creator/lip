@@ -450,3 +450,39 @@ nav a.active{font-weight:bold;}
   .books-grid{grid-template-columns:1fr;}
   .book-cover{max-width:420px;}
 }
+.books-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:28px;
+  max-width:1020px;
+  margin:0 auto;
+  align-items:stretch;
+}
+
+.book-card{
+  border:1px solid rgba(0,0,0,.08);
+  padding:28px;
+  display:flex;
+  flex-direction:column;
+  height:100%;
+}
+
+.book-body{
+  display:flex;
+  flex-direction:column;
+  flex:1;
+  text-align:center;
+}
+
+.book-body ul{
+  text-align:left;
+  margin:14px auto 0 auto;
+  max-width:360px;
+}
+
+.book-cta{
+  margin-top:auto;
+  display:flex;
+  justify-content:center;
+  padding-top:18px;
+}
