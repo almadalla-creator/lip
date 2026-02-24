@@ -388,27 +388,6 @@ nav a.active{font-weight:bold;}
   align-items:start;
 }
 
-<article class="book-card">
-  <a class="cover-link" href="PASTE_PAYHIP_LINK" target="_blank" rel="noopener noreferrer">
-    <img class="book-cover" src="assets/covers/beyond.jpg" alt="Beyond the Social Mask cover" loading="lazy">
-  </a>
-
-  <div class="book-body">
-    <h3>Beyond the Social Mask</h3>
-    <p>…</p>
-    <ul>
-      <li>…</li>
-      <li>…</li>
-      <li>…</li>
-    </ul>
-
-    <div class="book-cta">
-      <a class="btn" href="PASTE_PAYHIP_LINK" target="_blank" rel="noopener noreferrer">Access the Book</a>
-    </div>
-  </div>
-</article>
-}
-
 .book-title{
   margin:0 0 10px;
   font-size:28px;
