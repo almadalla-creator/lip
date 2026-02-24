@@ -389,9 +389,14 @@ nav a.active{font-weight:bold;}
 }
 
 .book-card{
-  padding:18px 18px 16px;
+  padding:24px 22px 22px;
   border:1px solid rgba(0,0,0,0.08);
   background:rgba(255,255,255,0.15);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:space-between;
+  text-align:center;
 }
 
 .book-cover{
@@ -417,16 +422,12 @@ nav a.active{font-weight:bold;}
 }
 
 .book-points{
-  max-width:520px;
-  margin:0 auto 14px;
-  padding-left:18px;
+  text-align:left;
+  max-width:420px;
 }
 
 .cta-row{
-  display:flex;
-  justify-content:center;
-  gap:10px;
-  margin-top:6px;
+  margin-top:auto;
 }
 
 .escalation{
