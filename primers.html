@@ -1,130 +1,155 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-6EH02NFZEJ"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Primers | LIP Editorial</title>
+  <link rel="stylesheet" href="style.css" />
 
-  gtag('config', 'G-6EH02NFZEJ');
-</script>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Core Works | LIP Editorial</title>
-
-    <link rel="stylesheet" href="style.css">
-
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon.png">
-    <link rel="apple-touch-icon" href="favicon.png">
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-6EH02NFZEJ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-6EH02NFZEJ');
+  </script>
 </head>
+
 <body>
 
-<header class="site-header">
-  <div class="container nav">
-    <div class="logo">LIP Editorial</div>
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="primers.html" class="active">Primers</a>
-      <a href="books.html">Books</a>
-      <a href="editorial.html">Editorial</a>
+  <header class="site-header">
+    <div class="container nav">
+      <div class="logo">LIP Editorial</div>
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="primers.html" class="active">Primers</a>
+        <a href="books.html">Books</a>
+        <a href="editorial.html">Editorial</a>
       </nav>
-  </div>
-</header>
+    </div>
+  </header>
 
-<section class="page-hero">
-  <h1>Primers</h1>
-  <p>Short entry texts,designed to be read fast and felt deeply.</p>
-</section>
+  <main class="page">
+    <section class="page-hero">
+      <h1>Primers</h1>
+      <p>Short entry texts, designed to be read fast and felt deeply.</p>
+    </section>
 
-<section class="section">
-  <div class="container">
-    <div class="primers-grid">
+    <section class="grid primers-grid">
 
-      <div class="primer-card">
+      <!-- WORK -->
+      <article class="primer-card">
         <a class="cover-link" href="primer-reader.html?pdf=/assets/pdfs/work.pdf&title=Work">
-          <img src="assets/primers/work.jpg" alt="Before It Became You – Work cover" loading="lazy">
+          <img src="assets/primers/work.jpeg" alt="Before It Became You – Work cover" loading="lazy" />
         </a>
         <h3>Work</h3>
         <p>When work stops being an activity and becomes a self.</p>
         <div class="btn-row">
-          <a class="btn" href="primer-reader.html?pdf=/assets/pdfs/work.pdf&title=Work">Read online</a>
-            data-ga="read_online"
-            data-primer="work">Read online</a>
-          <a class="btn btn-ghost" href="https://payhip.com/b/kgNOh" target="_blank" rel="noopener noreferrer">Download free</a>
-            data-ga="read_online"
-            data-primer="work">Read online</a>
-        </div>
-      </div>
+          <a class="btn"
+             href="primer-reader.html?pdf=/assets/pdfs/work.pdf&title=Work"
+             data-ga="read_online"
+             data-primer="work">Read online</a>
 
-      <div class="primer-card">
+          <a class="btn btn-ghost"
+             href="https://payhip.com/b/kgNOh"
+             target="_blank"
+             rel="noopener noreferrer"
+             data-ga="download_free"
+             data-primer="work">Download free</a>
+        </div>
+      </article>
+
+      <!-- SUCCESS -->
+      <article class="primer-card">
         <a class="cover-link" href="primer-reader.html?pdf=/assets/pdfs/success.pdf&title=Success">
-          <img src="assets/primers/success.jpg" alt="Before It Became You – Success cover" loading="lazy">
+          <img src="assets/primers/success.jpeg" alt="Before It Became You – Success cover" loading="lazy" />
         </a>
         <h3>Success</h3>
         <p>When achievement becomes survival and status becomes peace.</p>
         <div class="btn-row">
-          <a class="btn" href="primer-reader.html?pdf=/assets/pdfs/success.pdf&title=Success">Read online</a>
-          <a class="btn btn-ghost" href="https://payhip.com/b/onOLY" target="_blank" rel="noopener noreferrer">Download free</a>
-        </div>
-      </div>
+          <a class="btn"
+             href="primer-reader.html?pdf=/assets/pdfs/success.pdf&title=Success"
+             data-ga="read_online"
+             data-primer="success">Read online</a>
 
-      <div class="primer-card">
+          <a class="btn btn-ghost"
+             href="https://payhip.com/b/onOLY"
+             target="_blank"
+             rel="noopener noreferrer"
+             data-ga="download_free"
+             data-primer="success">Download free</a>
+        </div>
+      </article>
+
+      <!-- RELATIONSHIPS -->
+      <article class="primer-card">
         <a class="cover-link" href="primer-reader.html?pdf=/assets/pdfs/relationships.pdf&title=Relationships">
-          <img src="assets/primers/relationships.jpg" alt="Before It Became You – Relationships cover" loading="lazy">
+          <img src="assets/primers/relationships.jpeg" alt="Before It Became You – Relationships cover" loading="lazy" />
         </a>
         <h3>Relationships</h3>
         <p>When closeness becomes regulation and approval becomes identity.</p>
         <div class="btn-row">
-          <a class="btn" href="primer-reader.html?pdf=/assets/pdfs/relationships.pdf&title=Relationships">Read online</a>
-          <a class="btn btn-ghost" href="https://payhip.com/b/W2Oa5" target="_blank" rel="noopener noreferrer">Download free</a>
-        </div>
-      </div>
+          <a class="btn"
+             href="primer-reader.html?pdf=/assets/pdfs/relationships.pdf&title=Relationships"
+             data-ga="read_online"
+             data-primer="relationships">Read online</a>
 
-      <div class="primer-card">
+          <a class="btn btn-ghost"
+             href="https://payhip.com/b/W2Oa5"
+             target="_blank"
+             rel="noopener noreferrer"
+             data-ga="download_free"
+             data-primer="relationships">Download free</a>
+        </div>
+      </article>
+
+      <!-- FAITH -->
+      <article class="primer-card">
         <a class="cover-link" href="primer-reader.html?pdf=/assets/pdfs/faith.pdf&title=Faith">
-          <img src="assets/primers/faith.jpg" alt="Before It Became You – Faith cover" loading="lazy">
+          <img src="assets/primers/faith.jpeg" alt="Before It Became You – Faith cover" loading="lazy" />
         </a>
         <h3>Faith</h3>
         <p>When belief stops being meaning and becomes identity architecture.</p>
         <div class="btn-row">
-          <a class="btn" href="primer-reader.html?pdf=/assets/pdfs/faith.pdf&title=Faith">Read online</a>
-          <a class="btn btn-ghost" href="https://payhip.com/b/UbWT9" target="_blank" rel="noopener noreferrer">Download free</a>
+          <a class="btn"
+             href="primer-reader.html?pdf=/assets/pdfs/faith.pdf&title=Faith"
+             data-ga="read_online"
+             data-primer="faith">Read online</a>
+
+          <a class="btn btn-ghost"
+             href="https://payhip.com/b/XXXXXX"
+             target="_blank"
+             rel="noopener noreferrer"
+             data-ga="download_free"
+             data-primer="faith">Download free</a>
         </div>
-      </div>
+      </article>
 
-    </div>
-  </div>
-</section>
+    </section>
 
-<footer class="footer">
-  <div class="container">
-    <div>
-      <a href="mailto:contact@lipgenerations.com" class="email-link">contact@lipgenerations.com</a>
-    </div>
-  </div>
-</footer>
+    <footer class="site-footer">
+      <p><a href="mailto:contact@lipgenerations.com">contact@lipgenerations.com</a></p>
+    </footer>
+  </main>
+
+  <script>
+    // Track clicks on primer buttons (GA4)
+    document.addEventListener('click', function (e) {
+      const a = e.target.closest('a[data-ga][data-primer]');
+      if (!a) return;
+
+      const action = a.getAttribute('data-ga');
+      const primer = a.getAttribute('data-primer');
+
+      if (typeof gtag === 'function') {
+        gtag('event', action, {
+          primer: primer,
+          link_url: a.href
+        });
+      }
+    });
+  </script>
 
 </body>
 </html>
-<script>
-  window.addEventListener("DOMContentLoaded", () => {
-    const trackedLinks = document.querySelectorAll("a[data-ga][data-primer]");
-    trackedLinks.forEach(a => {
-      a.addEventListener("click", () => {
-        const action = a.getAttribute("data-ga");
-        const primer = a.getAttribute("data-primer");
-
-        if (typeof gtag === "function") {
-          gtag("event", action, {
-            primer: primer,
-            page: "primers"
-          });
-        }
-      }, { passive: true });
-    });
-  });
-</script>
