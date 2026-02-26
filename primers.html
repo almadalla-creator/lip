@@ -52,7 +52,11 @@
         <p>When work stops being an activity and becomes a self.</p>
         <div class="btn-row">
           <a class="btn" href="primer-reader.html?pdf=/assets/pdfs/work.pdf&title=Work">Read online</a>
+            data-ga="read_online"
+            data-primer="work">Read online</a>
           <a class="btn btn-ghost" href="https://payhip.com/b/kgNOh" target="_blank" rel="noopener noreferrer">Download free</a>
+            data-ga="read_online"
+            data-primer="work">Read online</a>
         </div>
       </div>
 
@@ -106,3 +110,21 @@
 
 </body>
 </html>
+<script>
+  window.addEventListener("DOMContentLoaded", () => {
+    const trackedLinks = document.querySelectorAll("a[data-ga][data-primer]");
+    trackedLinks.forEach(a => {
+      a.addEventListener("click", () => {
+        const action = a.getAttribute("data-ga");
+        const primer = a.getAttribute("data-primer");
+
+        if (typeof gtag === "function") {
+          gtag("event", action, {
+            primer: primer,
+            page: "primers"
+          });
+        }
+      }, { passive: true });
+    });
+  });
+</script>
