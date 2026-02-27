@@ -1,25 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-6EH02NFZEJ"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-6EH02NFZEJ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-6EH02NFZEJ');
+  </script>
 
-  gtag('config', 'G-6EH02NFZEJ');
-</script>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Core Works | LIP Editorial</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Core Works | LIP Editorial</title>
 
-    <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css">
 
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon.png">
-    <link rel="apple-touch-icon" href="favicon.png">
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon.png">
+  <link rel="apple-touch-icon" href="favicon.png">
 </head>
 <body>
 
@@ -49,7 +49,7 @@
       <div class="books-grid">
 
         <article class="book-card">
-          <a class="book-cover" href="https://payhip.com/b/iZajQ" target="_blank" rel="noopener noreferrer">
+          <a class="book-cover" href="https://payhip.com/b/iZajQ" target="_blank" rel="noopener noreferrer" data-ga="book_link_click" data-primer="none">
             <img src="assets/covers/beyond.png" alt="Beyond the Social Mask cover" loading="lazy">
           </a>
           <h2 class="book-title">Beyond the Social Mask</h2>
@@ -62,12 +62,12 @@
             </ul>
           </div>
           <div class="book-cta">
-            <a class="btn" href="https://payhip.com/b/iZajQ" target="_blank" rel="noopener noreferrer">Access the Book</a>
+            <a class="btn" href="https://payhip.com/b/iZajQ" target="_blank" rel="noopener noreferrer" data-ga="book_link_click" data-primer="none">Access the Book</a>
           </div>
         </article>
 
         <article class="book-card">
-          <a class="book-cover" href="https://payhip.com/b/EmGWA" target="_blank" rel="noopener noreferrer">
+          <a class="book-cover" href="https://payhip.com/b/EmGWA" target="_blank" rel="noopener noreferrer" data-ga="book_link_click" data-primer="none">
             <img src="assets/covers/origin.png" alt="The Origin of Everything cover" loading="lazy">
           </a>
           <h2 class="book-title">The Origin of Everything</h2>
@@ -80,7 +80,7 @@
             </ul>
           </div>
           <div class="book-cta">
-            <a class="btn" href="https://payhip.com/b/EmGWA" target="_blank" rel="noopener noreferrer">Access the Book</a>
+            <a class="btn" href="https://payhip.com/b/EmGWA" target="_blank" rel="noopener noreferrer" data-ga="book_link_click" data-primer="none">Access the Book</a>
           </div>
         </article>
 
@@ -111,7 +111,7 @@
             <span class="bundle-new">$59</span>
           </div>
 
-          <a class="btn bundle-btn" href="https://payhip.com/b/OKh6x" target="_blank" rel="noopener noreferrer">
+          <a class="btn bundle-btn" href="https://payhip.com/b/OKh6x" target="_blank" rel="noopener noreferrer" data-ga="bundle_link_click" data-primer="none">
             Access the Complete Work
           </a>
 
@@ -127,6 +127,23 @@
     <a href="mailto:contact@lipgenerations.com">contact@lipgenerations.com</a>
   </div>
 </footer>
+
+<script>
+  document.addEventListener('click', function (e) {
+    const a = e.target.closest('a[data-ga][data-primer]');
+    if (!a) return;
+
+    const action = a.getAttribute('data-ga');
+    const primer = a.getAttribute('data-primer');
+
+    if (typeof gtag === 'function') {
+      gtag('event', action, {
+        primer_name: primer,
+        link_url: a.href
+      });
+    }
+  });
+</script>
 
 </body>
 </html>
