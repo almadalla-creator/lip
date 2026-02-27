@@ -1,25 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-6EH02NFZEJ"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-6EH02NFZEJ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-6EH02NFZEJ');
+  </script>
 
-  gtag('config', 'G-6EH02NFZEJ');
-</script>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Core Works | LIP Editorial</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Primer Reader | LIP Editorial</title>
 
-    <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css">
 
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon.png">
-    <link rel="apple-touch-icon" href="favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon.png">
+  <link rel="apple-touch-icon" href="favicon.png">
 </head>
 <body>
 
@@ -27,10 +26,10 @@
   <div class="container nav">
     <div class="logo">LIP Editorial</div>
     <nav>
-      <a href="index.html">Home</a>
-      <a href="primers.html" class="active">Primers</a>
-      <a href="books.html">Books</a>
-      <a href="editorial.html">Editorial</a>
+      <a href="index.html" data-ga="nav_click" data-primer="none">Home</a>
+      <a href="primers.html" class="active" data-ga="nav_click" data-primer="none">Primers</a>
+      <a href="books.html" data-ga="nav_click" data-primer="none">Books</a>
+      <a href="editorial.html" data-ga="nav_click" data-primer="none">Editorial</a>
     </nav>
   </div>
 </header>
@@ -42,7 +41,7 @@
 
     <div class="btn-row" style="justify-content:flex-start;">
       <a id="openPdf" class="btn" href="#" target="_blank" rel="noopener noreferrer">Open in new tab</a>
-      <a class="btn btn-ghost" href="primers.html">Back</a>
+      <a class="btn btn-ghost" href="primers.html" data-ga="reader_back_click" data-primer="none">Back</a>
     </div>
 
     <div class="pdf-frame">
@@ -63,7 +62,6 @@
 
   document.getElementById("readerTitle").textContent = title;
 
-  // Normalize to a root-relative URL so embeds don't mis-resolve
   const pdf = pdfParam.startsWith("http")
     ? pdfParam
     : (pdfParam.startsWith("/") ? pdfParam : ("/" + pdfParam));
@@ -71,6 +69,54 @@
   document.getElementById("openPdf").href = pdf;
   document.getElementById("pdfObject").data = pdf;
   document.getElementById("fallbackLink").href = pdf;
+
+  // Derive primer name from title
+  const primerName = title.toLowerCase().includes("work") ? "work" :
+                     title.toLowerCase().includes("success") ? "success" :
+                     title.toLowerCase().includes("relationship") ? "relationships" :
+                     title.toLowerCase().includes("faith") ? "faith" :
+                     "unknown";
+
+  // Fire primer_view event
+  if (typeof gtag === 'function') {
+    gtag('event', 'primer_view', {
+      primer_name: primerName
+    });
+  }
+
+  // Track open in new tab click
+  document.getElementById("openPdf").addEventListener("click", function() {
+    if (typeof gtag === 'function') {
+      gtag('event', 'primer_open_new_tab', {
+        primer_name: primerName
+      });
+    }
+  });
+
+  // Scroll 75% tracking
+  let scrollTracked = false;
+  window.addEventListener("scroll", function() {
+    if (scrollTracked) return;
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    if (docHeight > 0 && (scrollTop / docHeight) > 0.75) {
+      scrollTracked = true;
+      if (typeof gtag === 'function') {
+        gtag('event', 'primer_scroll_75', {
+          primer_name: primerName
+        });
+      }
+    }
+  });
+
+  // 3 minute engagement tracking
+  setTimeout(function() {
+    if (typeof gtag === 'function') {
+      gtag('event', 'primer_engaged_3min', {
+        primer_name: primerName
+      });
+    }
+  }, 180000);
 </script>
 
 </body>
