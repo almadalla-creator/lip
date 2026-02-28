@@ -59,46 +59,40 @@ function getTopTwo(){
   const tied=entries.filter(e=>e[1]===topScore).map(e=>e[0]);
   let first=entries[0][0];
   if(tied.length>1){
-    for(let i=lastPick.length-1;i>=0;i--){
-      if(tied.includes(lastPick[i])){ first=lastPick[i]; break; }
-    }
+    for(let i=lastPick.length-1;i>=0;i--){ if(tied.includes(lastPick[i])){ first=lastPick[i]; break; } }
   }
   const second=Object.entries(scores).filter(e=>e[0]!==first).sort((a,b)=>b[1]-a[1])[0][0];
   return [first,second];
 }
 
+function revealResult(){
+  const [a,b]=getTopTwo();
+  document.getElementById("dominant").textContent=
+    `Within the Work context, your dominant patterns were: ${labels[a]} + ${labels[b]}`;
+  document.getElementById("projection").textContent=endings[keyPair(a,b)] || "Result text missing.";
+  document.getElementById("result").classList.remove("hidden");
+  document.getElementById("result").scrollIntoView({behavior:"smooth"});
+}
+
 document.addEventListener("click",(e)=>{
   const btn=e.target.closest(".choice");
   if(!btn) return;
+
+  if(btn.id==="replay" || btn.id==="showResult") return;
+
   const v=btn.dataset.vector;
   if(!v || !(v in scores)) return;
 
-  scores[v]++; 
-  lastPick.push(v);
+  scores[v]++; lastPick.push(v);
 
   const node=btn.closest(".node");
   const next=node?.dataset.next;
-
-  if(next){
-    document.querySelector(next)?.scrollIntoView({behavior:"smooth"});
-    return;
-  }
-
-  const [a,b]=getTopTwo();
-  const line=`Within the Work context, your dominant patterns were: ${labels[a]} + ${labels[b]}`;
-  document.getElementById("dominant").textContent=line;
-
-  const resultKey=keyPair(a,b);
-  document.getElementById("projection").textContent=endings[resultKey] || "Result text missing.";
-
-  document.getElementById("result").classList.remove("hidden");
-  document.getElementById("result").scrollIntoView({behavior:"smooth"});
+  if(next) document.querySelector(next)?.scrollIntoView({behavior:"smooth"});
 });
 
 document.addEventListener("click",(e)=>{
-  if(e.target.id!=="aboutToggle") return;
-  e.preventDefault();
-  document.getElementById("aboutPanel").classList.toggle("hidden");
+  if(e.target.id==="showResult"){ e.preventDefault(); revealResult(); }
+  if(e.target.id==="aboutToggle"){ e.preventDefault(); document.getElementById("aboutPanel").classList.toggle("hidden"); }
 });
 
 document.addEventListener("click",(e)=>{
