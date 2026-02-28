@@ -1,9 +1,52 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Adrian Interactive</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Adrian | Interactive Work Edition</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>Adrian Interactive – Work Context</h1>
+
+<section id="ch01" class="chapter">
+  <h2>Chapter 1<br>Test Chapter</h2>
+  <p>This is a test page to confirm scoring + navigation works.</p>
+
+  <div class="node" data-next="#ch02">
+    <p><em>Pause.</em> What would you do?</p>
+    <button class="choice" data-vector="withdrawal">A — Withdraw</button>
+    <button class="choice" data-vector="hierarchy">B — Escalate</button>
+    <button class="choice" data-vector="narrative">C — Reframe</button>
+    <button class="choice" data-vector="lucid">D — Tolerate</button>
+  </div>
+</section>
+
+<section id="ch02" class="chapter">
+  <h2>Chapter 2<br>End</h2>
+  <p>Click any choice above to scroll here. This section has the last node.</p>
+
+  <div class="node">
+    <p><em>Pause.</em> Final choice.</p>
+    <button class="choice" data-vector="withdrawal">A — Withdraw</button>
+    <button class="choice" data-vector="hierarchy">B — Escalate</button>
+    <button class="choice" data-vector="narrative">C — Reframe</button>
+    <button class="choice" data-vector="lucid">D — Tolerate</button>
+  </div>
+</section>
+
+<section id="final" class="chapter hidden">
+  <h2>Result</h2>
+  <p id="dominant"></p>
+  <p id="projection"></p>
+
+  <a id="aboutToggle" class="about-link" href="#">About LIP</a>
+  <div id="aboutPanel" class="about hidden">
+    <p>This reflection is generated within the LIP framework. It is not a diagnosis, it is a directional mirror based on choices made inside the story.</p>
+  </div>
+
+  <button id="replay" class="choice">Begin again</button>
+</section>
+
+<script src="app.js"></script>
 </body>
 </html>
