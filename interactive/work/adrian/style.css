@@ -1,1 +1,7 @@
-
+body{max-width:720px;margin:0 auto;padding:60px 18px;line-height:1.55;font-family:"EB Garamond",serif;}
+.chapter{margin:80px 0;}
+.node{margin:40px 0;padding:18px 16px;border:1px solid rgba(0,0,0,.15);border-radius:14px}
+.choice{display:block;width:100%;text-align:left;padding:10px 12px;margin:8px 0;border-radius:10px;border:1px solid rgba(0,0,0,.15);background:transparent;cursor:pointer}
+.hidden{display:none;}
+.about-link{display:inline-block;margin-top:26px;font-size:0.95em;opacity:.75}
+.about{margin-top:14px;padding:14px 12px;border:1px solid rgba(0,0,0,.15);border-radius:12px}
