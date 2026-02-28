@@ -1,7 +1,76 @@
-body{max-width:720px;margin:0 auto;padding:60px 18px;line-height:1.55;font-family:"EB Garamond",serif;}
-.chapter{margin:80px 0;}
-.node{margin:40px 0;padding:18px 16px;border:1px solid rgba(0,0,0,.15);border-radius:14px}
-.choice{display:block;width:100%;text-align:left;padding:10px 12px;margin:8px 0;border-radius:10px;border:1px solid rgba(0,0,0,.15);background:transparent;cursor:pointer}
+:root{
+  --bg:#f7f4ee;
+  --text:#111;
+  --muted:rgba(17,17,17,.65);
+  --border:rgba(17,17,17,.18);
+}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--text);}
+body{
+  font-family:"EB Garamond",serif;
+  line-height:1.55;
+}
+main{
+  max-width:760px;
+  margin:0 auto;
+  padding:56px 18px 90px;
+}
+.chapter{margin:70px 0;}
+.chapter-title{
+  font-size:14pt;
+  font-weight:700;
+  margin:0 0 8px;
+}
+.chapter-subtitle{
+  font-size:12.5pt;
+  font-weight:400;
+  margin:0 0 18px;
+  color:var(--muted);
+}
+p{
+  font-size:12.5pt;
+  margin:0 0 14px;
+}
+.node{
+  margin:34px 0 0;
+  padding:18px 16px;
+  border:1px solid var(--border);
+  border-radius:14px;
+}
+.pause{
+  margin:0 0 12px;
+  font-style:italic;
+  color:var(--text);
+}
+.choice{
+  display:block;
+  width:100%;
+  text-align:left;
+  padding:10px 12px;
+  margin:8px 0;
+  border-radius:12px;
+  border:1px solid var(--border);
+  background:transparent;
+  font-family:"EB Garamond",serif;
+  font-size:12.5pt;
+  cursor:pointer;
+}
+.choice:hover{background:rgba(17,17,17,.035);}
 .hidden{display:none;}
-.about-link{display:inline-block;margin-top:26px;font-size:0.95em;opacity:.75}
-.about{margin-top:14px;padding:14px 12px;border:1px solid rgba(0,0,0,.15);border-radius:12px}
+.dominant{font-weight:700;}
+.projection{margin-top:14px;}
+.about-link{
+  display:inline-block;
+  margin-top:22px;
+  font-size:12.5pt;
+  color:var(--muted);
+  text-decoration:none;
+}
+.about-link:hover{text-decoration:underline;}
+.about{
+  margin-top:12px;
+  padding:14px 12px;
+  border:1px solid var(--border);
+  border-radius:12px;
+  color:var(--muted);
+}
+.replay{margin-top:16px;}
