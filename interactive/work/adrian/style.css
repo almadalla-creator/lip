@@ -7,18 +7,18 @@
 html,body{margin:0;padding:0;background:var(--bg);color:var(--text);}
 body{
   font-family:"EB Garamond",serif;
-  line-height:1.55;
+  line-height:1.75;
 }
 main{
-  max-width:760px;
+  max-width:660px;
   margin:0 auto;
   padding:56px 18px 90px;
 }
-.chapter{margin:70px 0;}
+.chapter{margin:90px 0;}
 .chapter-title{
   font-size:14pt;
   font-weight:700;
-  margin:0 0 8px;
+  margin:0 0 18px;
 }
 .chapter-subtitle{
   font-size:12.5pt;
