@@ -4,39 +4,122 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Interactive | LIP Editorial</title>
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;700&display=swap" rel="stylesheet">
-
   <link rel="stylesheet" href="style.css" />
+  <style>
+    /* Local-only fixes,won't break other pages */
+    .interactive-hero{
+      padding:90px 0 55px;
+      text-align:center;
+    }
+    .interactive-hero h1{
+      margin:0;
+      font-size:64px;
+      font-weight:700;
+      letter-spacing:.3px;
+    }
+    .interactive-hero p{
+      margin:18px auto 0;
+      max-width:900px;
+      font-size:20px;
+      line-height:1.7;
+      opacity:.85;
+    }
+    .interactive-section{
+      background:rgba(0,0,0,.04);
+      padding:70px 0 90px;
+    }
+    .interactive-section h2{
+      text-align:center;
+      margin:0;
+      font-size:46px;
+      font-weight:700;
+    }
+    .divider{
+      width:70px;
+      height:2px;
+      background:rgba(0,0,0,.55);
+      margin:18px auto 34px;
+    }
+    .interactive-block{
+      max-width:900px;
+      margin:0 auto;
+      text-align:center;
+      font-size:20px;
+      line-height:1.9;
+    }
+    .interactive-block p{
+      margin:18px 0;
+    }
+    .interactive-block .bold{
+      font-weight:700;
+    }
+    .cta-wrap{
+      margin-top:38px;
+      display:flex;
+      justify-content:center;
+    }
+    .cta{
+      display:inline-block;
+      padding:14px 22px;
+      border:1px solid rgba(0,0,0,.35);
+      text-decoration:none;
+      font-size:18px;
+    }
+    .cta:hover{
+      background:rgba(0,0,0,.06);
+    }
+    @media (max-width:720px){
+      .interactive-hero h1{font-size:42px;}
+      .interactive-hero{padding:70px 0 40px;}
+      .interactive-section h2{font-size:34px;}
+      .interactive-block{font-size:18px;padding:0 18px;}
+    }
+  </style>
 </head>
-<body>
 
-  <header class="topbar">
-    <div class="brand">LIP Editorial</div>
-    <nav class="nav">
-      <a href="index.html">Home</a>
-      <a href="books.html">Books</a>
-      <a href="primers.html">Primers</a>
-      <a href="editorial.html">Editorial</a>
-      <a class="active" href="interactive.html">Interactive</a>
-    </nav>
+<body>
+  <header class="site-header">
+    <div class="container nav">
+      <div class="logo">LIP Editorial</div>
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="books.html">Books</a>
+        <a href="primers.html">Primers</a>
+        <a href="editorial.html">Editorial</a>
+        <a href="interactive.html" class="active">Interactive</a>
+      </nav>
+    </div>
   </header>
 
-  <main class="page">
-    <h1 class="page-title">Adrian,Work Edition</h1>
-    <p class="page-subtitle">A real story told in first person,interrupted by eight choices. Your clicks don’t change the plot,they expose the pattern you protect.</p>
+  <main>
+    <section class="interactive-hero">
+      <div class="container">
+        <h1>Adrian,Work Edition</h1>
+        <p>A real story told in first person,interrupted by eight choices. Your clicks don’t change the plot,they expose the pattern you protect.</p>
+      </div>
+    </section>
 
-    <div class="card">
-      <h2>How it works</h2>
-      <p>You read normally. When the story reaches a decision point,you get four options. Choose the one you would actually do,not the one you want to be.</p>
-      <p>At the end,you’ll get a short reflection: “Within the Work context,your dominant patterns were…” based only on your choices. No morality,no diagnosis.</p>
-      <p class="muted">This is built on the LIP concept: lucidity is not a label,it’s tolerance for facts without defense.</p>
-    </div>
+    <section class="interactive-section">
+      <div class="container">
+        <h2>What This Is About</h2>
+        <div class="divider"></div>
 
-    <a class="cta" href="https://lipgenerations.com/interactive/work/adrian/">Start the interactive book</a>
+        <div class="interactive-block">
+          <p>You work hard but still feel behind.</p>
+          <p>You achieve things but it never feels stable.</p>
+          <p>You manage careers and still repeat the same tension.</p>
+          <p>You “know” what is right,yet pressure keeps bending you.</p>
+          <p>That is not bad luck.</p>
+          <p class="bold">It is pattern.</p>
+          <p>LIP examines what shapes those patterns.</p>
+          <p>Not with advice. Not with inspiration. But by looking at the structures underneath your decisions,your effort,and your reactions.</p>
+
+          <div class="cta-wrap">
+            <a class="cta" href="interactive/adrian/">Start the interactive book</a>
+          </div>
+        </div>
+      </div>
+    </section>
   </main>
-
 </body>
 </html>
