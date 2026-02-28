@@ -3,50 +3,55 @@
   --text:#111;
   --muted:rgba(17,17,17,.65);
   --border:rgba(17,17,17,.18);
+  --shadow:rgba(17,17,17,.06);
 }
 html,body{margin:0;padding:0;background:var(--bg);color:var(--text);}
 body{
   font-family:"EB Garamond",serif;
   line-height:1.75;
+  letter-spacing:0.2px;
 }
 main{
   max-width:660px;
   margin:0 auto;
-  padding:56px 18px 90px;
+  padding:64px 18px 110px;
 }
 .chapter{margin:90px 0;}
 .chapter-title{
   font-size:14pt;
   font-weight:700;
-  margin:0 0 18px;
+  margin:0 0 10px;
 }
 .chapter-subtitle{
   font-size:12.5pt;
   font-weight:400;
-  margin:0 0 18px;
+  margin:0 0 20px;
   color:var(--muted);
 }
 p{
   font-size:12.5pt;
-  margin:0 0 14px;
+  margin:0 0 18px;
+  text-align:justify;
+  hyphens:auto;
 }
 .node{
-  margin:34px 0 0;
+  margin:26px 0 0;
   padding:18px 16px;
   border:1px solid var(--border);
   border-radius:14px;
+  background:rgba(255,255,255,.35);
+  box-shadow:0 10px 26px var(--shadow);
 }
 .pause{
-  margin:0 0 12px;
+  margin:0 0 14px;
   font-style:italic;
-  color:var(--text);
 }
 .choice{
   display:block;
   width:100%;
   text-align:left;
-  padding:10px 12px;
-  margin:8px 0;
+  padding:12px 14px;
+  margin:10px 0;
   border-radius:12px;
   border:1px solid var(--border);
   background:transparent;
@@ -54,13 +59,20 @@ p{
   font-size:12.5pt;
   cursor:pointer;
 }
-.choice:hover{background:rgba(17,17,17,.035);}
+.choice:hover{background:rgba(17,17,17,.04);}
 .hidden{display:none;}
 .dominant{font-weight:700;}
-.projection{margin-top:14px;}
+.projection{margin-top:16px;white-space:pre-wrap;}
+.endcap-box{
+  padding:18px 16px;
+  border:1px solid var(--border);
+  border-radius:14px;
+  background:rgba(255,255,255,.35);
+  box-shadow:0 10px 26px var(--shadow);
+}
 .about-link{
   display:inline-block;
-  margin-top:22px;
+  margin-top:18px;
   font-size:12.5pt;
   color:var(--muted);
   text-decoration:none;
@@ -72,5 +84,6 @@ p{
   border:1px solid var(--border);
   border-radius:12px;
   color:var(--muted);
+  background:rgba(255,255,255,.22);
 }
-.replay{margin-top:16px;}
+.replay{margin-top:18px;}
