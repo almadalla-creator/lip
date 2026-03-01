@@ -6,32 +6,30 @@
   <title>Interactive | LIP Editorial</title>
   <link rel="stylesheet" href="style.css" />
   <style>
-    /* Local-only fixes,won't break other pages */
-    .interactive-hero{
-      padding:90px 0 55px;
+    .hero{
+      padding:70px 0 30px;
       text-align:center;
     }
-    .interactive-hero h1{
+    .hero h1{
       margin:0;
-      font-size:64px;
+      font-size:58px;
       font-weight:700;
       letter-spacing:.3px;
     }
-    .interactive-hero p{
-      margin:18px auto 0;
-      max-width:900px;
+    .hero p{
+      margin:16px auto 0;
+      max-width:980px;
       font-size:20px;
-      line-height:1.7;
+      line-height:1.75;
       opacity:.85;
     }
-    .interactive-section{
-      background:rgba(0,0,0,.04);
-      padding:70px 0 90px;
+    .section{
+      padding:45px 0 85px;
     }
-    .interactive-section h2{
+    .section h2{
       text-align:center;
       margin:0;
-      font-size:46px;
+      font-size:42px;
       font-weight:700;
     }
     .divider{
@@ -40,39 +38,77 @@
       background:rgba(0,0,0,.55);
       margin:18px auto 34px;
     }
-    .interactive-block{
-      max-width:900px;
-      margin:0 auto;
+    .what{
+      max-width:980px;
+      margin:0 auto 55px;
       text-align:center;
       font-size:20px;
       line-height:1.9;
     }
-    .interactive-block p{
-      margin:18px 0;
+    .what p{margin:16px 0;}
+    .what .bold{font-weight:700;}
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:34px;
+      align-items:start;
     }
-    .interactive-block .bold{
-      font-weight:700;
+    .card{
+      text-align:center;
     }
-    .cta-wrap{
-      margin-top:38px;
+    .cover{
+      width:100%;
+      aspect-ratio:2/3;
+      border:1px solid rgba(0,0,0,.18);
+      background:#111;
+      overflow:hidden;
       display:flex;
+      align-items:center;
       justify-content:center;
     }
-    .cta{
+    .cover img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+    .placeholder{
+      color:rgba(255,255,255,.75);
+      font-size:18px;
+      letter-spacing:.6px;
+      text-transform:uppercase;
+    }
+    .label{
+      margin-top:16px;
+      font-size:30px;
+      font-weight:700;
+    }
+    .sub{
+      margin-top:10px;
+      font-size:17px;
+      line-height:1.6;
+      opacity:.8;
+    }
+    .btn{
+      margin-top:16px;
       display:inline-block;
-      padding:14px 22px;
+      padding:12px 18px;
       border:1px solid rgba(0,0,0,.35);
       text-decoration:none;
-      font-size:18px;
+      font-size:16px;
     }
-    .cta:hover{
-      background:rgba(0,0,0,.06);
+    .btn:hover{background:rgba(0,0,0,.06);}
+    .btn.disabled{
+      pointer-events:none;
+      opacity:.45;
     }
-    @media (max-width:720px){
-      .interactive-hero h1{font-size:42px;}
-      .interactive-hero{padding:70px 0 40px;}
-      .interactive-section h2{font-size:34px;}
-      .interactive-block{font-size:18px;padding:0 18px;}
+    @media (max-width:1100px){
+      .grid{grid-template-columns:repeat(2,1fr);}
+    }
+    @media (max-width:640px){
+      .hero h1{font-size:42px;}
+      .hero p,.what{font-size:18px;padding:0 18px;}
+      .grid{grid-template-columns:1fr;}
     }
   </style>
 </head>
@@ -92,32 +128,64 @@
   </header>
 
   <main>
-    <section class="interactive-hero">
+    <section class="hero">
       <div class="container">
-        <h1>Adrian,Work Edition</h1>
-        <p>A real story told in first person,interrupted by eight choices. Your clicks don’t change the plot,they expose the pattern you protect.</p>
+        <h1>Interactive</h1>
+        <p>Not a game,not a quiz,not advice. A story with decision points that exposes what you protect when pressure shows up.</p>
       </div>
     </section>
 
-    <section class="interactive-section">
+    <section class="section">
       <div class="container">
-        <h2>What This Is About</h2>
+        <h2>What Is It About</h2>
         <div class="divider"></div>
 
-        <div class="interactive-block">
-          <p>You work hard but still feel behind.</p>
-          <p>You achieve things but it never feels stable.</p>
-          <p>You manage careers and still repeat the same tension.</p>
-          <p>You “know” what is right,yet pressure keeps bending you.</p>
-          <p>That is not bad luck.</p>
-          <p class="bold">It is pattern.</p>
-          <p>LIP examines what shapes those patterns.</p>
-          <p>Not with advice. Not with inspiration. But by looking at the structures underneath your decisions,your effort,and your reactions.</p>
+        <div class="what">
+          <p>You read a real first-person story.</p>
+          <p>At specific points,you choose what you would do.</p>
+          <p>Your choice does not “change the plot”. It reveals your dominant reflex: hierarchy defense,narrative control,emotional withdrawal,or lucid tolerance.</p>
+          <p class="bold">This is a mirror,not a verdict.</p>
+          <p>Each interactive book belongs to a life territory. Work is live. Others will follow.</p>
+        </div>
 
-          <div class="cta-wrap">
-            <a class="cta" href="interactive/work/adrian/">Start the interactive book</a>
+        <div class="grid">
+          <div class="card">
+            <div class="cover">
+              <div class="placeholder">Work,Live</div>
+            </div>
+            <div class="label">Work</div>
+            <div class="sub">Adrian,Work Edition,8 decisions,one pattern report at the end.</div>
+            <a class="btn" href="/interactive/work/adrian/">Start</a>
+          </div>
+
+          <div class="card">
+            <div class="cover">
+              <div class="placeholder">Coming Soon</div>
+            </div>
+            <div class="label">Success</div>
+            <div class="sub">Territory edition in development.</div>
+            <a class="btn disabled" href="#">Coming soon</a>
+          </div>
+
+          <div class="card">
+            <div class="cover">
+              <div class="placeholder">Coming Soon</div>
+            </div>
+            <div class="label">Relationships</div>
+            <div class="sub">Territory edition in development.</div>
+            <a class="btn disabled" href="#">Coming soon</a>
+          </div>
+
+          <div class="card">
+            <div class="cover">
+              <div class="placeholder">Coming Soon</div>
+            </div>
+            <div class="label">Faith</div>
+            <div class="sub">Territory edition in development.</div>
+            <a class="btn disabled" href="#">Coming soon</a>
           </div>
         </div>
+
       </div>
     </section>
   </main>
