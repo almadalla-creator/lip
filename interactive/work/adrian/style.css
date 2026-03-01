@@ -113,9 +113,9 @@ p{font-size:12.5pt;margin:0 0 18px;text-align:justify;hyphens:auto;color:var(--i
 .back-link{
   text-decoration:none;
   color:#ffffff !important;
-  font-size:18px;
+  font-size:16px;
   font-weight:600;
-  letter-spacing:.8px;
+  letter-spacing:1.28px;
   text-transform:uppercase;
 }
 
