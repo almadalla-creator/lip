@@ -11,7 +11,6 @@
     .hero p{margin:16px auto 0;max-width:980px;font-size:20px;line-height:1.75;opacity:.85;}
 
     .section{padding:45px 0 85px;}
-    .divider{width:70px;height:2px;background:rgba(0,0,0,.55);margin:18px auto 34px;}
 
     .what-split{display:grid;grid-template-columns:1fr 1fr;gap:26px;max-width:1100px;margin:0 auto 60px;}
     .what-card{border:1px solid rgba(0,0,0,.14);background:rgba(255,255,255,.55);padding:26px 26px 22px;}
@@ -26,20 +25,36 @@
     .ix-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:48px;align-items:start;}
     .ix-card{display:flex;flex-direction:column;text-align:center;}
 
-    .ix-cover{display:flex;justify-content:center;align-items:flex-start;}
-    .ix-cover img{width:100%;max-width:260px;height:auto;display:block;border:1px solid rgba(0,0,0,.15);}
+    .ix-cover{width:100%;display:flex;justify-content:center;align-items:flex-start;}
+
+    /* Force 6x9 proportion for ALL covers */
+    .ix-cover img,
+    .ix-placeholder{
+      width:260px;
+      aspect-ratio:2 / 3;
+      border:1px solid rgba(0,0,0,.15);
+    }
+
+    .ix-cover img{
+      display:block;
+      object-fit:cover;
+    }
 
     .ix-placeholder{
-      width:260px;height:390px;background:#111;color:rgba(255,255,255,.75);
-      display:flex;align-items:center;justify-content:center;
-      letter-spacing:.8px;text-transform:uppercase;border:1px solid rgba(0,0,0,.15);
+      background:#111;
+      color:rgba(255,255,255,.75);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      letter-spacing:.8px;
+      text-transform:uppercase;
     }
 
     .ix-title{margin-top:18px;font-size:30px;font-weight:700;}
     .ix-sub{margin-top:10px;font-size:16px;line-height:1.7;opacity:.8;min-height:70px;}
 
     .ix-btnrow{margin-top:auto;padding-top:16px;display:flex;justify-content:center;}
-    .ix-btn{display:inline-block;padding:12px 18px;border:1px solid rgba(0,0,0,.35);text-decoration:none;font-size:16px;}
+    .ix-btn{display:inline-block;padding:12px 18px;border:1px solid rgba(0,0,0,.35);text-decoration:none;font-size:16px;color:inherit;}
     .ix-btn:hover{background:rgba(0,0,0,.06);}
     .ix-disabled{opacity:.45;pointer-events:none;}
 
@@ -81,6 +96,7 @@
 
     <section class="section">
       <div class="container">
+
         <div class="what-split">
           <div class="what-card">
             <div class="what-kicker">What this is</div>
@@ -102,33 +118,49 @@
           </div>
         </div>
 
-        .ix-cover{
-  width:100%;
-  display:flex;
-  justify-content:center;
-}
+        <div class="ix-grid">
+          <div class="ix-card">
+            <div class="ix-cover">
+              <img src="/interactive/work/adrian/Front%20Cover.png" alt="Adrian,Work Edition cover">
+            </div>
+            <div class="ix-title">Work</div>
+            <div class="ix-sub">Work Edition,8 decisions,one pattern report at the end.</div>
+            <div class="ix-btnrow">
+              <a class="ix-btn" href="/interactive/work/adrian/">Start</a>
+            </div>
+          </div>
 
-.ix-cover img,
-.ix-placeholder{
-  width:260px;
-  aspect-ratio:2 / 3;   /* exact 6x9 proportion */
-  display:block;
-  border:1px solid rgba(0,0,0,.15);
-}
+          <div class="ix-card">
+            <div class="ix-cover">
+              <div class="ix-placeholder">Coming Soon</div>
+            </div>
+            <div class="ix-title">Success</div>
+            <div class="ix-sub">Territory edition in development.</div>
+            <div class="ix-btnrow">
+              <span class="ix-btn ix-disabled">Coming soon</span>
+            </div>
+          </div>
 
-.ix-cover img{
-  object-fit:cover;     /* crop cleanly if needed */
-}
+          <div class="ix-card">
+            <div class="ix-cover">
+              <div class="ix-placeholder">Coming Soon</div>
+            </div>
+            <div class="ix-title">Relationships</div>
+            <div class="ix-sub">Territory edition in development.</div>
+            <div class="ix-btnrow">
+              <span class="ix-btn ix-disabled">Coming soon</span>
+            </div>
+          </div>
 
-.ix-placeholder{
-  background:#111;
-  color:rgba(255,255,255,.75);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  letter-spacing:.8px;
-  text-transform:uppercase;
-}
+          <div class="ix-card">
+            <div class="ix-cover">
+              <div class="ix-placeholder">Coming Soon</div>
+            </div>
+            <div class="ix-title">Faith</div>
+            <div class="ix-sub">Territory edition in development.</div>
+            <div class="ix-btnrow">
+              <span class="ix-btn ix-disabled">Coming soon</span>
+            </div>
           </div>
         </div>
 
