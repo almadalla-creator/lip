@@ -6,125 +6,54 @@
   <title>Interactive | LIP Editorial</title>
   <link rel="stylesheet" href="style.css" />
   <style>
-    .hero{
-      padding:70px 0 30px;
-      text-align:center;
-    }
-    .hero h1{
-      margin:0;
-      font-size:58px;
-      font-weight:700;
-      letter-spacing:.3px;
-    }
-    .hero p{
-      margin:16px auto 0;
-      max-width:980px;
-      font-size:20px;
-      line-height:1.75;
-      opacity:.85;
-    }
-    .section{
-      padding:45px 0 85px;
-    }
-    .section h2{
-      text-align:center;
-      margin:0;
-      font-size:42px;
-      font-weight:700;
-    }
-    .divider{
-      width:70px;
-      height:2px;
-      background:rgba(0,0,0,.55);
-      margin:18px auto 34px;
-    }
-    .what{
-      max-width:980px;
-      margin:0 auto 55px;
-      text-align:center;
-      font-size:20px;
-      line-height:1.9;
-    }
-    .what p{margin:16px 0;}
-    .what .bold{font-weight:700;}
-    .grid{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:48px;
-  align-items:start;
-}
-    .card{
-      text-align:center;
-    }
-    .cover{
-  width:100%;
-  display:flex;
-  justify-content:center;
-  align-items:flex-start;
-}
+    .hero{padding:70px 0 30px;text-align:center;}
+    .hero h1{margin:0;font-size:58px;font-weight:700;letter-spacing:.3px;}
+    .hero p{margin:16px auto 0;max-width:980px;font-size:20px;line-height:1.75;opacity:.85;}
 
-.cover img{
-  width:100%;
-  max-width:260px;   /* same feel as primers */
-  height:auto;
-  display:block;
-  border:1px solid rgba(0,0,0,.15);
-}
-    }
-    .placeholder{
-      color:rgba(255,255,255,.75);
-      font-size:18px;
-      letter-spacing:.6px;
-      text-transform:uppercase;
-    }
-    .label{
-  margin-top:22px;
-  font-size:28px;
-  font-weight:700;
-}
+    .section{padding:45px 0 85px;}
+    .divider{width:70px;height:2px;background:rgba(0,0,0,.55);margin:18px auto 34px;}
 
-.sub{
-  margin-top:10px;
-  font-size:16px;
-  line-height:1.7;
-  opacity:.8;
-  min-height:70px;
-}
+    .what-split{display:grid;grid-template-columns:1fr 1fr;gap:26px;max-width:1100px;margin:0 auto 60px;}
+    .what-card{border:1px solid rgba(0,0,0,.14);background:rgba(255,255,255,.55);padding:26px 26px 22px;}
+    .what-kicker{font-size:14px;letter-spacing:1.2px;text-transform:uppercase;opacity:.7;margin-bottom:10px;}
+    .what-card h3{margin:0 0 12px;font-size:28px;}
+    .what-card p{margin:12px 0;font-size:18px;line-height:1.85;opacity:.9;}
+    .steps{list-style:none;padding:0;margin:14px 0 12px;}
+    .steps li{display:flex;gap:12px;align-items:center;margin:10px 0;font-size:18px;opacity:.9;}
+    .steps li span{width:26px;height:26px;border:1px solid rgba(0,0,0,.25);display:flex;align-items:center;justify-content:center;font-size:14px;}
+    .fine{font-size:16px;opacity:.65;margin-top:14px;}
 
-.btn-row{
-  margin-top:20px;
-}
-    .btn:hover{background:rgba(0,0,0,.06);}
-    .btn.disabled{
-      pointer-events:none;
-      opacity:.45;
+    .ix-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:48px;align-items:start;}
+    .ix-card{display:flex;flex-direction:column;text-align:center;}
+
+    .ix-cover{display:flex;justify-content:center;align-items:flex-start;}
+    .ix-cover img{width:100%;max-width:260px;height:auto;display:block;border:1px solid rgba(0,0,0,.15);}
+
+    .ix-placeholder{
+      width:260px;height:390px;background:#111;color:rgba(255,255,255,.75);
+      display:flex;align-items:center;justify-content:center;
+      letter-spacing:.8px;text-transform:uppercase;border:1px solid rgba(0,0,0,.15);
     }
+
+    .ix-title{margin-top:18px;font-size:30px;font-weight:700;}
+    .ix-sub{margin-top:10px;font-size:16px;line-height:1.7;opacity:.8;min-height:70px;}
+
+    .ix-btnrow{margin-top:auto;padding-top:16px;display:flex;justify-content:center;}
+    .ix-btn{display:inline-block;padding:12px 18px;border:1px solid rgba(0,0,0,.35);text-decoration:none;font-size:16px;}
+    .ix-btn:hover{background:rgba(0,0,0,.06);}
+    .ix-disabled{opacity:.45;pointer-events:none;}
+
     @media (max-width:1100px){
-      .grid{grid-template-columns:repeat(2,1fr);}
+      .ix-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
+    }
+    @media (max-width:900px){
+      .what-split{grid-template-columns:1fr;}
     }
     @media (max-width:640px){
       .hero h1{font-size:42px;}
-      .hero p,.what{font-size:18px;padding:0 18px;}
-      .grid{grid-template-columns:1fr;}
+      .hero p{font-size:18px;padding:0 18px;}
+      .ix-grid{grid-template-columns:1fr;}
     }
-    .card{
-  display:flex;
-  flex-direction:column;
-}
-.sub{
-  min-height:72px; /* equalizes text height so buttons align */
-}
-.btn-row{
-  margin-top:auto; /* pushes button row to same level */
-  display:flex;
-  justify-content:center;
-}
-.cover img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  display:block;
-}
   </style>
 </head>
 
@@ -146,76 +75,79 @@
     <section class="hero">
       <div class="container">
         <h1>Interactive</h1>
-        <p>Not a game, not a quiz, not advice. A story with decision points that exposes what you protect when pressure shows up.</p>
+        <p>Not a game,not a quiz,not advice. A story with decision points that exposes what you protect when pressure shows up.</p>
       </div>
     </section>
 
     <section class="section">
       <div class="container">
         <div class="what-split">
-  <div class="what-card">
-    <div class="what-kicker">What this is</div>
-    <h3>A story with pressure points</h3>
-    <p>You read a real first-person story. At specific moments,the story stops and asks you to act.</p>
-    <p>Your choice won’t change the plot. It will expose the reflex you use when something is at stake.</p>
-  </div>
+          <div class="what-card">
+            <div class="what-kicker">What this is</div>
+            <h3>A story with pressure points</h3>
+            <p>You read a real first-person story. At specific moments,the story stops and asks you to act.</p>
+            <p>Your choice won’t change the plot. It exposes the reflex you use when something is at stake.</p>
+          </div>
 
-  <div class="what-card">
-    <div class="what-kicker">How it works</div>
-    <h3>Eight decisions,one pattern</h3>
-    <ul class="steps">
-      <li><span>1</span>Read normally.</li>
-      <li><span>2</span>Choose what you would actually do.</li>
-      <li><span>3</span>Finish the story.</li>
-      <li><span>4</span>Get a short pattern readout at the end.</li>
-    </ul>
-    <p class="fine">No morality,no diagnosis,no “you should”. Just exposure.</p>
-  </div>
-</div>
-    <div class="cover">
-      <img src="/interactive/work/adrian/Front%20Cover.jpg" alt="Adrian,Work Edition cover">
-    </div>
-    <div class="label">Work</div>
-    <div class="sub">Work Edition, 8 decisions, one pattern report at the end.</div>
-    <div class="btn-row">
-      <a class="btn" href="/interactive/work/adrian/">Start</a>
-    </div>
-  </div>
+          <div class="what-card">
+            <div class="what-kicker">How it works</div>
+            <h3>Eight decisions,one pattern</h3>
+            <ul class="steps">
+              <li><span>1</span>Read normally.</li>
+              <li><span>2</span>Choose what you would actually do.</li>
+              <li><span>3</span>Finish the story.</li>
+              <li><span>4</span>Get a short pattern readout at the end.</li>
+            </ul>
+            <p class="fine">No morality,no diagnosis,no “you should”. Just exposure.</p>
+          </div>
+        </div>
 
-  <div class="card">
-    <div class="cover">
-      <div class="placeholder">Coming Soon</div>
-    </div>
-    <div class="label">Success</div>
-    <div class="sub">Territory edition in development.</div>
-    <div class="btn-row">
-      <a class="btn disabled" href="#">Coming soon</a>
-    </div>
-  </div>
+        <div class="ix-grid">
+          <div class="ix-card">
+            <div class="ix-cover">
+              <img src="/interactive/work/adrian/Front%20Cover.png" alt="Adrian,Work Edition cover">
+            </div>
+            <div class="ix-title">Work</div>
+            <div class="ix-sub">Work Edition,8 decisions,one pattern report at the end.</div>
+            <div class="ix-btnrow">
+              <a class="ix-btn" href="/interactive/work/adrian/">Start</a>
+            </div>
+          </div>
 
-  <div class="card">
-    <div class="cover">
-      <div class="placeholder">Coming Soon</div>
-    </div>
-    <div class="label">Relationships</div>
-    <div class="sub">Territory edition in development.</div>
-    <div class="btn-row">
-      <a class="btn disabled" href="#">Coming soon</a>
-    </div>
-  </div>
+          <div class="ix-card">
+            <div class="ix-cover">
+              <div class="ix-placeholder">Coming Soon</div>
+            </div>
+            <div class="ix-title">Success</div>
+            <div class="ix-sub">Territory edition in development.</div>
+            <div class="ix-btnrow">
+              <span class="ix-btn ix-disabled">Coming soon</span>
+            </div>
+          </div>
 
-  <div class="card">
-    <div class="cover">
-      <div class="placeholder">Coming Soon</div>
-    </div>
-    <div class="label">Faith</div>
-    <div class="sub">Territory edition in development.</div>
-    <div class="btn-row">
-      <a class="btn disabled" href="#">Coming soon</a>
-    </div>
-  </div>
+          <div class="ix-card">
+            <div class="ix-cover">
+              <div class="ix-placeholder">Coming Soon</div>
+            </div>
+            <div class="ix-title">Relationships</div>
+            <div class="ix-sub">Territory edition in development.</div>
+            <div class="ix-btnrow">
+              <span class="ix-btn ix-disabled">Coming soon</span>
+            </div>
+          </div>
 
-</div>
+          <div class="ix-card">
+            <div class="ix-cover">
+              <div class="ix-placeholder">Coming Soon</div>
+            </div>
+            <div class="ix-title">Faith</div>
+            <div class="ix-sub">Territory edition in development.</div>
+            <div class="ix-btnrow">
+              <span class="ix-btn ix-disabled">Coming soon</span>
+            </div>
+          </div>
+        </div>
+
       </div>
     </section>
   </main>
