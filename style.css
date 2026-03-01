@@ -655,3 +655,61 @@ nav a.active{font-weight:bold;}
 .site-footer a:hover{
   text-decoration:underline;
 }
+.what-split{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:26px;
+  max-width:1100px;
+  margin:0 auto 60px;
+}
+.what-card{
+  border:1px solid rgba(0,0,0,.14);
+  background:rgba(255,255,255,.55);
+  padding:26px 26px 22px;
+}
+.what-kicker{
+  font-size:14px;
+  letter-spacing:1.2px;
+  text-transform:uppercase;
+  opacity:.7;
+  margin-bottom:10px;
+}
+.what-card h3{
+  margin:0 0 12px;
+  font-size:28px;
+}
+.what-card p{
+  margin:12px 0;
+  font-size:18px;
+  line-height:1.85;
+  opacity:.9;
+}
+.steps{
+  list-style:none;
+  padding:0;
+  margin:14px 0 12px;
+}
+.steps li{
+  display:flex;
+  gap:12px;
+  align-items:center;
+  margin:10px 0;
+  font-size:18px;
+  opacity:.9;
+}
+.steps li span{
+  width:26px;
+  height:26px;
+  border:1px solid rgba(0,0,0,.25);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:14px;
+}
+.fine{
+  font-size:16px;
+  opacity:.65;
+}
+@media (max-width:900px){
+  .what-split{grid-template-columns:1fr;}
+}
