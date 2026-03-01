@@ -123,9 +123,6 @@ p{font-size:12.5pt;margin:0 0 18px;text-align:justify;hyphens:auto;color:var(--i
   opacity:.75;
 }
 
-.cover-page{position:absolute;inset:0;background-size:cover;background-position:center;display:flex;align-items:flex-end;justify-content:center;}
-.cover-overlay{width:100%;display:flex;justify-content:center;padding:0 0 34px;box-sizing:border-box;}
-
 .start-btn,.replay-btn{
   border:1px solid rgba(255,255,255,.22);
   border-radius:12px;
@@ -146,4 +143,15 @@ p{font-size:12.5pt;margin:0 0 18px;text-align:justify;hyphens:auto;color:var(--i
 @media (max-width:640px){
   .book{height:min(92vh,780px);}
   .page{padding:44px 22px 86px;}
+}
+.cover-page{
+  position:absolute;
+  inset:0;
+  background-size:cover;
+  background-position:center;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding-bottom:80px; /* space for nav */
+  box-sizing:border-box;
 }
