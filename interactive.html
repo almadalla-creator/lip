@@ -102,49 +102,33 @@
           </div>
         </div>
 
-        <div class="ix-grid">
-          <div class="ix-card">
-            <div class="ix-cover">
-              <img src="/interactive/work/adrian/Front%20Cover.jpg" alt="Adrian,Work Edition cover">
-            </div>
-            <div class="ix-title">Work</div>
-            <div class="ix-sub">Work Edition,8 decisions,one pattern report at the end.</div>
-            <div class="ix-btnrow">
-              <a class="ix-btn" href="/interactive/work/adrian/">Start</a>
-            </div>
-          </div>
+        .ix-cover{
+  width:100%;
+  display:flex;
+  justify-content:center;
+}
 
-          <div class="ix-card">
-            <div class="ix-cover">
-              <div class="ix-placeholder">Coming Soon</div>
-            </div>
-            <div class="ix-title">Success</div>
-            <div class="ix-sub">Territory edition in development.</div>
-            <div class="ix-btnrow">
-              <span class="ix-btn ix-disabled">Coming soon</span>
-            </div>
-          </div>
+.ix-cover img,
+.ix-placeholder{
+  width:260px;
+  aspect-ratio:2 / 3;   /* exact 6x9 proportion */
+  display:block;
+  border:1px solid rgba(0,0,0,.15);
+}
 
-          <div class="ix-card">
-            <div class="ix-cover">
-              <div class="ix-placeholder">Coming Soon</div>
-            </div>
-            <div class="ix-title">Relationships</div>
-            <div class="ix-sub">Territory edition in development.</div>
-            <div class="ix-btnrow">
-              <span class="ix-btn ix-disabled">Coming soon</span>
-            </div>
-          </div>
+.ix-cover img{
+  object-fit:cover;     /* crop cleanly if needed */
+}
 
-          <div class="ix-card">
-            <div class="ix-cover">
-              <div class="ix-placeholder">Coming Soon</div>
-            </div>
-            <div class="ix-title">Faith</div>
-            <div class="ix-sub">Territory edition in development.</div>
-            <div class="ix-btnrow">
-              <span class="ix-btn ix-disabled">Coming soon</span>
-            </div>
+.ix-placeholder{
+  background:#111;
+  color:rgba(255,255,255,.75);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  letter-spacing:.8px;
+  text-transform:uppercase;
+}
           </div>
         </div>
 
