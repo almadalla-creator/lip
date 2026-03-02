@@ -1,3 +1,4 @@
+alert('app.js loaded');
 (function(){
 
   const pages=[...document.querySelectorAll('.page')];
