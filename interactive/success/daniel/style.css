@@ -1,12 +1,8 @@
 :root{
-  --bg:#0b0b0c;
   --panel:#0f0f10;
   --text:#f1f1f1;
-  --muted:rgba(255,255,255,0.65);
   --line:rgba(255,255,255,0.10);
   --bar:rgba(0,0,0,0.55);
-  --btnbg:rgba(255,255,255,0.10);
-  --btnbg2:rgba(255,255,255,0.16);
 }
 
 html,body{
@@ -35,71 +31,45 @@ html,body{
 .page{
   position:absolute;
   inset:0;
-  padding:70px 90px 92px 90px;
+  padding:70px 90px 92px 90px; /* bottom padding reserves space for the bar */
   overflow:auto;
   background:radial-gradient(1200px 600px at 50% 0%, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.02) 45%, rgba(0,0,0,0.0) 100%), var(--panel);
-  pointer-events:auto;
 }
 
 .hidden{ display:none; }
 
-h1{
-  margin:0 0 10px 0;
-  font-size:52px;
-  letter-spacing:-0.01em;
+/* cover image page */
+.coverImage{
+  position:absolute;
+  inset:0;
+  background:url("Cover%20Page.jpg") center/cover no-repeat;
 }
 
-h2{
-  margin:0 0 18px 0;
-  font-size:26px;
-  font-weight:600;
-}
-
-p{
-  margin:0 0 14px 0;
-  line-height:1.7;
-  font-size:18px;
-  color:rgba(255,255,255,0.88);
-}
-
-.cover{
-  height:100%;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:flex-start;
-  gap:10px;
-}
-
-.cover p{
-  font-size:18px;
-  color:rgba(255,255,255,0.78);
-}
-
-button{
+.startBtn{
+  position:absolute;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%);
   appearance:none;
   border:1px solid rgba(255,255,255,0.18);
-  background:var(--btnbg);
-  color:var(--text);
-  padding:12px 16px;
+  background:rgba(0,0,0,0.55);
+  color:#fff;
+  padding:12px 18px;
   border-radius:12px;
   cursor:pointer;
   font-size:16px;
 }
 
-button:hover{ background:var(--btnbg2); }
-button:disabled{ opacity:0.4; cursor:not-allowed; }
-
-.choice{
-  display:block;
-  width:100%;
-  text-align:left;
-  margin:12px 0 0 0;
-  padding:12px 14px;
-  border-radius:10px;
+.startBtn:hover{
+  background:rgba(0,0,0,0.70);
 }
 
-/* bottom bar like Work */
+/* typography */
+h1{ margin:0 0 10px 0; font-size:52px; letter-spacing:-0.01em; }
+h2{ margin:0 0 18px 0; font-size:26px; font-weight:600; }
+p{ margin:0 0 14px 0; line-height:1.7; font-size:18px; color:rgba(255,255,255,0.88); }
+
+/* bottom bar fixed inside book */
 .nav{
   position:absolute;
   left:0;
@@ -112,71 +82,64 @@ button:disabled{ opacity:0.4; cursor:not-allowed; }
   align-items:center;
   justify-content:space-between;
   padding:0 26px;
-  z-index:20;
+  z-index:50;
   backdrop-filter: blur(6px);
 }
 
-/* left brand */
-.nav .brand{
+.brand{
   font-variant:small-caps;
   letter-spacing:0.12em;
   font-size:16px;
   color:rgba(255,255,255,0.85);
 }
 
-/* center page label */
 #pageLabel{
   font-size:14px;
   color:rgba(255,255,255,0.70);
 }
 
-/* right arrow buttons,small squares */
-.nav .navBtns{
+.navBtns{
   display:flex;
   gap:10px;
   align-items:center;
 }
 
-.nav .arrow{
+.arrow{
   width:34px;
   height:34px;
   border-radius:6px;
-  padding:0;
   display:flex;
   align-items:center;
   justify-content:center;
   background:rgba(255,255,255,0.92);
   color:#111;
   border:0;
+  cursor:pointer;
   font-size:18px;
   line-height:1;
 }
 
-.nav .arrow:hover{ background:white; }
-.nav .arrow:disabled{ opacity:0.35; }
+.arrow:hover{ background:white; }
+.arrow:disabled{ opacity:0.35; cursor:not-allowed; }
 
-/* about panel */
-#aboutToggle{
-  display:inline-block;
-  margin-top:18px;
-  color:rgba(255,255,255,0.75);
-  text-decoration:none;
-  border-bottom:1px solid rgba(255,255,255,0.15);
-}
-#aboutPanel{
-  margin-top:14px;
-  padding:14px 16px;
-  border:1px solid rgba(255,255,255,0.12);
-  border-radius:14px;
-  background:rgba(255,255,255,0.04);
+/* choices */
+.choice{
+  display:block;
+  width:100%;
+  text-align:left;
+  margin:12px 0 0 0;
+  padding:12px 14px;
+  border-radius:10px;
+  border:1px solid rgba(255,255,255,0.14);
+  background:rgba(255,255,255,0.06);
+  color:#fff;
 }
 
-/* scrollbars subtle */
+.choice:hover{ background:rgba(255,255,255,0.10); }
+
+/* scrollbar subtle */
 .page::-webkit-scrollbar{ width:10px; }
-.page::-webkit-scrollbar-thumb{
-  background:rgba(255,255,255,0.12);
-  border-radius:20px;
-}
+.page::-webkit-scrollbar-thumb{ background:rgba(255,255,255,0.12); border-radius:20px; }
 .page::-webkit-scrollbar-track{ background:transparent; }
 
 /* page turn */
