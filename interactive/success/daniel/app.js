@@ -1,5 +1,5 @@
-alert('app.js loaded');
 (function(){
+  console.log('Success app.js loaded');
 
   const pages=[...document.querySelectorAll('.page')];
   let idx=0;
@@ -8,43 +8,36 @@ alert('app.js loaded');
   const prevBtn=document.getElementById('prevBtn');
   const nextBtn=document.getElementById('nextBtn');
   const pageLabel=document.getElementById('pageLabel');
+  const book=document.getElementById('book');
 
-  const state={
-    hierarchy:0,
-    narrative:0,
-    withdrawal:0,
-    lucid:0,
-    choices:[],
-    answered:{}
+  const missing=[];
+  if(!pages.length) missing.push('.page (none found)');
+  if(!prevBtn) missing.push('#prevBtn');
+  if(!nextBtn) missing.push('#nextBtn');
+  if(!pageLabel) missing.push('#pageLabel');
+  if(!book) missing.push('#book');
+
+  if(missing.length){
+    console.error('Interactive init failed,missing:',missing.join(', '));
+    console.error('Fix your index.html ids/structure,then refresh.');
+    return;
+  }
+
+  const state={hierarchy:0,narrative:0,withdrawal:0,lucid:0,choices:[],answered:{}};
+
+  window.__NODE_LOOKUP__={
+    1:{chapter:6},2:{chapter:9},3:{chapter:15},4:{chapter:20},5:{chapter:23},6:{chapter:29},7:{chapter:39},
   };
 
-  // ===============================
-  // SUCCESS NODE STRUCTURE
-  // ===============================
-
-  window.__NODE_LOOKUP__ = {
-    1:{chapter:6},
-    2:{chapter:9},
-    3:{chapter:15},
-    4:{chapter:20},
-    5:{chapter:23},
-    6:{chapter:29},
-    7:{chapter:39},
+  window.__VECTOR_MAP__={
+    6:{A:'hierarchy',B:'narrative',C:'withdrawal',D:'lucid'},
+    9:{A:'lucid',B:'hierarchy',C:'narrative',D:'hierarchy'},
+    15:{A:'hierarchy',B:'narrative',C:'withdrawal',D:'lucid'},
+    20:{A:'narrative',B:'narrative',C:'hierarchy',D:'lucid'},
+    23:{A:'hierarchy',B:'lucid',C:'narrative',D:'withdrawal'},
+    29:{A:'narrative',B:'lucid',C:'hierarchy',D:'hierarchy'},
+    39:{A:'hierarchy',B:'narrative',C:'withdrawal',D:'lucid'}
   };
-
-  window.__VECTOR_MAP__ = {
-    6:  {A:'hierarchy',B:'narrative',C:'withdrawal',D:'lucid'},
-    9:  {A:'lucid',B:'hierarchy',C:'narrative',D:'hierarchy'},
-    15: {A:'hierarchy',B:'narrative',C:'withdrawal',D:'lucid'},
-    20: {A:'narrative',B:'narrative',C:'hierarchy',D:'lucid'},
-    23: {A:'hierarchy',B:'lucid',C:'narrative',D:'withdrawal'},
-    29: {A:'narrative',B:'lucid',C:'hierarchy',D:'hierarchy'},
-    39: {A:'hierarchy',B:'narrative',C:'withdrawal',D:'lucid'}
-  };
-
-  // ===============================
-  // NAVIGATION
-  // ===============================
 
   function updateNav(){
     prevBtn.disabled = idx===0;
@@ -54,7 +47,6 @@ alert('app.js loaded');
 
   function show(i){
     if(i<0||i>=total) return;
-
     const current=pages[idx];
     const next=pages[i];
     if(current===next) return;
@@ -89,38 +81,26 @@ alert('app.js loaded');
     if(e.key==='ArrowRight') show(idx+1);
   });
 
-  // Swipe
-
+  // swipe
   let startX=null,startY=null;
-  const book=document.getElementById('book');
-
-  book.addEventListener('pointerdown',(e)=>{
-    startX=e.clientX;
-    startY=e.clientY;
-  });
-
+  book.addEventListener('pointerdown',(e)=>{startX=e.clientX;startY=e.clientY;});
   book.addEventListener('pointerup',(e)=>{
     if(startX===null) return;
-    const dx=e.clientX-startX;
-    const dy=e.clientY-startY;
+    const dx=e.clientX-startX, dy=e.clientY-startY;
     startX=null;startY=null;
     if(Math.abs(dx)<60 || Math.abs(dx)<Math.abs(dy)) return;
     if(dx<0) show(idx+1);
     else show(idx-1);
   });
 
-  // Start / Replay
-
+  // start/replay
   document.addEventListener('click',(e)=>{
     const t=e.target;
-    if(t && t.dataset && t.dataset.action==='start'){ show(1); }
-    if(t && t.dataset && t.dataset.action==='replay'){ reset(); show(1); }
+    if(t?.dataset?.action==='start') show(1);
+    if(t?.dataset?.action==='replay'){ reset(); show(1); }
   });
 
-  // ===============================
-  // NODE SELECTION
-  // ===============================
-
+  // node choices
   document.addEventListener('click',(e)=>{
     const btn=e.target.closest('.choice');
     if(!btn) return;
@@ -129,16 +109,13 @@ alert('app.js loaded');
     const letter=(btn.dataset.choice||'').toUpperCase();
     if(!nodeId||!letter) return;
 
-    if(state.answered[nodeId]){
-      show(idx+1);
-      return;
-    }
+    if(state.answered[nodeId]){ show(idx+1); return; }
 
     const node=window.__NODE_LOOKUP__[nodeId];
-    const chapter=node && node.chapter;
+    const chapter=node?.chapter;
     const vec=(window.__VECTOR_MAP__[chapter] && window.__VECTOR_MAP__[chapter][letter]) || 'narrative';
 
-    state[vec]+=1;
+    state[vec]=(state[vec]||0)+1;
     state.choices.push({node:nodeId,chapter,letter,vector:vec});
     state.answered[nodeId]=true;
 
@@ -149,13 +126,17 @@ alert('app.js loaded');
         b.style.opacity='0.6';
       });
     }
-
     show(idx+1);
   });
 
-  // ===============================
-  // ENDINGS
-  // ===============================
+  // about toggle
+  document.addEventListener('click',(e)=>{
+    const a=e.target.closest('#aboutToggle');
+    if(!a) return;
+    e.preventDefault();
+    const panel=document.getElementById('aboutPanel');
+    if(panel) panel.classList.toggle('hidden');
+  });
 
   const ENDINGS={
     "hierarchy|narrative":
@@ -169,7 +150,6 @@ You are dependent on dominance.
 If recognition fades,you will attempt to rebuild authority before rebuilding yourself.
 
 Unless you dismantle the need to control interpretation,you will always require an audience to confirm you exist.`,
-
     "hierarchy|withdrawal":
 `You escalate publicly and close privately.
 
@@ -180,7 +160,6 @@ You isolate quietly.
 
 Your blind spot is not weakness.
 It is fear of being seen unraveling.`,
-
     "hierarchy|lucid":
 `You seek dominance,but you can observe yourself.
 
@@ -189,7 +168,6 @@ You escalate under pressure,yet retain capacity for self-correction.
 If collapse comes,you are capable of rebuilding without theatrics.
 
 Few can do both.`,
-
     "narrative|withdrawal":
 `You manage perception carefully.
 
@@ -197,7 +175,6 @@ When destabilized,you reposition rather than confront.
 
 You survive decline.
 But survival is not transformation.`,
-
     "narrative|lucid":
 `You adjust language without losing awareness.
 
@@ -205,7 +182,6 @@ You can revise without humiliation.
 
 Influence does not fully define you.
 But being perceived accurately still matters more than you admit.`,
-
     "withdrawal|lucid":
 `You tolerate invisibility better than most.
 
@@ -219,10 +195,8 @@ or did you avoid being seen altogether?`
 
   function pickTop(candidates){
     let max=-1;
-    candidates.forEach(k=>{
-      if(state[k]>max) max=state[k];
-    });
-    let tied=candidates.filter(k=>state[k]===max);
+    candidates.forEach(k=>{ if((state[k]||0)>max) max=state[k]||0; });
+    let tied=candidates.filter(k=>(state[k]||0)===max);
     if(tied.length===1) return tied[0];
     for(let i=state.choices.length-1;i>=0;i--){
       const v=state.choices[i].vector;
@@ -236,27 +210,21 @@ or did you avoid being seen altogether?`
     const primary=pickTop(all);
     const secondary=pickTop(all.filter(v=>v!==primary));
     const key=`${primary}|${secondary}`;
-    const ending=ENDINGS[key] || ENDINGS[`${secondary}|${primary}`];
+    const ending=ENDINGS[key] || ENDINGS[`${secondary}|${primary}`] || '';
 
     const dom=document.getElementById('dominant');
     const proj=document.getElementById('projection');
-
-    if(dom) dom.textContent="Reflection";
+    if(dom) dom.textContent='Reflection';
     if(proj) proj.textContent=ending;
   }
 
   function reset(){
-    state.hierarchy=0;
-    state.narrative=0;
-    state.withdrawal=0;
-    state.lucid=0;
-    state.choices=[];
-    state.answered={};
+    state.hierarchy=0;state.narrative=0;state.withdrawal=0;state.lucid=0;
+    state.choices=[];state.answered={};
     const panel=document.getElementById('aboutPanel');
     if(panel) panel.classList.add('hidden');
   }
 
   pages.forEach((p,i)=>{ if(i!==0) p.classList.add('hidden'); });
   updateNav();
-
 })();
