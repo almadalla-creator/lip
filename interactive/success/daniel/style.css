@@ -42,7 +42,7 @@ html,body{
 .coverImage{
   position:absolute;
   inset:0;
-  background:url("Cover%20Page.jpg") center/cover no-repeat;
+  background:url("Front Cover%20Page.jpg") center/cover no-repeat;
 }
 .coverText{
   position:absolute;
