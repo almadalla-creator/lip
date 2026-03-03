@@ -1,4 +1,3 @@
-<!-- index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,47 +10,311 @@
   <div class="stage">
     <div id="book" class="book" aria-label="Interactive book">
       <div class="pages">
+        <section class="page cover-page" data-index="0" data-type="cover" aria-label="Cover">
+          <div class="cover-image" style="background-image:url('Front%20Cover.jpg');"></div>
+          <button class="startBtn" type="button" data-action="start">Start</button>
+        </section>
 
-        <!-- PAGE 0: COVER -->
-        <section class="page" data-index="0" data-type="cover">
-          <div class="coverPage" style="background-image:url('Front%20Cover.jpg');">
-            <button class="startBtn" type="button" data-action="start">Start</button>
+        <section class="page text-page" data-index="1" data-type="text">
+          <div class="pageInner">
+            <h1 class="title">Introduction</h1>
+            <h2 class="subtitle">Before I Knew What I Was Protecting</h2>
+            <p>I graduated in International Marketing with the kind of confidence that only theory gives you.</p>
+            <p>Later I added Digital Marketing because it felt like the future. Data, automation, funnels, positioning. I believed systems could be improved. I believed companies were inefficient only because no one had thought clearly enough.</p>
+            <p>At twenty-four, I was convinced that clarity was rare and that I had it.</p>
           </div>
         </section>
 
-        <!-- IMPORTANT: keep the rest of your pages EXACTLY as written,only ensure choices are buttons with class="choice" and data-next="X" -->
-        <!-- PASTE YOUR EXISTING PAGES 1..LAST HERE,UNCHANGED -->
-        <!-- Example node format (your content stays yours): -->
-        <!--
-        <section class="page" data-index="9" data-type="node">
+        <section class="page text-page" data-index="2" data-type="text">
           <div class="pageInner">
-            <h2 class="nodeTitle">Node 1</h2>
-            <p class="nodePrompt">...</p>
-            <div class="choices">
-              <button type="button" class="choice" data-choice="A" data-next="10">A) ...</button>
-              <button type="button" class="choice" data-choice="B" data-next="11">B) ...</button>
-              <button type="button" class="choice" data-choice="C" data-next="12">C) ...</button>
-              <button type="button" class="choice" data-choice="D" data-next="13">D) ...</button>
+            <h2 class="chapter">Chapter 1</h2>
+            <h3 class="chapterTitle">The Offer</h3>
+            <p>I wasn’t looking for a job.</p>
+            <p>That’s what I told myself. That’s what I told everyone.</p>
+            <p>But I was watching. Always watching. Measuring rooms. Reading hierarchy. Calculating exits.</p>
+            <p>When the offer came, it didn’t feel like a surprise. It felt like proof.</p>
+          </div>
+        </section>
+
+        <section class="page node-page" data-index="3" data-type="node" data-node="1" data-chapter="1">
+          <div class="pageInner">
+            <div class="nodeMeta">Node 1</div>
+            <h2 class="nodeTitle">If you were in my position, what would you do?</h2>
+            <div class="choices" aria-label="Choices">
+              <button type="button" class="choice" data-node="1" data-choice="A">
+                <span class="choice-letter">A</span><span class="choice-text">Adapt quietly and protect stability</span>
+              </button>
+              <button type="button" class="choice" data-node="1" data-choice="B">
+                <span class="choice-letter">B</span><span class="choice-text">Increase performance and regain influence through results.</span>
+              </button>
+              <button type="button" class="choice" data-node="1" data-choice="C">
+                <span class="choice-letter">C</span><span class="choice-text">Escalate concerns to the board.</span>
+              </button>
+              <button type="button" class="choice" data-node="1" data-choice="D">
+                <span class="choice-letter">D</span><span class="choice-text">State clearly what you will not execute and accept the consequence.</span>
+              </button>
+            </div>
+            <p class="nodeHint">Take a moment before continuing</p>
+          </div>
+        </section>
+
+        <section class="page text-page" data-index="4" data-type="text">
+          <div class="pageInner">
+            <h2 class="chapter">Chapter 2</h2>
+            <h3 class="chapterTitle">The First Win</h3>
+            <p>I did what I always did. I delivered.</p>
+            <p>It wasn’t loud. It didn’t need to be.</p>
+            <p>People notice outcomes before they notice intentions.</p>
+            <p>And I liked being noticed.</p>
+          </div>
+        </section>
+
+        <section class="page node-page" data-index="5" data-type="node" data-node="2" data-chapter="2">
+          <div class="pageInner">
+            <div class="nodeMeta">Node 2</div>
+            <h2 class="nodeTitle">You feel the room shifting. What do you do?</h2>
+            <div class="choices" aria-label="Choices">
+              <button type="button" class="choice" data-node="2" data-choice="A">
+                <span class="choice-letter">A</span><span class="choice-text">Avoid attention and keep your head down.</span>
+              </button>
+              <button type="button" class="choice" data-node="2" data-choice="B">
+                <span class="choice-letter">B</span><span class="choice-text">Control the narrative by framing the win publicly.</span>
+              </button>
+              <button type="button" class="choice" data-node="2" data-choice="C">
+                <span class="choice-letter">C</span><span class="choice-text">Withdraw from the politics and focus on your private plan.</span>
+              </button>
+              <button type="button" class="choice" data-node="2" data-choice="D">
+                <span class="choice-letter">D</span><span class="choice-text">Name the dynamic directly and tolerate the fallout.</span>
+              </button>
             </div>
           </div>
         </section>
-        -->
 
+        <section class="page text-page" data-index="6" data-type="text">
+          <div class="pageInner">
+            <h2 class="chapter">Chapter 3</h2>
+            <h3 class="chapterTitle">The Invisible Contract</h3>
+            <p>Every hierarchy has a contract you don’t sign.</p>
+            <p>You learn it by watching who gets away with what.</p>
+            <p>You learn it by noticing what everyone avoids saying.</p>
+            <p>And you learn it by what it costs you to stay.</p>
+          </div>
+        </section>
+
+        <section class="page node-page" data-index="7" data-type="node" data-node="3" data-chapter="3">
+          <div class="pageInner">
+            <div class="nodeMeta">Node 3</div>
+            <h2 class="nodeTitle">A senior leader challenges you in public. Your move?</h2>
+            <div class="choices" aria-label="Choices">
+              <button type="button" class="choice" data-node="3" data-choice="A">
+                <span class="choice-letter">A</span><span class="choice-text">Reassert status and shut it down.</span>
+              </button>
+              <button type="button" class="choice" data-node="3" data-choice="B">
+                <span class="choice-letter">B</span><span class="choice-text">Reframe and steer the conversation.</span>
+              </button>
+              <button type="button" class="choice" data-node="3" data-choice="C">
+                <span class="choice-letter">C</span><span class="choice-text">Step back and let it pass.</span>
+              </button>
+              <button type="button" class="choice" data-node="3" data-choice="D">
+                <span class="choice-letter">D</span><span class="choice-text">Answer plainly and accept exposure.</span>
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <section class="page text-page" data-index="8" data-type="text">
+          <div class="pageInner">
+            <h2 class="chapter">Chapter 4</h2>
+            <h3 class="chapterTitle">The Pull</h3>
+            <p>Recognition has gravity.</p>
+            <p>At first it feels like relief.</p>
+            <p>Then it becomes a need.</p>
+            <p>Then it becomes a design constraint.</p>
+          </div>
+        </section>
+
+        <section class="page node-page" data-index="9" data-type="node" data-node="4" data-chapter="4">
+          <div class="pageInner">
+            <div class="nodeMeta">Node 4</div>
+            <h2 class="nodeTitle">You can either play the game or refuse it. What’s true for you?</h2>
+            <div class="choices" aria-label="Choices">
+              <button type="button" class="choice" data-node="4" data-choice="A">
+                <span class="choice-letter">A</span><span class="choice-text">I want rank. I’m not pretending.</span>
+              </button>
+              <button type="button" class="choice" data-node="4" data-choice="B">
+                <span class="choice-letter">B</span><span class="choice-text">I want control over how I’m seen.</span>
+              </button>
+              <button type="button" class="choice" data-node="4" data-choice="C">
+                <span class="choice-letter">C</span><span class="choice-text">I want peace more than visibility.</span>
+              </button>
+              <button type="button" class="choice" data-node="4" data-choice="D">
+                <span class="choice-letter">D</span><span class="choice-text">I want alignment even if it costs me.</span>
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <section class="page text-page" data-index="10" data-type="text">
+          <div class="pageInner">
+            <h2 class="chapter">Chapter 10</h2>
+            <h3 class="chapterTitle">The Reduction</h3>
+            <p>The email didn’t mention demotion.</p>
+            <p>It didn’t need to.</p>
+            <p>Authority doesn’t disappear loudly. It shifts quietly.</p>
+            <p>The next morning, I walked into the office earlier than usual.</p>
+            <p>Nothing looked different.</p>
+            <p>The same receptionist. The same security nod. The same elevator delay.</p>
+            <p>But meetings felt different.</p>
+            <p>When campaign timing was discussed, the CEO spoke before I did.</p>
+            <p>When budget allocation came up, he summarized the decision himself.</p>
+            <p>I was present.</p>
+            <p>I was not central.</p>
+            <p>There’s a difference.</p>
+          </div>
+        </section>
+
+        <section class="page node-page" data-index="11" data-type="node" data-node="5" data-chapter="10">
+          <div class="pageInner">
+            <div class="nodeMeta">Node 5</div>
+            <h2 class="nodeTitle">Your authority shrinks. What do you do first?</h2>
+            <div class="choices" aria-label="Choices">
+              <button type="button" class="choice" data-node="5" data-choice="A">
+                <span class="choice-letter">A</span><span class="choice-text">Reclaim rank, formally or informally.</span>
+              </button>
+              <button type="button" class="choice" data-node="5" data-choice="B">
+                <span class="choice-letter">B</span><span class="choice-text">Control interpretation of what happened.</span>
+              </button>
+              <button type="button" class="choice" data-node="5" data-choice="C">
+                <span class="choice-letter">C</span><span class="choice-text">Detach and stop chasing the center.</span>
+              </button>
+              <button type="button" class="choice" data-node="5" data-choice="D">
+                <span class="choice-letter">D</span><span class="choice-text">Stay lucid: see what you were relying on.</span>
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <section class="page text-page" data-index="12" data-type="text">
+          <div class="pageInner">
+            <h2 class="chapter">Chapter 11</h2>
+            <h3 class="chapterTitle">The Mirror</h3>
+            <p>I told myself I wanted fairness.</p>
+            <p>But fairness was just the clean word I used for control.</p>
+            <p>When the room stopped rewarding me, I felt exposed.</p>
+            <p>Not because I was wrong.</p>
+            <p>Because I was not needed.</p>
+          </div>
+        </section>
+
+        <section class="page node-page" data-index="13" data-type="node" data-node="6" data-chapter="11">
+          <div class="pageInner">
+            <div class="nodeMeta">Node 6</div>
+            <h2 class="nodeTitle">Do you rebuild influence or rebuild yourself?</h2>
+            <div class="choices" aria-label="Choices">
+              <button type="button" class="choice" data-node="6" data-choice="A">
+                <span class="choice-letter">A</span><span class="choice-text">Rebuild influence. That’s the point.</span>
+              </button>
+              <button type="button" class="choice" data-node="6" data-choice="B">
+                <span class="choice-letter">B</span><span class="choice-text">Rebuild a story that keeps you intact.</span>
+              </button>
+              <button type="button" class="choice" data-node="6" data-choice="C">
+                <span class="choice-letter">C</span><span class="choice-text">Rebuild quietly, away from the system.</span>
+              </button>
+              <button type="button" class="choice" data-node="6" data-choice="D">
+                <span class="choice-letter">D</span><span class="choice-text">Rebuild with truth, without identity armor.</span>
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <section class="page text-page" data-index="14" data-type="text">
+          <div class="pageInner">
+            <h2 class="chapter">Chapter 12</h2>
+            <h3 class="chapterTitle">Exit</h3>
+            <p>The exit wasn’t dramatic.</p>
+            <p>It was procedural.</p>
+            <p>And that’s what made it honest.</p>
+          </div>
+        </section>
+
+        <section class="page node-page" data-index="15" data-type="node" data-node="7" data-chapter="12">
+          <div class="pageInner">
+            <div class="nodeMeta">Node 7</div>
+            <h2 class="nodeTitle">What does “exit” mean to you now?</h2>
+            <div class="choices" aria-label="Choices">
+              <button type="button" class="choice" data-node="7" data-choice="A">
+                <span class="choice-letter">A</span><span class="choice-text">Leaving to keep status intact.</span>
+              </button>
+              <button type="button" class="choice" data-node="7" data-choice="B">
+                <span class="choice-letter">B</span><span class="choice-text">Leaving to own the narrative.</span>
+              </button>
+              <button type="button" class="choice" data-node="7" data-choice="C">
+                <span class="choice-letter">C</span><span class="choice-text">Leaving to disappear and reset.</span>
+              </button>
+              <button type="button" class="choice" data-node="7" data-choice="D">
+                <span class="choice-letter">D</span><span class="choice-text">Leaving without needing to be right.</span>
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <section class="page result-page" data-index="16" data-type="result" aria-label="Reflection">
+          <div class="pageInner">
+            <h1 class="title">Reflection</h1>
+            <button class="replayBtn" type="button" data-action="replay">Begin again</button>
+            <p class="note">Your dominant patterns were derived only from the choices you made inside this story. This is a LIP framework reflection, not a diagnosis, not advice, not a moral score.</p>
+            <a class="aboutLink" href="#" data-action="about">About LIP</a>
+
+            <div class="assessment">
+              <h2>Assessment</h2>
+              <div id="dominantPattern" class="dominantPattern">Dominant pattern: —</div>
+              <div id="projection" class="projection"></div>
+              <div id="selections" class="selections"></div>
+            </div>
+          </div>
+        </section>
       </div>
 
-      <!-- NAV BAR INSIDE BOOK -->
-      <div class="navBar" aria-label="Navigation">
-        <div class="brand">LIP EDITORIAL</div>
-        <div id="pageLabel" class="pageLabel">1 / 1</div>
-        <div class="navBtns">
+      <div class="nav" aria-label="Navigation">
+        <div class="nav-left">
+          <div class="brand">LIP EDITORIAL</div>
+        </div>
+        <div class="nav-center">
+          <div id="pageLabel" class="pageLabel">1 / 17</div>
+        </div>
+        <div class="nav-right">
           <button id="prevBtn" class="navBtn" type="button" aria-label="Previous page">‹</button>
           <button id="nextBtn" class="navBtn" type="button" aria-label="Next page">›</button>
         </div>
       </div>
-
     </div>
   </div>
 
+  <div id="aboutOverlay" class="overlay" aria-hidden="true">
+    <div class="overlayCard" role="dialog" aria-modal="true" aria-label="About LIP">
+      <button class="overlayClose" type="button" data-action="closeAbout" aria-label="Close">×</button>
+      <h2>About LIP</h2>
+      <p>LIP is an editorial framework on how identity forms under pressure, reward, hierarchy, and social conditioning. This interactive is not therapy and not self-improvement. It’s a structural mirror.</p>
+    </div>
+  </div>
+
+  <script>
+    window.__NODE_LOOKUP__ = {
+      1:{chapter:1,title:"If you were in my position, what would you do?"},
+      2:{chapter:2,title:"You feel the room shifting. What do you do?"},
+      3:{chapter:3,title:"A senior leader challenges you in public. Your move?"},
+      4:{chapter:4,title:"You can either play the game or refuse it. What’s true for you?"},
+      5:{chapter:10,title:"Your authority shrinks. What do you do first?"},
+      6:{chapter:11,title:"Do you rebuild influence or rebuild yourself?"},
+      7:{chapter:12,title:"What does “exit” mean to you now?"}
+    };
+    window.__VECTOR_MAP__ = {
+      A:{name:"Hierarchy Defense",desc:"You protect rank, leverage, position, and the right to decide."},
+      B:{name:"Narrative Control",desc:"You protect meaning, interpretation, framing, and legitimacy."},
+      C:{name:"Emotional Withdrawal",desc:"You protect stability through distance, reduced exposure, and disengagement."},
+      D:{name:"Lucid Tolerance",desc:"You protect clarity by tolerating discomfort, truth, and loss of control."}
+    };
+  </script>
   <script src="app.js"></script>
 </body>
 </html>
