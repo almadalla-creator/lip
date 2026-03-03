@@ -28,51 +28,64 @@ html,body{
   touch-action: pan-y;
 }
 
-/* NAV BAR INSIDE BOOK */
-#book .navBar {
+/* NAV BAR INSIDE BOOK (LOCKED TO BOOK WIDTH) */
+#book { position: relative; overflow: hidden; }
+
+#book .navBar{
   position: absolute;
-  bottom: 0;
   left: 0;
-  width: 100%;
+  right: 0;
+  bottom: 0;
+
   height: 70px;
-  background: rgba(0, 0, 0, 0.95);
+  box-sizing: border-box;
+
+  background: rgba(0,0,0,0.95);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 30px;
-  box-sizing: border-box;
+
+  padding: 0 24px;
   z-index: 10;
-  
 }
 
-/* NAV BUTTONS */
-#book .navBtns {
+#book .brand{
+  letter-spacing: 0.18em;
+  font-size: 14px;
+  opacity: 0.9;
+  white-space: nowrap;
+}
+
+#book .pageLabel{
+  font-size: 14px;
+  opacity: 0.8;
+  white-space: nowrap;
+}
+
+#book .navBtns{
   display: flex;
-  gap: 12px;
+  align-items: center;
+  gap: 10px;
+  flex: 0 0 auto;
 }
 
-#book .navBtn {
+#book .navBtn{
   width: 36px;
   height: 36px;
   border-radius: 8px;
   background: rgba(255,255,255,0.9);
   color: #111;
-  border: none;
-  font-size: 18px;
+  border: 0;
   cursor: pointer;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
+  line-height: 1;
+  padding: 0;
 }
 
-#book .navBtn:hover {
-  background: #ffffff;
-}
-
-#book .navBtn:disabled {
-  opacity: 0.35;
-  cursor: not-allowed;
-}
+#book .navBtn:hover{ background: #fff; }
+#book .navBtn:disabled{ opacity: 0.35; cursor: not-allowed; }
 
 /* pages */
 .page{
