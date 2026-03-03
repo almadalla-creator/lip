@@ -1,314 +1,372 @@
-/* app.js */
 (() => {
-  const pages = Array.from(document.querySelectorAll(".page"));
+  "use strict";
+
+  const book = document.getElementById("book");
+  const pagesWrap = book ? book.querySelector(".pages") : null;
+  const pages = pagesWrap ? Array.from(pagesWrap.querySelectorAll(".page")) : [];
+
   const pageLabel = document.getElementById("pageLabel");
   const prevBtn = document.getElementById("prevBtn");
   const nextBtn = document.getElementById("nextBtn");
 
-  const STORAGE_KEY = "lip_work_choices";
-  let index = 0;
+  const VECTOR_LABELS = {
+    A: "Hierarchy Defense",
+    B: "Narrative Control",
+    C: "Emotional Withdrawal",
+    D: "Lucid Tolerance",
+  };
 
-  // A = Hierarchy Defense
-  // B = Narrative Control
-  // C = Emotional Withdrawal
-  // D = Lucid Tolerance
-  const LETTERS = ["A", "B", "C", "D"];
+  const VECTOR_BLURBS = {
+    A: "You stabilize through authority, position, certainty, and control when pressure rises.",
+    B: "You stabilize by narrating meaning, framing, moralizing, and explaining reality into coherence.",
+    C: "You stabilize by distancing, minimizing exposure, and exiting emotionally when friction builds.",
+    D: "You stabilize by holding doubt without collapse, slowing down, and refusing performative certainty.",
+  };
 
-  const VECTOR = [
-    {
-      key: "Hierarchy Defense",
-      short:
-        "You protect status,order,and legitimacy. Under pressure you default to authority framing,strength language,and “this is how it must be.”",
-      risk:
-        "You confuse stability with truth,and loyalty with correctness. You become uncorrectable,then isolated.",
-      move:
-        "Trade “being right” for “staying testable.” Name one disconfirming signal you would accept today,and run one concrete check.",
-    },
-    {
-      key: "Narrative Control",
-      short:
-        "You protect coherence and meaning. Under pressure you tighten the story,frame doubt as ignorance,and push certainty for impact.",
-      risk:
-        "Listening becomes a threat to the narrative. You stop hearing signals and start managing optics.",
-      move:
-        "Replace certainty with precision. Say what you know,what you assume,and what you don’t know,then ask one question that could hurt your position.",
-    },
-    {
-      key: "Emotional Withdrawal",
-      short:
-        "You protect yourself by exiting. Under pressure you disengage,detach,go cold,or disappear to reduce exposure.",
-      risk:
-        "You call it boundaries,but it’s avoidance dressed as principle. You keep the pattern intact and lose the chance to correct it in real time.",
-      move:
-        "Stay one step longer than your reflex. Do one clean direct conversation,then decide. No silent exits.",
-    },
-    {
-      key: "Lucid Tolerance",
-      short:
-        "You can hold doubt without collapsing. Under pressure you slow down,test yourself,and remain reachable.",
-      risk:
-        "Openness can become refuge from commitment. You delay decisions to avoid consequence.",
-      move:
-        "Commit to one accountable action while still uncertain. Stay correctable,don’t stay vague.",
-    },
-  ];
+  let current = 0; // 0 = cover
+  let started = false;
 
-  function clamp(i) {
-    if (i < 0) return 0;
-    if (i > pages.length - 1) return pages.length - 1;
-    return i;
+  // Node answers keyed by node number string: "1".."n"
+  const answers = Object.create(null);
+
+  function clamp(n, a, b) {
+    return Math.max(a, Math.min(b, n));
   }
 
-  function getChoices() {
-    try {
-      return JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}") || {};
-    } catch (_) {
-      return {};
+  function isCoverPage(pageEl) {
+    return !!(pageEl && pageEl.getAttribute("data-type") === "cover");
+  }
+
+  function isReflectionPage(pageEl) {
+    if (!pageEl) return false;
+    const t = (pageEl.textContent || "").trim().toLowerCase();
+    return t.includes("reflection") && t.includes("about lip");
+  }
+
+  function getNodeNumber(pageEl) {
+    if (!pageEl) return null;
+    const inner = pageEl.querySelector(".pageInner") || pageEl;
+    const h = inner.querySelector("h1,h2,h3");
+    const title = (h ? h.textContent : inner.textContent || "").trim();
+    const m = title.match(/node\s*(\d+)/i);
+    return m ? m[1] : null;
+  }
+
+  function isNodePage(pageEl) {
+    return getNodeNumber(pageEl) !== null;
+  }
+
+  function updatePageLabel() {
+    if (!pageLabel) return;
+    // Show 1-based page count excluding cover, but including reflection
+    const total = Math.max(1, pages.length - 1);
+    const shown = clamp(current, 1, pages.length - 1);
+    const idx = Math.max(1, shown); // cover still shows 1
+    pageLabel.textContent = `${idx} / ${total}`;
+  }
+
+  function setButtonsState() {
+    if (prevBtn) prevBtn.disabled = current <= 0;
+
+    if (!nextBtn) return;
+
+    if (current >= pages.length - 1) {
+      nextBtn.disabled = true;
+      return;
+    }
+
+    const pageEl = pages[current];
+    if (isCoverPage(pageEl)) {
+      // Cover: next disabled until start is pressed (cleaner UX)
+      nextBtn.disabled = !started;
+      return;
+    }
+
+    if (isNodePage(pageEl)) {
+      const nodeNo = getNodeNumber(pageEl);
+      nextBtn.disabled = !answers[nodeNo];
+      return;
+    }
+
+    nextBtn.disabled = false;
+  }
+
+  function showPage(idx) {
+    current = clamp(idx, 0, pages.length - 1);
+    pages.forEach((p, i) => p.classList.toggle("active", i === current));
+    updatePageLabel();
+    setButtonsState();
+
+    // When landing on reflection, render assessment automatically
+    const pageEl = pages[current];
+    if (isReflectionPage(pageEl)) {
+      renderAssessment(pageEl);
     }
   }
 
-  function setChoices(data) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(data || {}));
+  function nextPage() {
+    if (current >= pages.length - 1) return;
+
+    const pageEl = pages[current];
+    if (isCoverPage(pageEl) && !started) return;
+
+    if (isNodePage(pageEl)) {
+      const nodeNo = getNodeNumber(pageEl);
+      if (!answers[nodeNo]) return;
+    }
+
+    showPage(current + 1);
   }
 
-  function clearChoices() {
-    localStorage.removeItem(STORAGE_KEY);
+  function prevPage() {
+    if (current <= 0) return;
+    showPage(current - 1);
   }
 
-  function updateNav() {
-    if (pageLabel) pageLabel.textContent = `${index + 1} / ${pages.length}`;
-    if (prevBtn) prevBtn.disabled = index === 0;
-    if (nextBtn) nextBtn.disabled = index === pages.length - 1;
-  }
+  function hardReset() {
+    // Clear answers
+    Object.keys(answers).forEach(k => delete answers[k]);
 
-  function setActive(i) {
-    index = clamp(i);
-    pages.forEach((p) => p.classList.remove("active"));
-    if (pages[index]) pages[index].classList.add("active");
-    updateNav();
-
-    const scroller = pages[index]?.querySelector(".pageInner");
-    if (scroller) scroller.scrollTop = 0;
-
-    renderReflectionIfNeeded();
-  }
-
-  function next() { setActive(index + 1); }
-  function prev() { setActive(index - 1); }
-
-  function getNodeNumberFromId(id) {
-    const m = String(id || "").match(/node-(\d+)/i);
-    return m ? Number(m[1]) : null;
-  }
-
-  function initNodeChoices() {
-    pages.forEach((section) => {
-      const id = section.id || "";
-      if (!/node/i.test(id)) return;
-
-      const nodeNum = getNodeNumberFromId(id);
-      const inner = section.querySelector(".pageInner");
-      if (!inner) return;
-
-      const paras = Array.from(inner.querySelectorAll("p"));
-      if (paras.length < 2) return;
-
-      const prompt = paras[0];
-      const options = paras.slice(1);
-
-      const choicesWrap = document.createElement("div");
-      choicesWrap.className = "choices";
-
-      options.forEach((p, choiceIndex) => {
-        const raw = (p.textContent || "").trim();
-        if (!raw) return;
-
-        const letter = LETTERS[choiceIndex] || "";
-        const btn = document.createElement("button");
-        btn.type = "button";
-        btn.className = "choiceBtn";
-        btn.dataset.action = "choose";
-        if (nodeNum !== null) btn.dataset.node = String(nodeNum);
-        btn.dataset.choice = String(choiceIndex);
-        btn.textContent = letter ? `${letter}. ${raw}` : raw;
-
-        choicesWrap.appendChild(btn);
-        p.remove();
+    // Reset all node UI states
+    pages.forEach(p => {
+      const nodeNo = getNodeNumber(p);
+      if (!nodeNo) return;
+      const btns = p.querySelectorAll(".choiceBtn");
+      btns.forEach(b => {
+        b.classList.remove("selected");
+        b.disabled = false;
+        b.removeAttribute("aria-pressed");
       });
-
-      if (prompt && prompt.parentNode) {
-        prompt.insertAdjacentElement("afterend", choicesWrap);
-      } else {
-        inner.appendChild(choicesWrap);
-      }
     });
+
+    // Remove assessment block if exists
+    pages.forEach(p => {
+      const mount = p.querySelector("[data-assessment-mount]");
+      if (mount) mount.remove();
+    });
+
+    started = false;
+    showPage(0);
   }
 
-  function recordChoice(node, choice, text) {
-    const data = getChoices();
-    if (!node) return;
-    data[node] = { choice: Number(choice), text: String(text || "") };
-    setChoices(data);
+  function computeVectorCounts() {
+    const counts = { A: 0, B: 0, C: 0, D: 0 };
+    let total = 0;
+
+    for (const k of Object.keys(answers)) {
+      const letter = answers[k].letter;
+      if (counts[letter] !== undefined) {
+        counts[letter] += 1;
+        total += 1;
+      }
+    }
+
+    let dominant = "A";
+    let max = -1;
+    for (const l of ["A", "B", "C", "D"]) {
+      if (counts[l] > max) {
+        max = counts[l];
+        dominant = l;
+      }
+    }
+
+    return { counts, total, dominant };
   }
 
-  function restartToCover() {
-    clearChoices();
-    setActive(0);
+  function renderAssessment(reflectionPageEl) {
+    const { counts, total, dominant } = computeVectorCounts();
+
+    const inner = reflectionPageEl.querySelector(".pageInner") || reflectionPageEl;
+
+    // Make or replace mount
+    let mount = reflectionPageEl.querySelector("[data-assessment-mount]");
+    if (mount) mount.remove();
+
+    mount = document.createElement("div");
+    mount.setAttribute("data-assessment-mount", "1");
+    mount.className = "assessmentCard";
+
+    const pct = (n) => (total ? Math.round((n / total) * 100) : 0);
+
+    // Build selections list in node order
+    const nodeNumbers = Object.keys(answers)
+      .map(n => parseInt(n, 10))
+      .filter(n => Number.isFinite(n))
+      .sort((a, b) => a - b);
+
+    const selectionsHtml = nodeNumbers.length
+      ? nodeNumbers.map(n => {
+          const a = answers[String(n)];
+          const safe = (s) => String(s).replace(/[&<>"']/g, (c) => ({
+            "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+          }[c]));
+          return `<div class="selRow"><span class="selNode">Node ${n}</span><span class="selPick">${a.letter}.</span><span class="selText">${safe(a.text)}</span></div>`;
+        }).join("")
+      : `<div class="selRow"><span class="selText">No node choices were recorded.</span></div>`;
+
+    mount.innerHTML = `
+      <div class="assessmentTitle">Assessment</div>
+      <div class="assessmentLine">Dominant pattern: <span class="assessmentStrong">${VECTOR_LABELS[dominant]}</span></div>
+      <div class="assessmentGrid">
+        <div class="assessmentItem">A: ${VECTOR_LABELS.A} (${counts.A}/${total || 0}, ${pct(counts.A)}%)</div>
+        <div class="assessmentItem">B: ${VECTOR_LABELS.B} (${counts.B}/${total || 0}, ${pct(counts.B)}%)</div>
+        <div class="assessmentItem">C: ${VECTOR_LABELS.C} (${counts.C}/${total || 0}, ${pct(counts.C)}%)</div>
+        <div class="assessmentItem">D: ${VECTOR_LABELS.D} (${counts.D}/${total || 0}, ${pct(counts.D)}%)</div>
+      </div>
+      <div class="assessmentBlurb">${VECTOR_BLURBS[dominant]}</div>
+      <div class="assessmentSub">Your selections</div>
+      <div class="selections">${selectionsHtml}</div>
+    `;
+
+    // Insert under "About LIP" link (or just append)
+    const about = inner.querySelector(".aboutLink") || inner.querySelector("a");
+    if (about && about.parentElement) {
+      about.parentElement.insertAdjacentElement("afterend", mount);
+    } else {
+      inner.appendChild(mount);
+    }
+
+    // Ensure assessment is visible without needing manual scroll
+    const scroller = inner;
+    if (scroller && typeof scroller.scrollTo === "function") {
+      scroller.scrollTo({ top: 0, behavior: "instant" });
+    }
+  }
+
+  function convertNodePageToButtons(pageEl) {
+    const nodeNo = getNodeNumber(pageEl);
+    if (!nodeNo) return;
+
+    const inner = pageEl.querySelector(".pageInner") || pageEl;
+
+    // Already converted
+    if (inner.querySelector(".choices")) return;
+
+    // Collect paragraphs that look like the options: we take all <p> after the first prompt <p>
+    const ps = Array.from(inner.querySelectorAll("p"));
+    if (ps.length < 2) return;
+
+    const promptP = ps[0];
+    const optionPs = ps.slice(1).filter(p => (p.textContent || "").trim().length > 0);
+    if (optionPs.length < 2) return;
+
+    // Keep the original order, label A,B,C,D in that order
+    const letters = ["A", "B", "C", "D"];
+
+    const choicesWrap = document.createElement("div");
+    choicesWrap.className = "choices";
+
+    optionPs.forEach((p, i) => {
+      const letter = letters[i] || letters[letters.length - 1];
+      const text = (p.textContent || "").trim();
+
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "choiceBtn";
+      btn.setAttribute("data-node", nodeNo);
+      btn.setAttribute("data-letter", letter);
+      btn.setAttribute("aria-label", `Option ${letter}`);
+      btn.innerHTML = `<span class="choiceLetter">${letter}.</span><span class="choiceText">${escapeHtml(text)}</span>`;
+
+      // If already answered, reflect it
+      if (answers[nodeNo] && answers[nodeNo].letter === letter) {
+        btn.classList.add("selected");
+        btn.setAttribute("aria-pressed", "true");
+        btn.disabled = false;
+      }
+
+      choicesWrap.appendChild(btn);
+    });
+
+    // Remove old option paragraphs but keep prompt paragraph
+    optionPs.forEach(p => p.remove());
+
+    // Insert choices right after prompt paragraph
+    promptP.insertAdjacentElement("afterend", choicesWrap);
   }
 
   function escapeHtml(s) {
-    return String(s || "")
-      .replaceAll("&", "&amp;")
-      .replaceAll("<", "&lt;")
-      .replaceAll(">", "&gt;")
-      .replaceAll('"', "&quot;")
-      .replaceAll("'", "&#039;");
+    return String(s).replace(/[&<>"']/g, (c) => ({
+      "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+    }[c]));
   }
 
-  function renderReflectionIfNeeded() {
-    const active = pages[index];
-    if (!active) return;
-
-    const id = String(active.id || "").toLowerCase();
-    if (!id.includes("reflection")) return;
-
-    const inner = active.querySelector(".pageInner");
-    if (!inner) return;
-
-    const choices = getChoices();
-    const nodeNums = Object.keys(choices)
-      .map((n) => Number(n))
-      .filter((n) => Number.isFinite(n))
-      .sort((a, b) => a - b);
-
-    let assessment = active.querySelector(".assessment");
-    if (!assessment) {
-      assessment = document.createElement("div");
-      assessment.className = "assessment";
-      assessment.style.marginTop = "22px";
-      inner.appendChild(assessment);
-    }
-
-    if (nodeNums.length === 0) {
-      assessment.innerHTML = `<div style="opacity:.85;margin-top:18px;">No choices were recorded.</div>`;
-      return;
-    }
-
-    const counts = [0, 0, 0, 0];
-    const pickedLines = [];
-
-    nodeNums.forEach((n) => {
-      const c = choices[n];
-      const choiceIndex = Number(c.choice);
-      if (Number.isFinite(choiceIndex) && choiceIndex >= 0 && choiceIndex < 4) {
-        counts[choiceIndex] += 1;
-      }
-      const letter = LETTERS[choiceIndex] || "?";
-      const text = (c.text || "").replace(/^[A-D]\.\s*/i, "").trim();
-      pickedLines.push({ n, letter, text });
-    });
-
-    const answered = counts.reduce((a, b) => a + b, 0);
-    const rows = counts
-      .map((v, i) => {
-        const pct = answered ? Math.round((v / answered) * 100) : 0;
-        const name = VECTOR[i].key;
-        return `<div style="margin:6px 0;"><b>${LETTERS[i]}:</b> ${escapeHtml(name)} <span style="opacity:.85;">(${v}/${answered},${pct}%)</span></div>`;
-      })
-      .join("");
-
-    const max = Math.max(...counts);
-    const topIdx = counts.indexOf(max);
-    const sortedIdx = [0,1,2,3].sort((a,b)=>counts[b]-counts[a]);
-    const dom = VECTOR[sortedIdx[0]];
-    const sec = VECTOR[sortedIdx[1]];
-
-    const selections = pickedLines
-      .map((x) => {
-        return `<div style="margin:6px 0;display:flex;gap:10px;">
-          <div style="width:70px;opacity:.9;">Node ${x.n}</div>
-          <div style="width:18px;"><b>${escapeHtml(x.letter)}</b></div>
-          <div style="opacity:.92;">${escapeHtml(x.text)}</div>
-        </div>`;
-      })
-      .join("");
-
-    assessment.innerHTML = `
-      <h2 style="margin:18px 0 6px 0;">Assessment</h2>
-      <div style="opacity:.9;margin:0 0 10px 0;">
-        This is not a diagnosis. It is a structural snapshot of what you protected under pressure.
-      </div>
-      <div style="margin:10px 0 14px 0;">
-        <div style="opacity:.85;margin-bottom:6px;">Answered: ${answered}</div>
-        ${rows}
-      </div>
-      <div style="border-top:1px solid rgba(255,255,255,.10);margin:16px 0;"></div>
-      <div style="margin:10px 0 0 0;">
-        <div style="font-size:20px;margin-bottom:8px;"><b>Dominant pattern:</b> ${escapeHtml(dom.key)}</div>
-        <div style="opacity:.95;margin-bottom:10px;">${escapeHtml(dom.short)}</div>
-        <div style="opacity:.92;margin-bottom:10px;"><b>Risk:</b> ${escapeHtml(dom.risk)}</div>
-        <div style="opacity:.92;margin-bottom:14px;"><b>Move:</b> ${escapeHtml(dom.move)}</div>
-
-        <div style="font-size:18px;margin:18px 0 8px 0;"><b>Secondary pull:</b> ${escapeHtml(sec.key)}</div>
-        <div style="opacity:.92;">${escapeHtml(sec.short)}</div>
-      </div>
-
-      <div style="border-top:1px solid rgba(255,255,255,.10);margin:18px 0;"></div>
-      <div style="font-size:18px;margin:0 0 10px 0;"><b>Your selections</b></div>
-      <div>${selections}</div>
-    `;
-  }
-
-  document.addEventListener("click", (e) => {
-    const t = e.target;
-
-    const start = t?.closest?.("[data-action='start']");
-    if (start) { setActive(1); return; }
-
-    const restart = t?.closest?.("[data-action='restart']");
-    if (restart) { restartToCover(); return; }
-
-    const choose = t?.closest?.("[data-action='choose']");
-    if (choose) {
-      const node = Number(choose.dataset.node || "");
-      const choice = Number(choose.dataset.choice || "");
-      const text = choose.textContent || "";
-      if (Number.isFinite(node) && Number.isFinite(choice)) {
-        recordChoice(node, choice, text);
-      }
-      next();
-      return;
-    }
-
-    const about = t?.closest?.("#aboutToggle");
-    if (about) {
-      e.preventDefault();
-      const panel = document.getElementById("aboutPanel");
-      if (panel) panel.classList.toggle("hidden");
-    }
-  });
-
-  if (prevBtn) prevBtn.addEventListener("click", prev);
-  if (nextBtn) nextBtn.addEventListener("click", next);
-
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "ArrowLeft") prev();
-    if (e.key === "ArrowRight") next();
-  });
-
-  const book = document.getElementById("book");
-  let startX = null, startY = null;
-  if (book) {
-    book.addEventListener("pointerdown", (e) => { startX = e.clientX; startY = e.clientY; });
-    book.addEventListener("pointerup", (e) => {
-      if (startX === null) return;
-      const dx = e.clientX - startX, dy = e.clientY - startY;
-      startX = null; startY = null;
-      if (Math.abs(dx) < 60 || Math.abs(dx) < Math.abs(dy)) return;
-      if (dx < 0) next(); else prev();
+  function initAllNodes() {
+    pages.forEach(p => {
+      if (isNodePage(p)) convertNodePageToButtons(p);
     });
   }
 
-  initNodeChoices();
-  setActive(0);
+  function onChoiceClick(btn) {
+    const nodeNo = btn.getAttribute("data-node");
+    const letter = btn.getAttribute("data-letter");
+    const textEl = btn.querySelector(".choiceText");
+    const text = textEl ? textEl.textContent.trim() : btn.textContent.trim();
+
+    if (!nodeNo || !letter) return;
+
+    answers[nodeNo] = { letter, text };
+
+    // UI state: highlight chosen, disable none (you can change answer if you want)
+    const pageEl = pages[current];
+    const all = pageEl.querySelectorAll(`.choiceBtn[data-node="${nodeNo}"]`);
+    all.forEach(b => {
+      b.classList.toggle("selected", b === btn);
+      b.setAttribute("aria-pressed", b === btn ? "true" : "false");
+    });
+
+    setButtonsState();
+  }
+
+  function wireEvents() {
+    // Nav buttons
+    if (prevBtn) prevBtn.addEventListener("click", prevPage);
+    if (nextBtn) nextBtn.addEventListener("click", nextPage);
+
+    // Keyboard arrows
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowRight") nextPage();
+      if (e.key === "ArrowLeft") prevPage();
+    });
+
+    // Global click delegation for: Start, Begin again, choices
+    document.addEventListener("click", (e) => {
+      const target = e.target;
+
+      const start = target.closest('[data-action="start"], .startBtn');
+      if (start) {
+        started = true;
+        // Go to first page after cover
+        showPage(1);
+        return;
+      }
+
+      const replay = target.closest('[data-action="replay"], [data-action="beginAgain"], .beginAgainBtn');
+      if (replay) {
+        hardReset();
+        return;
+      }
+
+      const choiceBtn = target.closest(".choiceBtn");
+      if (choiceBtn) {
+        onChoiceClick(choiceBtn);
+        return;
+      }
+    });
+  }
+
+  function boot() {
+    if (!book || !pagesWrap || pages.length === 0) return;
+
+    // Ensure exactly one active page
+    pages.forEach((p, i) => p.classList.toggle("active", i === 0));
+
+    // Convert node pages into clickable A,B,C,D buttons without changing story text order
+    initAllNodes();
+
+    wireEvents();
+    showPage(0);
+  }
+
+  boot();
 })();
