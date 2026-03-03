@@ -151,37 +151,6 @@ p{ margin:0 0 14px 0; line-height:1.7; font-size:18px; color:rgba(255,255,255,0.
   color:rgba(255,255,255,0.70);
 }
 
-.navBtns {
-  display: flex;
-  gap: 15px;
-}
-
-.navBtn {
-  background: #111;
-  color: #fff;
-  border: 1px solid #444;
-  padding: 8px 14px;
-  font-size: 18px;
-  cursor: pointer;
-}
-
-.arrow{
-  width:34px;
-  height:34px;
-  border-radius:6px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:rgba(255,255,255,0.92);
-  color:#111;
-  border:0;
-  cursor:pointer;
-  font-size:18px;
-  line-height:1;
-}
-
-.arrow:hover{ background:white; }
-.arrow:disabled{ opacity:0.35; cursor:not-allowed; }
 
 /* choices */
 .choice{
