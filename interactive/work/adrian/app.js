@@ -1,60 +1,160 @@
-/* interactive/work/adrian/app.js */
-(function () {
-  const pages = [...document.querySelectorAll(".page")];
-  let idx = 0;
-  const total = pages.length;
-
+/* app.js */
+(() => {
+  const pages = Array.from(document.querySelectorAll(".page"));
+  const pageLabel = document.getElementById("pageLabel");
   const prevBtn = document.getElementById("prevBtn");
   const nextBtn = document.getElementById("nextBtn");
-  const pageLabel = document.getElementById("pageLabel");
 
-  const STORAGE_KEY = "lip_work_choices_v2";
+  const STORAGE_KEY = "lip_work_choices";
+  let index = 0;
+
+  // A = Hierarchy Defense
+  // B = Narrative Control
+  // C = Emotional Withdrawal
+  // D = Lucid Tolerance
+  const LETTERS = ["A", "B", "C", "D"];
 
   const VECTOR = [
     {
       key: "Hierarchy Defense",
       short:
-        "You protect status, order, and legitimacy. Under pressure, you default to authority, strength, rank, and “this is how it must be.”",
+        "You protect status,order,and legitimacy. Under pressure you default to authority framing,strength language,and “this is how it must be.”",
       risk:
-        "You confuse stability with truth, and loyalty with correctness. You become uncorrectable, then isolated.",
+        "You confuse stability with truth,and loyalty with correctness. You become uncorrectable,then isolated.",
       move:
-        "Trade “being right” for “staying testable.” Name one thing that would disconfirm you, today, in public.",
+        "Trade “being right” for “staying testable.” Name one disconfirming signal you would accept today,and run one concrete check.",
     },
     {
       key: "Narrative Control",
       short:
-        "You protect coherence and meaning. Under pressure, you tighten the story, frame doubt as ignorance, and push certainty for impact.",
+        "You protect coherence and meaning. Under pressure you tighten the story,frame doubt as ignorance,and push certainty for impact.",
       risk:
-        "You start managing optics instead of signals. Listening becomes a threat, and reality becomes something to control.",
+        "Listening becomes a threat to the narrative. You stop hearing signals and start managing optics.",
       move:
-        "Replace certainty with precision. Say what you know, what you assume, what you don’t know, then ask one question that could hurt your position.",
+        "Replace certainty with precision. Say what you know,what you assume,and what you don’t know,then ask one question that could hurt your position.",
     },
     {
       key: "Emotional Withdrawal",
       short:
-        "You protect yourself by exiting. Under pressure, you disengage, detach, disappear, or go cold to reduce exposure.",
+        "You protect yourself by exiting. Under pressure you disengage,detach,go cold,or disappear to reduce exposure.",
       risk:
-        "You call it boundaries, but it’s avoidance dressed as principle. You keep the pattern intact and lose the chance to correct it in real time.",
+        "You call it boundaries,but it’s avoidance dressed as principle. You keep the pattern intact and lose the chance to correct it in real time.",
       move:
-        "Stay one step longer than your reflex. Do one clean direct conversation, then decide. No silent exits, no “ghosting with philosophy.”",
+        "Stay one step longer than your reflex. Do one clean direct conversation,then decide. No silent exits.",
     },
     {
       key: "Lucid Tolerance",
       short:
-        "You can hold doubt without collapsing. Under pressure, you slow down, test yourself, and remain reachable.",
+        "You can hold doubt without collapsing. Under pressure you slow down,test yourself,and remain reachable.",
       risk:
-        "Openness can become a refuge from commitment. You keep everything open to avoid being accountable to one direction.",
+        "Openness can become refuge from commitment. You delay decisions to avoid consequence.",
       move:
-        "Commit to one accountable action while still uncertain. Act without full certainty, and stay correctable.",
+        "Commit to one accountable action while still uncertain. Stay correctable,don’t stay vague.",
     },
   ];
 
-  const VECTOR_KEY_TO_IDX = {
-    hierarchy: 0,
-    narrative: 1,
-    withdrawal: 2,
-    lucid: 3,
-  };
+  function clamp(i) {
+    if (i < 0) return 0;
+    if (i > pages.length - 1) return pages.length - 1;
+    return i;
+  }
+
+  function getChoices() {
+    try {
+      return JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}") || {};
+    } catch (_) {
+      return {};
+    }
+  }
+
+  function setChoices(data) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data || {}));
+  }
+
+  function clearChoices() {
+    localStorage.removeItem(STORAGE_KEY);
+  }
+
+  function updateNav() {
+    if (pageLabel) pageLabel.textContent = `${index + 1} / ${pages.length}`;
+    if (prevBtn) prevBtn.disabled = index === 0;
+    if (nextBtn) nextBtn.disabled = index === pages.length - 1;
+  }
+
+  function setActive(i) {
+    index = clamp(i);
+    pages.forEach((p) => p.classList.remove("active"));
+    if (pages[index]) pages[index].classList.add("active");
+    updateNav();
+
+    const scroller = pages[index]?.querySelector(".pageInner");
+    if (scroller) scroller.scrollTop = 0;
+
+    renderReflectionIfNeeded();
+  }
+
+  function next() { setActive(index + 1); }
+  function prev() { setActive(index - 1); }
+
+  function getNodeNumberFromId(id) {
+    const m = String(id || "").match(/node-(\d+)/i);
+    return m ? Number(m[1]) : null;
+  }
+
+  function initNodeChoices() {
+    pages.forEach((section) => {
+      const id = section.id || "";
+      if (!/node/i.test(id)) return;
+
+      const nodeNum = getNodeNumberFromId(id);
+      const inner = section.querySelector(".pageInner");
+      if (!inner) return;
+
+      const paras = Array.from(inner.querySelectorAll("p"));
+      if (paras.length < 2) return;
+
+      const prompt = paras[0];
+      const options = paras.slice(1);
+
+      const choicesWrap = document.createElement("div");
+      choicesWrap.className = "choices";
+
+      options.forEach((p, choiceIndex) => {
+        const raw = (p.textContent || "").trim();
+        if (!raw) return;
+
+        const letter = LETTERS[choiceIndex] || "";
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "choiceBtn";
+        btn.dataset.action = "choose";
+        if (nodeNum !== null) btn.dataset.node = String(nodeNum);
+        btn.dataset.choice = String(choiceIndex);
+        btn.textContent = letter ? `${letter}. ${raw}` : raw;
+
+        choicesWrap.appendChild(btn);
+        p.remove();
+      });
+
+      if (prompt && prompt.parentNode) {
+        prompt.insertAdjacentElement("afterend", choicesWrap);
+      } else {
+        inner.appendChild(choicesWrap);
+      }
+    });
+  }
+
+  function recordChoice(node, choice, text) {
+    const data = getChoices();
+    if (!node) return;
+    data[node] = { choice: Number(choice), text: String(text || "") };
+    setChoices(data);
+  }
+
+  function restartToCover() {
+    clearChoices();
+    setActive(0);
+  }
 
   function escapeHtml(s) {
     return String(s || "")
@@ -65,131 +165,23 @@
       .replaceAll("'", "&#039;");
   }
 
-  function updateNav() {
-    if (prevBtn) prevBtn.disabled = idx === 0;
-    if (nextBtn) nextBtn.disabled = idx === total - 1;
-    if (pageLabel) pageLabel.textContent = `${idx + 1} / ${total}`;
-  }
+  function renderReflectionIfNeeded() {
+    const active = pages[index];
+    if (!active) return;
 
-  function clamp(i) {
-    if (i < 0) return 0;
-    if (i > total - 1) return total - 1;
-    return i;
-  }
+    const id = String(active.id || "").toLowerCase();
+    if (!id.includes("reflection")) return;
 
-  function show(i) {
-    i = clamp(i);
-    if (i === idx) return;
-
-    const current = pages[idx];
-    const next = pages[i];
-    if (!current || !next) return;
-
-    current.classList.remove("turning-in");
-    current.classList.add("turning-out");
-
-    next.classList.remove("hidden");
-    next.classList.remove("turning-out");
-    next.classList.add("turning-in");
-
-    const cleanup = () => {
-      current.classList.add("hidden");
-      current.classList.remove("turning-out");
-      next.classList.remove("turning-in");
-      current.removeEventListener("animationend", cleanup);
-    };
-    current.addEventListener("animationend", cleanup);
-
-    idx = i;
-    updateNav();
-
-    const scroller = next.querySelector(".pageInner") || next;
-    scroller.scrollTop = 0;
-
-    if ((next.dataset.type || "").toLowerCase() === "result") renderResult();
-  }
-
-  function getChoices() {
-    try {
-      return JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]") || [];
-    } catch (_) {
-      return [];
-    }
-  }
-
-  function setChoices(list) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(list || []));
-  }
-
-  function clearChoices() {
-    localStorage.removeItem(STORAGE_KEY);
-  }
-
-  function resetAndReplay() {
-    clearChoices();
-    show(1);
-  }
-
-  function labelFromVecKey(vecKey) {
-    const idx = VECTOR_KEY_TO_IDX[vecKey];
-    return VECTOR[idx]?.key || vecKey;
-  }
-
-  function detailFromVecKey(vecKey) {
-    const idx = VECTOR_KEY_TO_IDX[vecKey];
-    return VECTOR[idx]?.short || "";
-  }
-
-  function renderResult() {
-    const resultPage = pages[idx];
-    if (!resultPage) return;
+    const inner = active.querySelector(".pageInner");
+    if (!inner) return;
 
     const choices = getChoices();
-    const answered = choices.length;
+    const nodeNums = Object.keys(choices)
+      .map((n) => Number(n))
+      .filter((n) => Number.isFinite(n))
+      .sort((a, b) => a - b);
 
-    const counts = { hierarchy: 0, narrative: 0, withdrawal: 0, lucid: 0 };
-
-    choices.forEach((c) => {
-      if (c && c.vector && counts[c.vector] !== undefined) counts[c.vector] += 1;
-    });
-
-    const entries = Object.keys(counts).map((k) => ({
-      k,
-      v: counts[k],
-    }));
-    entries.sort((a, b) => b.v - a.v);
-
-    const totalAnswers = answered || 1;
-    const ranked = entries.map((x) => ({
-      k: x.k,
-      v: x.v,
-      pct: Math.round((x.v / totalAnswers) * 100),
-      vecIdx: VECTOR_KEY_TO_IDX[x.k],
-    }));
-
-    const dominant = ranked[0] && ranked[0].v > 0 ? ranked[0] : null;
-    const secondary = ranked[1] && ranked[1].v > 0 ? ranked[1] : null;
-
-    const dominantVec = dominant ? VECTOR[dominant.vecIdx] : null;
-    const secondaryVec = secondary ? VECTOR[secondary.vecIdx] : null;
-
-    const domLine = document.getElementById("dominant");
-    const projLine = document.getElementById("projection");
-
-    if (domLine) {
-      domLine.textContent = dominantVec
-        ? `Within the Work context, your dominant patterns were: ${dominantVec.key}.`
-        : "Within the Work context, your dominant patterns were: not enough data yet.";
-    }
-    if (projLine) {
-      projLine.textContent = dominantVec
-        ? dominantVec.short
-        : "Make choices at the nodes to generate a pattern readout.";
-    }
-
-    let assessment = resultPage.querySelector(".assessment");
-    const inner = resultPage.querySelector(".pageInner") || resultPage;
-
+    let assessment = active.querySelector(".assessment");
     if (!assessment) {
       assessment = document.createElement("div");
       assessment.className = "assessment";
@@ -197,184 +189,126 @@
       inner.appendChild(assessment);
     }
 
-    if (!answered) {
-      assessment.innerHTML = `
-        <div style="opacity:.85;margin-top:18px;">
-          No choices were recorded.
-        </div>
-      `;
+    if (nodeNums.length === 0) {
+      assessment.innerHTML = `<div style="opacity:.85;margin-top:18px;">No choices were recorded.</div>`;
       return;
     }
 
-    const breakdownHtml = ranked
-      .map((s) => {
-        const v = VECTOR[s.vecIdx];
-        return `<div style="margin:6px 0;">
-          <span style="font-weight:700;">${escapeHtml(v.key)}</span>
-          <span style="opacity:.75;margin-left:8px;">(${s.v}/${answered}, ${s.pct}%)</span>
+    const counts = [0, 0, 0, 0];
+    const pickedLines = [];
+
+    nodeNums.forEach((n) => {
+      const c = choices[n];
+      const choiceIndex = Number(c.choice);
+      if (Number.isFinite(choiceIndex) && choiceIndex >= 0 && choiceIndex < 4) {
+        counts[choiceIndex] += 1;
+      }
+      const letter = LETTERS[choiceIndex] || "?";
+      const text = (c.text || "").replace(/^[A-D]\.\s*/i, "").trim();
+      pickedLines.push({ n, letter, text });
+    });
+
+    const answered = counts.reduce((a, b) => a + b, 0);
+    const rows = counts
+      .map((v, i) => {
+        const pct = answered ? Math.round((v / answered) * 100) : 0;
+        const name = VECTOR[i].key;
+        return `<div style="margin:6px 0;"><b>${LETTERS[i]}:</b> ${escapeHtml(name)} <span style="opacity:.85;">(${v}/${answered},${pct}%)</span></div>`;
+      })
+      .join("");
+
+    const max = Math.max(...counts);
+    const topIdx = counts.indexOf(max);
+    const sortedIdx = [0,1,2,3].sort((a,b)=>counts[b]-counts[a]);
+    const dom = VECTOR[sortedIdx[0]];
+    const sec = VECTOR[sortedIdx[1]];
+
+    const selections = pickedLines
+      .map((x) => {
+        return `<div style="margin:6px 0;display:flex;gap:10px;">
+          <div style="width:70px;opacity:.9;">Node ${x.n}</div>
+          <div style="width:18px;"><b>${escapeHtml(x.letter)}</b></div>
+          <div style="opacity:.92;">${escapeHtml(x.text)}</div>
         </div>`;
       })
       .join("");
 
-    const dominantBlock = dominantVec
-      ? `
-      <div style="margin-top:10px;opacity:.95;">
-        <div style="font-weight:700;">Dominant pattern: ${escapeHtml(dominantVec.key)}</div>
-        <div style="margin-top:8px;opacity:.9;">${escapeHtml(dominantVec.short)}</div>
-        <div style="margin-top:10px;opacity:.9;"><span style="font-weight:700;">Risk:</span> ${escapeHtml(dominantVec.risk)}</div>
-        <div style="margin-top:10px;opacity:.9;"><span style="font-weight:700;">Move:</span> ${escapeHtml(dominantVec.move)}</div>
-      </div>`
-      : "";
-
-    const secondaryBlock = secondaryVec
-      ? `
-      <div style="margin-top:18px;opacity:.92;">
-        <div style="font-weight:700;">Secondary pull: ${escapeHtml(secondaryVec.key)}</div>
-        <div style="margin-top:8px;opacity:.9;">${escapeHtml(secondaryVec.short)}</div>
-      </div>`
-      : "";
-
-    const picksHtml = choices
-      .slice()
-      .sort((a, b) => (a.node || 0) - (b.node || 0))
-      .map((x) => {
-        const nodeLabel = `Node ${escapeHtml(x.node)}`;
-        const letter = escapeHtml(x.letter || "?");
-        const text = escapeHtml(x.text || "");
-        return `
-          <div style="margin:10px 0;opacity:.92;">
-            <span style="display:inline-block;min-width:64px;opacity:.75;">${nodeLabel}</span>
-            <span style="display:inline-block;min-width:28px;font-weight:700;">${letter}</span>
-            <span>${text}</span>
-          </div>
-        `;
-      })
-      .join("");
-
     assessment.innerHTML = `
-      <div style="margin-top:18px;font-size:22px;font-weight:700;">Assessment</div>
-      <div style="margin-top:8px;opacity:.88;">
+      <h2 style="margin:18px 0 6px 0;">Assessment</h2>
+      <div style="opacity:.9;margin:0 0 10px 0;">
         This is not a diagnosis. It is a structural snapshot of what you protected under pressure.
       </div>
-      <div style="margin-top:14px;opacity:.92;">
-        Answered: <span style="font-weight:700;">${answered}</span>
+      <div style="margin:10px 0 14px 0;">
+        <div style="opacity:.85;margin-bottom:6px;">Answered: ${answered}</div>
+        ${rows}
       </div>
-      <div style="margin-top:12px;opacity:.92;">
-        ${breakdownHtml}
+      <div style="border-top:1px solid rgba(255,255,255,.10);margin:16px 0;"></div>
+      <div style="margin:10px 0 0 0;">
+        <div style="font-size:20px;margin-bottom:8px;"><b>Dominant pattern:</b> ${escapeHtml(dom.key)}</div>
+        <div style="opacity:.95;margin-bottom:10px;">${escapeHtml(dom.short)}</div>
+        <div style="opacity:.92;margin-bottom:10px;"><b>Risk:</b> ${escapeHtml(dom.risk)}</div>
+        <div style="opacity:.92;margin-bottom:14px;"><b>Move:</b> ${escapeHtml(dom.move)}</div>
+
+        <div style="font-size:18px;margin:18px 0 8px 0;"><b>Secondary pull:</b> ${escapeHtml(sec.key)}</div>
+        <div style="opacity:.92;">${escapeHtml(sec.short)}</div>
       </div>
-      <div style="margin-top:14px;border-top:1px solid rgba(255,255,255,.10);padding-top:14px;">
-        ${dominantBlock}
-        ${secondaryBlock}
-      </div>
-      <div style="margin-top:18px;opacity:.92;">
-        <div style="font-weight:700;margin-bottom:8px;">Your selections</div>
-        ${picksHtml}
-      </div>
+
+      <div style="border-top:1px solid rgba(255,255,255,.10);margin:18px 0;"></div>
+      <div style="font-size:18px;margin:0 0 10px 0;"><b>Your selections</b></div>
+      <div>${selections}</div>
     `;
-  }
-
-  if (prevBtn) prevBtn.addEventListener("click", () => show(idx - 1));
-  if (nextBtn) nextBtn.addEventListener("click", () => show(idx + 1));
-
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "ArrowLeft") show(idx - 1);
-    if (e.key === "ArrowRight") show(idx + 1);
-  });
-
-  // swipe
-  const book = document.getElementById("book");
-  let startX = null,
-    startY = null;
-  if (book) {
-    book.addEventListener("pointerdown", (e) => {
-      startX = e.clientX;
-      startY = e.clientY;
-    });
-    book.addEventListener("pointerup", (e) => {
-      if (startX === null) return;
-      const dx = e.clientX - startX;
-      const dy = e.clientY - startY;
-      startX = null;
-      startY = null;
-      if (Math.abs(dx) < 60 || Math.abs(dx) < Math.abs(dy)) return;
-      if (dx < 0) show(idx + 1);
-      else show(idx - 1);
-    });
   }
 
   document.addEventListener("click", (e) => {
     const t = e.target;
-    if (!(t instanceof Element)) return;
 
-    const startBtn = t.closest('[data-action="start"]');
-    if (startBtn) {
-      e.preventDefault();
-      show(1);
+    const start = t?.closest?.("[data-action='start']");
+    if (start) { setActive(1); return; }
+
+    const restart = t?.closest?.("[data-action='restart']");
+    if (restart) { restartToCover(); return; }
+
+    const choose = t?.closest?.("[data-action='choose']");
+    if (choose) {
+      const node = Number(choose.dataset.node || "");
+      const choice = Number(choose.dataset.choice || "");
+      const text = choose.textContent || "";
+      if (Number.isFinite(node) && Number.isFinite(choice)) {
+        recordChoice(node, choice, text);
+      }
+      next();
       return;
     }
 
-    const replayBtn =
-      t.closest('[data-action="replay"]') ||
-      t.closest('[data-action="restart"]') ||
-      t.closest("#beginAgainBtn") ||
-      t.closest(".beginAgainBtn") ||
-      t.closest(".restartBtn");
-
-    if (replayBtn) {
-      e.preventDefault();
-      resetAndReplay();
-      return;
-    }
-
-    const aboutToggle = t.closest("#aboutToggle");
-    if (aboutToggle) {
+    const about = t?.closest?.("#aboutToggle");
+    if (about) {
       e.preventDefault();
       const panel = document.getElementById("aboutPanel");
       if (panel) panel.classList.toggle("hidden");
-      return;
     }
+  });
 
-    const btn = t.closest(".choice");
-    if (!btn) return;
+  if (prevBtn) prevBtn.addEventListener("click", prev);
+  if (nextBtn) nextBtn.addEventListener("click", next);
 
-    e.preventDefault();
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "ArrowLeft") prev();
+    if (e.key === "ArrowRight") next();
+  });
 
-    const nodeId = parseInt(btn.dataset.node || "0", 10);
-    const letter = String(btn.dataset.choice || "").toUpperCase();
-    if (!nodeId || !letter) return;
-
-    const node = window.__NODE_LOOKUP__ && window.__NODE_LOOKUP__[nodeId];
-    const chapter = node && node.chapter;
-
-    // keep your existing per-chapter mapping
-    const vec =
-      (window.__VECTOR_MAP__ &&
-        window.__VECTOR_MAP__[chapter] &&
-        window.__VECTOR_MAP__[chapter][letter]) ||
-      "narrative";
-
-    const rawText = (btn.textContent || "").trim();
-    const cleanedText = rawText.replace(/^[A-D]\s*[\.\-–—:]\s*/i, "").trim();
-
-    const list = getChoices();
-    const withoutThisNode = list.filter((x) => Number(x.node) !== nodeId);
-
-    withoutThisNode.push({
-      node: nodeId,
-      chapter: chapter || "",
-      letter,
-      vector: vec,
-      text: cleanedText,
+  const book = document.getElementById("book");
+  let startX = null, startY = null;
+  if (book) {
+    book.addEventListener("pointerdown", (e) => { startX = e.clientX; startY = e.clientY; });
+    book.addEventListener("pointerup", (e) => {
+      if (startX === null) return;
+      const dx = e.clientX - startX, dy = e.clientY - startY;
+      startX = null; startY = null;
+      if (Math.abs(dx) < 60 || Math.abs(dx) < Math.abs(dy)) return;
+      if (dx < 0) next(); else prev();
     });
+  }
 
-    setChoices(withoutThisNode);
-
-    show(idx + 1);
-  });
-
-  // init pages visibility
-  pages.forEach((p, i) => {
-    if (i !== 0) p.classList.add("hidden");
-  });
-  updateNav();
+  initNodeChoices();
+  setActive(0);
 })();
