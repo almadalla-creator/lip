@@ -212,3 +212,5 @@ a.aboutLink{
   #book .brand{font-size:16px;}
   #book .navBar{padding:0 14px;}
 }
+/* hard-hide the cover after Start, prevents it from sitting on top */
+.page.cover.dismissed{display:none!important}
