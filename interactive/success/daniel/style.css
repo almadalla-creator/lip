@@ -176,3 +176,6 @@ p{ margin:0 0 14px 0; line-height:1.7; font-size:18px; color:rgba(255,255,255,0.
 .turning-out{ animation:turnOut 240ms ease-in; }
 @keyframes turnIn{ from{ transform:translateX(14px); opacity:0; } to{ transform:translateX(0); opacity:1; } }
 @keyframes turnOut{ from{ transform:translateX(0); opacity:1; } to{ transform:translateX(-14px); opacity:0; } }
+.stage {
+  padding-bottom: 80px;
+}
