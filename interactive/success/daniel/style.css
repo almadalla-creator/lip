@@ -44,6 +44,29 @@ html,body{
   inset:0;
   background:url("Cover%20Page.jpg") center/cover no-repeat;
 }
+.coverText{
+  position:absolute;
+  left:64px;
+  bottom:calc(var(--nav-h) + 44px);
+  max-width:60%;
+  color:#111;
+  text-shadow:0 2px 18px rgba(255,255,255,.25);
+}
+.coverText h1{
+  margin:0;
+  font-size:64px;
+  line-height:1.05;
+  letter-spacing:.2px;
+}
+.coverText p{
+  margin:14px 0 0 0;
+  font-size:20px;
+  opacity:.95;
+}
+@media (max-width:680px){
+  .coverText{left:22px;max-width:85%;}
+  .coverText h1{font-size:40px;}
+}
 
 .startBtn{
   position:absolute;
