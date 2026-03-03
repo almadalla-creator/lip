@@ -8,52 +8,51 @@
   const STORAGE_KEY = "lip_success_choices";
   let index = 0;
 
+  // Mapping is explicit:
+  // A = Hierarchy Defense
+  // B = Narrative Control
+  // C = Emotional Withdrawal
+  // D = Lucid Tolerance
   const LETTERS = ["A", "B", "C", "D"];
-  const VECTORS = [
-    "Hierarchy Defense",
-    "Narrative Control",
-    "Emotional Withdrawal",
-    "Lucid Tolerance",
-  ];
 
-  const VECTOR_TEXT = {
-    0: {
-      name: "Hierarchy Defense",
+  const VECTOR = [
+    {
+      key: "Hierarchy Defense",
       short:
-        "You protect status, order, and legitimacy. Under pressure, you default to authority, strength, rank, and “this is how it must be.”",
-      risks:
-        "You confuse stability with truth, and loyalty with correctness. You become uncorrectable, then isolated.",
+        "You protect order, legitimacy, and rank. Under pressure you move toward authority language, strength framing, and “this is how it must be.”",
+      risk:
+        "You confuse stability with truth. You become uncorrectable, then isolated. You start winning compliance instead of earning trust.",
       move:
-        "Trade “being right” for “staying testable.” Ask: what would I accept as disconfirming evidence, today, in public?",
+        "Stay testable. State one thing you might be wrong about, one piece of evidence that would change your mind, and one concrete check you will run.",
     },
-    1: {
-      name: "Narrative Control",
+    {
+      key: "Narrative Control",
       short:
-        "You protect coherence and meaning. Under pressure, you tighten the story, frame doubts as ignorance, and push certainty for impact.",
-      risks:
-        "You become addicted to persuasion. You stop listening because listening threatens the narrative.",
+        "You protect coherence and meaning. Under pressure you tighten the story, frame doubt as ignorance, and push certainty to keep impact.",
+      risk:
+        "You become addicted to persuasion. Listening becomes a threat to the narrative, so you stop hearing signals and start managing optics.",
       move:
-        "Replace certainty with precision. Say one thing you don’t know, one thing you overstated, one thing you’ll re-check.",
+        "Replace certainty with precision. Say what you know, what you assume, and what you don’t know, then ask one honest question that could hurt your position.",
     },
-    2: {
-      name: "Emotional Withdrawal",
+    {
+      key: "Emotional Withdrawal",
       short:
-        "You protect yourself by exiting. Under pressure, you disengage, detach, disappear, or turn cold to avoid exposure.",
-      risks:
-        "You avoid the pain but keep the pattern. You call it “boundaries,” but it’s avoidance dressed as principle.",
+        "You protect yourself by exiting. Under pressure you disengage, detach, disappear, or go cold to reduce exposure.",
+      risk:
+        "You call it boundaries, but it’s avoidance dressed as principle. You keep the pattern intact and lose the chance to correct it in real time.",
       move:
-        "Stay present one step longer than your reflex. Do one clean, direct conversation before you exit.",
+        "Stay one step longer than your reflex. Do one clean direct conversation, then decide. No silent exits, no “ghosting with philosophy.”",
     },
-    3: {
-      name: "Lucid Tolerance",
+    {
+      key: "Lucid Tolerance",
       short:
-        "You can hold doubt without collapsing. Under pressure, you slow down, test yourself, and stay reachable.",
-      risks:
-        "You can over-delay decisions by keeping everything open, mistaking openness for rigor.",
+        "You can hold doubt without collapsing. Under pressure you slow down, test yourself, and remain reachable.",
+      risk:
+        "You can over-delay decisions by keeping everything open. Openness becomes a refuge from commitment.",
       move:
-        "Commit to one action that makes you accountable, even if you’re still uncertain.",
+        "Commit to one accountable action while still uncertain. If you’re truly lucid, you can act without full certainty and still remain correctable.",
     },
-  };
+  ];
 
   function clamp(i) {
     if (i < 0) return 0;
@@ -107,6 +106,7 @@
   function next() {
     setActive(index + 1);
   }
+
   function prev() {
     setActive(index - 1);
   }
@@ -145,7 +145,6 @@
         btn.dataset.action = "choose";
         if (nodeNum !== null) btn.dataset.node = String(nodeNum);
         btn.dataset.choice = String(choiceIndex);
-
         btn.textContent = letter ? `${letter}. ${raw}` : raw;
 
         choicesWrap.appendChild(btn);
@@ -167,8 +166,9 @@
     setChoices(data);
   }
 
-  function findReflectionPage() {
-    return pages.find((p) => String(p.id || "").toLowerCase().includes("reflection"));
+  function restartToCover() {
+    clearChoices();
+    setActive(0);
   }
 
   function renderReflectionIfNeeded() {
@@ -198,7 +198,7 @@
     if (nodeNums.length === 0) {
       assessment.innerHTML = `
         <div style="opacity:.85;margin-top:18px;">
-          No choices were recorded. If this is unexpected, your node pages are not storing selections.
+          No choices were recorded.
         </div>
       `;
       return;
@@ -224,18 +224,18 @@
       .map((v, i) => ({ i, v, pct: Math.round((v / total) * 100) }))
       .sort((a, b) => b.v - a.v);
 
-    const top = ranked[0];
-    const dominantIdx = top.i;
-    const dominant = VECTOR_TEXT[dominantIdx];
+    const dominantIdx = ranked[0].i;
+    const dominant = VECTOR[dominantIdx];
 
-    const secondary = ranked[1] && ranked[1].v > 0 ? VECTOR_TEXT[ranked[1].i] : null;
+    const secondaryIdx = ranked[1] && ranked[1].v > 0 ? ranked[1].i : null;
+    const secondary = secondaryIdx !== null ? VECTOR[secondaryIdx] : null;
 
     const breakdownHtml = ranked
       .map((s) => {
-        const v = VECTOR_TEXT[s.i];
+        const v = VECTOR[s.i];
         return `<div style="margin:6px 0;">
           <span style="font-weight:700;">${LETTERS[s.i]}:</span>
-          <span style="margin-left:6px;">${escapeHtml(v.name)}</span>
+          <span style="margin-left:6px;">${escapeHtml(v.key)}</span>
           <span style="opacity:.75;margin-left:8px;">(${s.v}/${total}, ${s.pct}%)</span>
         </div>`;
       })
@@ -255,10 +255,10 @@
 
     const dominantBlock = `
       <div style="margin-top:10px;opacity:.95;">
-        <div style="font-weight:700;">Dominant pattern: ${escapeHtml(dominant.name)}</div>
+        <div style="font-weight:700;">Dominant pattern: ${escapeHtml(dominant.key)}</div>
         <div style="margin-top:8px;opacity:.9;">${escapeHtml(dominant.short)}</div>
         <div style="margin-top:10px;opacity:.9;">
-          <span style="font-weight:700;">Risk:</span> ${escapeHtml(dominant.risks)}
+          <span style="font-weight:700;">Risk:</span> ${escapeHtml(dominant.risk)}
         </div>
         <div style="margin-top:10px;opacity:.9;">
           <span style="font-weight:700;">Move:</span> ${escapeHtml(dominant.move)}
@@ -269,7 +269,7 @@
     const secondaryBlock = secondary
       ? `
       <div style="margin-top:18px;opacity:.92;">
-        <div style="font-weight:700;">Secondary pull: ${escapeHtml(secondary.name)}</div>
+        <div style="font-weight:700;">Secondary pull: ${escapeHtml(secondary.key)}</div>
         <div style="margin-top:8px;opacity:.9;">${escapeHtml(secondary.short)}</div>
       </div>
     `
@@ -278,7 +278,7 @@
     assessment.innerHTML = `
       <div style="margin-top:18px;font-size:22px;font-weight:700;">Assessment</div>
       <div style="margin-top:8px;opacity:.88;">
-        This is not a diagnosis. It is a structural snapshot of what you protected under pressure.
+        This is not a diagnosis. It is a structural profile of what you protected under pressure.
       </div>
       <div style="margin-top:14px;opacity:.92;">
         Answered: <span style="font-weight:700;">${nodeNums.length}</span>
@@ -297,11 +297,6 @@
     `;
   }
 
-  function restartToCover() {
-    clearChoices();
-    setActive(0);
-  }
-
   document.addEventListener("click", (e) => {
     const target = e.target;
     if (!(target instanceof Element)) return;
@@ -313,6 +308,7 @@
       return;
     }
 
+    // Begin again: supports multiple markup variants + fallback to button text
     const restartBtn =
       target.closest('[data-action="restart"]') ||
       target.closest("#beginAgainBtn") ||
@@ -325,7 +321,6 @@
       return;
     }
 
-    // ultra-robust: if button text says "Begin again", treat it as restart
     const btn = target.closest("button");
     if (btn && (btn.textContent || "").trim().toLowerCase() === "begin again") {
       e.preventDefault();
