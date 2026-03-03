@@ -5,7 +5,7 @@
   const prevBtn = document.getElementById("prevBtn");
   const nextBtn = document.getElementById("nextBtn");
 
-  const STORAGE_KEY = "lip_success_choices";
+  const STORAGE_KEY = "lip_work_choices";
   let index = 0;
 
   // Mapping is explicit:
@@ -169,6 +169,16 @@
   function restartToCover() {
     clearChoices();
     setActive(0);
+
+  // Redundant direct bindings (prevents “nothing happens” when click delegation is blocked)
+  const directStart = document.querySelector('[data-action="start"]');
+  if (directStart) {
+    directStart.addEventListener("click", (e) => { e.preventDefault(); setActive(1); });
+  }
+  const directRestart = document.querySelector('[data-action="restart"]');
+  if (directRestart) {
+    directRestart.addEventListener("click", (e) => { e.preventDefault(); restartToCover(); });
+  }
   }
 
   function renderReflectionIfNeeded() {
