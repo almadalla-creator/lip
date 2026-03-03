@@ -1,127 +1,156 @@
-(function(){
-  const pages=[...document.querySelectorAll('.page')];
-  let idx=0;
-  const total=pages.length;
-  const prevBtn=document.getElementById('prevBtn');
-  const nextBtn=document.getElementById('nextBtn');
-  const pageLabel=document.getElementById('pageLabel');
-  const state={hierarchy:0,narrative:0,withdrawal:0,lucid:0,choices:[]};
+(() => {
+  const pages = Array.from(document.querySelectorAll(".page"));
+  const pageLabel = document.getElementById("pageLabel");
+  const prevBtn = document.getElementById("prevBtn");
+  const nextBtn = document.getElementById("nextBtn");
 
-  function updateNav(){
-    prevBtn.disabled = idx===0;
-    nextBtn.disabled = idx===total-1;
-    pageLabel.textContent = `${idx+1} / ${total}`;
+  const aboutOverlay = document.getElementById("aboutOverlay");
+
+  const nodeLookup = window.__NODE_LOOKUP__ || {};
+  const vectorMap = window.__VECTOR_MAP__ || {};
+
+  let current = 0;
+  const answers = []; // { node, choice }
+
+  function clamp(n, min, max) { return Math.max(min, Math.min(max, n)); }
+
+  function setPage(idx) {
+    current = clamp(idx, 0, pages.length - 1);
+    pages.forEach((p, i) => p.classList.toggle("active", i === current));
+
+    const type = pages[current].dataset.type || "text";
+    const isCover = type === "cover";
+
+    if (pageLabel) pageLabel.textContent = `${current + 1} / ${pages.length}`;
+
+    if (prevBtn) prevBtn.disabled = current === 0;
+    if (nextBtn) nextBtn.disabled = current === pages.length - 1 || isCover;
+
+    if (type === "result") renderAssessment();
   }
 
-  function show(i){
-    if(i<0||i>=total) return;
-    const current=pages[idx];
-    const next=pages[i];
-    if(current===next) return;
+  function next() { setPage(current + 1); }
+  function prev() { setPage(current - 1); }
 
-    current.classList.remove('turning-in');
-    current.classList.add('turning-out');
-
-    next.classList.remove('hidden');
-    next.classList.remove('turning-out');
-    next.classList.add('turning-in');
-
-    const cleanup=()=>{
-      current.classList.add('hidden');
-      current.classList.remove('turning-out');
-      next.classList.remove('turning-in');
-      current.removeEventListener('animationend',cleanup);
-    };
-    current.addEventListener('animationend',cleanup);
-
-    idx=i;
-    updateNav();
-    next.scrollTop=0;
-
-    if(next.dataset.type==='result'){ renderResult(); }
+  function resetRun() {
+    answers.length = 0;
+    document.querySelectorAll(".choice").forEach(btn => btn.classList.remove("picked"));
+    setPage(0);
   }
 
-  prevBtn.addEventListener('click',()=>show(idx-1));
-  nextBtn.addEventListener('click',()=>show(idx+1));
+  function openAbout() {
+    if (!aboutOverlay) return;
+    aboutOverlay.classList.add("open");
+    aboutOverlay.setAttribute("aria-hidden", "false");
+  }
+  function closeAbout() {
+    if (!aboutOverlay) return;
+    aboutOverlay.classList.remove("open");
+    aboutOverlay.setAttribute("aria-hidden", "true");
+  }
 
-  document.addEventListener('keydown',(e)=>{
-    if(e.key==='ArrowLeft') show(idx-1);
-    if(e.key==='ArrowRight') show(idx+1);
+  function renderAssessment() {
+    const dominantEl = document.getElementById("dominantPattern");
+    const projectionEl = document.getElementById("projection");
+    const selectionsEl = document.getElementById("selections");
+
+    if (!dominantEl || !projectionEl || !selectionsEl) return;
+
+    const counts = { A: 0, B: 0, C: 0, D: 0 };
+    answers.forEach(a => { if (counts[a.choice] != null) counts[a.choice]++; });
+
+    const total = answers.length || 1;
+    const ranked = Object.keys(counts)
+      .map(k => ({ k, v: counts[k] }))
+      .sort((a, b) => b.v - a.v);
+
+    const dominantKey = ranked[0].k;
+    const dom = vectorMap[dominantKey] || { name: dominantKey, desc: "" };
+
+    dominantEl.textContent = `Dominant pattern: ${dom.name}`;
+
+    const parts = ranked.map(r => {
+      const pct = Math.round((r.v / total) * 100);
+      const label = (vectorMap[r.k] && vectorMap[r.k].name) ? vectorMap[r.k].name : r.k;
+      return `${r.k}: ${label} (${r.v}/${answers.length}, ${pct}%)`;
+    });
+    projectionEl.textContent = parts.join(" • ");
+
+    const lines = answers
+      .slice()
+      .sort((a, b) => a.node - b.node)
+      .map(a => {
+        const nodeTitle = (nodeLookup[a.node] && nodeLookup[a.node].title) ? nodeLookup[a.node].title : `Node ${a.node}`;
+        const pickedBtn = document.querySelector(`.choice[data-node="${a.node}"][data-choice="${a.choice}"]`);
+        const pickedText = pickedBtn ? pickedBtn.innerText.replace(/\s+/g, " ").trim() : `${a.choice}`;
+        return `Node ${a.node} — ${a.choice}. ${nodeTitle} — ${pickedText.replace(/^([A-D])\s*/,"")}`;
+      });
+
+    selectionsEl.innerHTML =
+      `<div style="margin-bottom:10px;color:rgba(255,255,255,0.7)">Your selections</div>` +
+      lines.map(t => `<div class="selectionLine">${escapeHtml(t)}</div>`).join("");
+  }
+
+  function escapeHtml(str) {
+    return String(str)
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#039;");
+  }
+
+  document.addEventListener("click", (e) => {
+    const start = e.target.closest('[data-action="start"]');
+    if (start) { setPage(1); return; }
+
+    const replay = e.target.closest('[data-action="replay"]');
+    if (replay) { resetRun(); return; }
+
+    const about = e.target.closest('[data-action="about"]');
+    if (about) { e.preventDefault(); openAbout(); return; }
+
+    const close = e.target.closest('[data-action="closeAbout"]');
+    if (close) { closeAbout(); return; }
+
+    if (e.target === aboutOverlay) { closeAbout(); return; }
+
+    const choiceBtn = e.target.closest(".choice");
+    if (choiceBtn) {
+      const node = Number(choiceBtn.dataset.node);
+      const choice = String(choiceBtn.dataset.choice || "").toUpperCase();
+
+      if (!node || !choice) return;
+
+      const idx = answers.findIndex(a => a.node === node);
+      if (idx >= 0) answers[idx] = { node, choice };
+      else answers.push({ node, choice });
+
+      // visual mark
+      document.querySelectorAll(`.choice[data-node="${node}"]`).forEach(b => b.classList.remove("picked"));
+      choiceBtn.classList.add("picked");
+
+      // go forward
+      next();
+      return;
+    }
+
+    const prevClick = e.target.closest("#prevBtn");
+    if (prevClick) { prev(); return; }
+
+    const nextClick = e.target.closest("#nextBtn");
+    if (nextClick) { next(); return; }
   });
 
-  // swipe
-  let startX=null,startY=null;
-  const book=document.getElementById('book');
-  book.addEventListener('pointerdown',(e)=>{startX=e.clientX;startY=e.clientY;});
-  book.addEventListener('pointerup',(e)=>{
-    if(startX===null) return;
-    const dx=e.clientX-startX, dy=e.clientY-startY;
-    startX=null;startY=null;
-    if(Math.abs(dx)<60 || Math.abs(dx)<Math.abs(dy)) return;
-    if(dx<0) show(idx+1);
-    else show(idx-1);
+  document.addEventListener("keydown", (e) => {
+    if (aboutOverlay && aboutOverlay.classList.contains("open") && e.key === "Escape") {
+      closeAbout();
+      return;
+    }
+    if (e.key === "ArrowLeft") prev();
+    if (e.key === "ArrowRight") next();
   });
 
-  document.addEventListener('click',(e)=>{
-    const t=e.target;
-    if(t && t.dataset && t.dataset.action==='start'){ show(1); }
-    if(t && t.dataset && t.dataset.action==='replay'){ reset(); show(1); }
-  });
-
-  document.addEventListener('click',(e)=>{
-    const btn=e.target.closest('.choice');
-    if(!btn) return;
-    const nodeId=parseInt(btn.dataset.node||'0',10);
-    const letter=(btn.dataset.choice||'').toUpperCase();
-    if(!nodeId||!letter) return;
-    const node=window.__NODE_LOOKUP__[nodeId];
-    const chapter=node && node.chapter;
-    const vec=(window.__VECTOR_MAP__[chapter] && window.__VECTOR_MAP__[chapter][letter]) || 'narrative';
-    state[vec]=(state[vec]||0)+1;
-    state.choices.push({node:nodeId,chapter,letter,vector:vec});
-    show(idx+1);
-  });
-
-  document.addEventListener('click',(e)=>{
-    const a=e.target.closest('#aboutToggle');
-    if(!a) return;
-    e.preventDefault();
-    const panel=document.getElementById('aboutPanel');
-    if(panel) panel.classList.toggle('hidden');
-  });
-
-  function label(k){
-    if(k==='hierarchy') return 'Hierarchy Defense';
-    if(k==='narrative') return 'Narrative Control';
-    if(k==='withdrawal') return 'Emotional Withdrawal';
-    if(k==='lucid') return 'Lucid Tolerance';
-    return k;
-  }
-
-  function detail(k){
-    if(k==='hierarchy') return 'You protect position when reduced. You escalate to restore authority, even when facts are already clear.';
-    if(k==='narrative') return 'You protect image under exposure. You try to control perception when reality becomes public and unstable.';
-    if(k==='withdrawal') return 'You protect vulnerability by shrinking the field. You reduce exposure, avoid contact, and hide uncertainty behind distance.';
-    if(k==='lucid') return 'You tolerate uncertainty without needing to win. You keep facts intact and choose clean boundaries over performance.';
-    return '';
-  }
-
-  function renderResult(){
-    const entries=['hierarchy','narrative','withdrawal','lucid'];
-    entries.sort((a,b)=> (state[b]||0)-(state[a]||0));
-    const top=entries[0];
-    const dom=document.getElementById('dominant');
-    const proj=document.getElementById('projection');
-    if(dom) dom.textContent = `Within the Work context, your dominant patterns were: ${label(top)}.`;
-    if(proj) proj.textContent = detail(top);
-  }
-
-  function reset(){
-    state.hierarchy=0;state.narrative=0;state.withdrawal=0;state.lucid=0;state.choices=[];
-    const panel=document.getElementById('aboutPanel');
-    if(panel) panel.classList.add('hidden');
-  }
-
-  pages.forEach((p,i)=>{ if(i!==0) p.classList.add('hidden'); });
-  updateNav();
+  // init
+  setPage(0);
 })();
