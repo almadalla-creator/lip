@@ -1,93 +1,75 @@
 (() => {
   const book = document.getElementById("book");
-  const pagesEl = document.getElementById("pages");
   const pages = Array.from(document.querySelectorAll(".page"));
+  const pageLabel = document.getElementById("pageLabel");
   const prevBtn = document.getElementById("prevBtn");
   const nextBtn = document.getElementById("nextBtn");
-  const pageLabel = document.getElementById("pageLabel");
 
-  if (!book || !pagesEl || pages.length === 0) return;
+  const coverEl = document.getElementById("cover");
+  let currentIndex = 0;
 
-  let index = Math.max(0, pages.findIndex(p => p.classList.contains("active")));
-  if (index < 0) index = 0;
+  const totalPages = pages.length;
+  function clamp(n, min, max) { return Math.max(min, Math.min(max, n)); }
 
-  function clamp(n, min, max){ return Math.max(min, Math.min(max, n)); }
-
-  function setActive(newIndex){
-    index = clamp(newIndex, 0, pages.length - 1);
-    pages.forEach((p, i) => p.classList.toggle("active", i === index));
-
-    // Update label as 1-based count
-    if (pageLabel) pageLabel.textContent = `${index + 1} / ${pages.length}`;
-
-    // Enable/disable buttons
-    if (prevBtn) prevBtn.disabled = index === 0;
-    if (nextBtn) nextBtn.disabled = index === pages.length - 1;
-
-    // Ensure scroll resets per page
-    const inner = pages[index].querySelector(".pageInner");
-    if (inner) inner.scrollTop = 0;
+  function updateNav() {
+    if (pageLabel) pageLabel.textContent = `${currentIndex + 1} / ${totalPages}`;
+    if (prevBtn) prevBtn.disabled = currentIndex <= 0;
+    if (nextBtn) nextBtn.disabled = currentIndex >= totalPages - 1;
   }
 
-  function next(){ setActive(index + 1); }
-  function prev(){ setActive(index - 1); }
-  function goToId(id){
-    const i = pages.findIndex(p => p.id === id);
-    if (i >= 0) setActive(i);
+  function setActive(idx) {
+    currentIndex = clamp(idx, 0, totalPages - 1);
+    pages.forEach(p => p.classList.remove("active"));
+    const active = pages[currentIndex];
+    if (active) active.classList.add("active");
+    if (active) active.scrollTop = 0;
+    updateNav();
   }
 
-  // Nav buttons
-  prevBtn?.addEventListener("click", prev);
-  nextBtn?.addEventListener("click", next);
+  function dismissCoverIfLeaving() {
+    if (!coverEl) return;
+    if (currentIndex > 0) coverEl.classList.add("dismissed");
+    else coverEl.classList.remove("dismissed");
+  }
 
-  // Delegate actions (start/restart + optional goto)
+  function goNext() {
+    if (currentIndex < totalPages - 1) {
+      setActive(currentIndex + 1);
+      dismissCoverIfLeaving();
+    }
+  }
+
+  function goPrev() {
+    if (currentIndex > 0) {
+      setActive(currentIndex - 1);
+      dismissCoverIfLeaving();
+    }
+  }
+
+  if (prevBtn) prevBtn.addEventListener("click", goPrev);
+  if (nextBtn) nextBtn.addEventListener("click", goNext);
+
   document.addEventListener("click", (e) => {
-    const btn = e.target.closest("button, a");
+    const btn = e.target.closest("[data-action]");
     if (!btn) return;
-
     const action = btn.getAttribute("data-action");
-    if (action === "start"){
-      // cover -> first story page (index 1)
+    if (action === "start") {
       setActive(1);
+      dismissCoverIfLeaving();
       return;
     }
-    if (action === "restart"){
+    if (action === "restart") {
       setActive(0);
-      return;
-    }
-
-    const goto = btn.getAttribute("data-goto");
-    if (goto){
-      e.preventDefault();
-      goToId(goto);
+      dismissCoverIfLeaving();
       return;
     }
   });
 
-  // Keyboard navigation
   document.addEventListener("keydown", (e) => {
-    if (e.key === "ArrowRight") next();
-    if (e.key === "ArrowLeft") prev();
+    if (e.key === "ArrowRight") { e.preventDefault(); goNext(); }
+    if (e.key === "ArrowLeft") { e.preventDefault(); goPrev(); }
   });
 
-  // Touch: simple swipe left/right inside the book
-  let touchX = null;
-  book.addEventListener("touchstart", (e) => {
-    touchX = e.changedTouches?.[0]?.clientX ?? null;
-  }, {passive:true});
-
-  book.addEventListener("touchend", (e) => {
-    if (touchX === null) return;
-    const endX = e.changedTouches?.[0]?.clientX ?? null;
-    if (endX === null) return;
-    const dx = endX - touchX;
-    // Ignore small moves
-    if (Math.abs(dx) < 50) return;
-    if (dx < 0) next();
-    else prev();
-    touchX = null;
-  }, {passive:true});
-
-  // Init
-  setActive(index);
+  setActive(0);
+  dismissCoverIfLeaving();
 })();
