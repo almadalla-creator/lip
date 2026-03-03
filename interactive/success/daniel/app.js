@@ -8,10 +8,126 @@
   const STORAGE_KEY = "lip_success_choices";
   let index = 0;
 
+  const LETTERS = ["A", "B", "C", "D"];
+  const VECTORS = ["Hierarchy Defense", "Narrative Control", "Emotional Withdrawal", "Lucid Tolerance"];
+
   function clamp(i) {
     if (i < 0) return 0;
     if (i > pages.length - 1) return pages.length - 1;
     return i;
+  }
+
+  function getChoices() {
+    try {
+      return JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}") || {};
+    } catch (_) {
+      return {};
+    }
+  }
+
+  function setChoices(data) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data || {}));
+  }
+
+  function clearChoices() {
+    localStorage.removeItem(STORAGE_KEY);
+  }
+
+  function updateNav() {
+    if (pageLabel) pageLabel.textContent = `${index + 1} / ${pages.length}`;
+    if (prevBtn) prevBtn.disabled = index === 0;
+    if (nextBtn) nextBtn.disabled = index === pages.length - 1;
+  }
+
+  function renderReflectionIfNeeded() {
+    const active = pages[index];
+    if (!active) return;
+
+    const id = (active.id || "").toLowerCase();
+    if (!id.includes("reflection")) return;
+
+    const inner = active.querySelector(".pageInner");
+    if (!inner) return;
+
+    const choices = getChoices();
+    const nodeNums = Object.keys(choices)
+      .map(n => Number(n))
+      .filter(n => Number.isFinite(n))
+      .sort((a, b) => a - b);
+
+    let assessment = active.querySelector(".assessment");
+    if (!assessment) {
+      assessment = document.createElement("div");
+      assessment.className = "assessment";
+      assessment.style.marginTop = "22px";
+      inner.appendChild(assessment);
+    }
+
+    if (nodeNums.length === 0) {
+      assessment.innerHTML = `
+        <div style="opacity:.85;margin-top:18px;">
+          No choices were recorded. If this is unexpected, your node pages are not storing selections.
+        </div>
+      `;
+      return;
+    }
+
+    const counts = [0, 0, 0, 0];
+    const pickedLines = [];
+
+    nodeNums.forEach(n => {
+      const c = choices[n];
+      const choiceIndex = Number(c.choice);
+      if (Number.isFinite(choiceIndex) && choiceIndex >= 0 && choiceIndex < 4) counts[choiceIndex] += 1;
+      const letter = LETTERS[choiceIndex] || "?";
+      const text = (c.text || "").trim();
+      pickedLines.push({ n, letter, text });
+    });
+
+    const total = counts.reduce((a, b) => a + b, 0) || 1;
+
+    const scored = counts
+      .map((v, i) => ({ i, v, pct: Math.round((v / total) * 100) }))
+      .sort((a, b) => b.v - a.v);
+
+    const top = scored[0];
+    const dominant = VECTORS[top.i];
+    const breakdownHtml = scored
+      .map(s => `<div style="margin:6px 0;">${LETTERS[s.i]}: ${VECTORS[s.i]} <span style="opacity:.75;">(${s.v}/${total}, ${s.pct}%)</span></div>`)
+      .join("");
+
+    const picksHtml = pickedLines
+      .map(x => `
+        <div style="margin:10px 0;opacity:.92;">
+          <span style="display:inline-block;min-width:64px;opacity:.75;">Node ${x.n}</span>
+          <span style="display:inline-block;min-width:28px;font-weight:700;">${x.letter}</span>
+          <span>${escapeHtml(x.text)}</span>
+        </div>
+      `)
+      .join("");
+
+    assessment.innerHTML = `
+      <div style="margin-top:18px;font-size:22px;font-weight:700;">Assessment</div>
+      <div style="margin-top:8px;opacity:.9;">
+        Dominant pattern: <span style="font-weight:700;">${dominant}</span>
+      </div>
+      <div style="margin-top:14px;opacity:.9;">
+        ${breakdownHtml}
+      </div>
+      <div style="margin-top:18px;opacity:.9;">
+        <div style="font-weight:700;margin-bottom:8px;">Your selections</div>
+        ${picksHtml}
+      </div>
+    `;
+  }
+
+  function escapeHtml(s) {
+    return String(s || "")
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#039;");
   }
 
   function setActive(i) {
@@ -23,14 +139,7 @@
     const scroller = pages[index].querySelector(".pageInner");
     if (scroller) scroller.scrollTop = 0;
 
-    // When we land on reflection, refresh the assessment (in case user went back/changed).
-    if (isReflectionPage(pages[index])) renderAssessment();
-  }
-
-  function updateNav() {
-    if (pageLabel) pageLabel.textContent = `${index + 1} / ${pages.length}`;
-    if (prevBtn) prevBtn.disabled = index === 0;
-    if (nextBtn) nextBtn.disabled = index === pages.length - 1;
+    renderReflectionIfNeeded();
   }
 
   function next() { setActive(index + 1); }
@@ -39,35 +148,6 @@
   function getNodeNumberFromId(id) {
     const m = String(id || "").match(/node-(\d+)/i);
     return m ? Number(m[1]) : null;
-  }
-
-  function labelForChoice(i) {
-    const n = Number(i);
-    if (!Number.isFinite(n) || n < 0) return "";
-    const A = "A".charCodeAt(0);
-    if (n < 26) return String.fromCharCode(A + n);
-    const first = Math.floor(n / 26) - 1;
-    const second = n % 26;
-    return String.fromCharCode(A + first) + String.fromCharCode(A + second);
-  }
-
-  function readChoices() {
-    try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}"); }
-    catch (_) { return {}; }
-  }
-
-  function writeChoices(obj) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(obj || {}));
-  }
-
-  function clearChoices() {
-    localStorage.removeItem(STORAGE_KEY);
-  }
-
-  function recordChoice(node, choice, text) {
-    const data = readChoices();
-    if (node) data[node] = { choice: Number(choice), text: String(text || "") };
-    writeChoices(data);
   }
 
   function initNodeChoices() {
@@ -83,171 +163,67 @@
       if (paras.length < 2) return;
 
       const prompt = paras[0];
-      const options = paras.slice(1); // preserve original order as written
+      const options = paras.slice(1);
 
       const choicesWrap = document.createElement("div");
       choicesWrap.className = "choices";
 
-      let made = 0;
-
-      options.forEach((p) => {
+      options.forEach((p, choiceIndex) => {
         const raw = (p.textContent || "").trim();
-        if (!raw) { p.remove(); return; }
+        if (!raw) return;
 
+        const letter = LETTERS[choiceIndex] || "";
         const btn = document.createElement("button");
         btn.type = "button";
         btn.className = "choiceBtn";
         btn.dataset.action = "choose";
-        btn.dataset.raw = raw;
-
         if (nodeNum !== null) btn.dataset.node = String(nodeNum);
-        btn.dataset.choice = String(made);
+        btn.dataset.choice = String(choiceIndex);
 
-        const label = labelForChoice(made);
-        btn.textContent = `${label}) ${raw}`;
+        btn.textContent = letter ? `${letter}. ${raw}` : raw;
 
         choicesWrap.appendChild(btn);
-        made += 1;
         p.remove();
       });
 
-      if (prompt && prompt.parentNode) prompt.insertAdjacentElement("afterend", choicesWrap);
-      else inner.appendChild(choicesWrap);
+      if (prompt && prompt.parentNode) {
+        prompt.insertAdjacentElement("afterend", choicesWrap);
+      } else {
+        inner.appendChild(choicesWrap);
+      }
     });
   }
 
-  function isReflectionPage(section) {
-    if (!section) return false;
-    const dt = (section.getAttribute("data-type") || "").toLowerCase();
-    const id = (section.id || "").toLowerCase();
-    return dt === "reflection" || id.includes("reflection");
-  }
-
-  function findReflectionPage() {
-    return pages.find(p => isReflectionPage(p)) || null;
-  }
-
-  function ensureAssessmentBlock(refPage) {
-    const inner = refPage.querySelector(".pageInner") || refPage;
-    let block = inner.querySelector("#assessment");
-    if (!block) {
-      block = document.createElement("div");
-      block.id = "assessment";
-      block.style.marginTop = "22px";
-      block.style.maxWidth = "820px";
-      block.style.padding = "18px 18px";
-      block.style.border = "1px solid rgba(255,255,255,0.10)";
-      block.style.borderRadius = "14px";
-      block.style.background = "rgba(0,0,0,0.35)";
-      inner.appendChild(block);
+  function recordChoice(node, choice, text) {
+    const data = getChoices();
+    if (node) {
+      data[node] = { choice: Number(choice), text: String(text || "") };
+      setChoices(data);
     }
-    return block;
-  }
-
-  function renderAssessment() {
-    const refPage = findReflectionPage();
-    if (!refPage) return;
-
-    const block = ensureAssessmentBlock(refPage);
-    const data = readChoices();
-
-    const entries = Object.keys(data)
-      .map(k => ({ node: Number(k), choice: data[k]?.choice ?? 0, text: String(data[k]?.text ?? "") }))
-      .filter(x => Number.isFinite(x.node))
-      .sort((a, b) => a.node - b.node);
-
-    const counts = { A: 0, B: 0, C: 0, D: 0 };
-    entries.forEach(e => {
-      const L = labelForChoice(e.choice);
-      if (counts[L] !== undefined) counts[L] += 1;
-    });
-
-    const total = entries.length || 0;
-    const dominant = (() => {
-      const arr = Object.entries(counts);
-      arr.sort((a, b) => b[1] - a[1]);
-      return arr[0][1] === 0 ? null : arr[0][0];
-    })();
-
-    const list = entries
-      .map(e => {
-        const L = labelForChoice(e.choice);
-        const txt = e.text.length > 140 ? e.text.slice(0, 140) + "…" : e.text;
-        return `<div style="margin:10px 0;opacity:0.95;">
-          <span style="opacity:0.7;">Node ${e.node}:</span>
-          <span style="margin-left:8px;">${L}) ${escapeHtml(txt)}</span>
-        </div>`;
-      })
-      .join("");
-
-    block.innerHTML = `
-      <div style="font-size:18px;font-weight:700;margin-bottom:10px;">Assessment</div>
-      <div style="opacity:0.80;line-height:1.55;">
-        This is not a diagnosis. It is a structural snapshot of how you moved through pressure,exposure,validation,and doubt.
-      </div>
-      <div style="margin-top:14px;display:flex;gap:18px;flex-wrap:wrap;opacity:0.90;">
-        <div><span style="opacity:0.7;">A:</span> ${counts.A}</div>
-        <div><span style="opacity:0.7;">B:</span> ${counts.B}</div>
-        <div><span style="opacity:0.7;">C:</span> ${counts.C}</div>
-        <div><span style="opacity:0.7;">D:</span> ${counts.D}</div>
-        <div style="margin-left:auto;"><span style="opacity:0.7;">Answered:</span> ${total}</div>
-      </div>
-      <div style="margin-top:12px;opacity:0.9;">
-        <span style="opacity:0.7;">Dominant pull:</span>
-        <span style="margin-left:8px;font-weight:700;">${dominant ? dominant : "—"}</span>
-      </div>
-      <div style="margin-top:14px;border-top:1px solid rgba(255,255,255,0.10);padding-top:12px;">
-        <div style="opacity:0.7;margin-bottom:8px;">Your selections</div>
-        ${list || `<div style="opacity:0.75;">No selections recorded.</div>`}
-      </div>
-    `;
-  }
-
-  function escapeHtml(s) {
-    return String(s)
-      .replaceAll("&", "&amp;")
-      .replaceAll("<", "&lt;")
-      .replaceAll(">", "&gt;")
-      .replaceAll('"', "&quot;")
-      .replaceAll("'", "&#039;");
-  }
-
-  function handleRestart() {
-    clearChoices();
-    setActive(0);
   }
 
   document.addEventListener("click", (e) => {
     const t = e.target;
 
-    if (!t) return;
-
-    // Start button on cover
-    if (t.matches('[data-action="start"]')) {
+    if (t && t.matches('[data-action="start"]')) {
       e.preventDefault();
       setActive(1);
       return;
     }
 
-    // Choice buttons
-    if (t.matches(".choiceBtn")) {
+    if (t && (t.matches('[data-action="restart"]') || t.id === "beginAgainBtn" || t.classList.contains("beginAgainBtn") || t.classList.contains("restartBtn"))) {
       e.preventDefault();
-      const node = t.dataset.node || "";
-      const choice = t.dataset.choice || "0";
-      const raw = t.dataset.raw || (t.textContent || "");
-      recordChoice(node, choice, raw);
-      next();
+      clearChoices();
+      setActive(0);
       return;
     }
 
-    // Begin again button (support multiple markup styles)
-    if (
-      t.matches('[data-action="restart"]') ||
-      t.matches("#beginAgain") ||
-      (t.tagName === "BUTTON" && (t.textContent || "").trim().toLowerCase() === "begin again")
-    ) {
+    if (t && t.matches(".choiceBtn")) {
       e.preventDefault();
-      handleRestart();
+      const node = t.dataset.node || "";
+      const choice = t.dataset.choice || "0";
+      recordChoice(node, choice, t.textContent || "");
+      next();
       return;
     }
   });
@@ -261,6 +237,5 @@
   });
 
   initNodeChoices();
-  renderAssessment();
   setActive(0);
 })();
