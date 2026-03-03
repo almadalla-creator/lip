@@ -110,17 +110,13 @@ a.aboutLink{
   text-decoration:underline;
 }
 
-/* cover */
-.page.cover{ background:#000; }
-
+.page.cover{ position:relative; background:#000; }
 .coverImage{
   position:absolute;
   inset:0;
-  background-image:url("Front%20Cover.jpg");
+  background-image:url("./Front%20Cover.jpg") !important;
   background-size:cover;
   background-repeat:no-repeat;
-
-  /* show more of the TOP (title) */
   background-position:50% 12%;
 }
 .startBtn{
