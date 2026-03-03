@@ -111,18 +111,18 @@ a.aboutLink{
 }
 
 /* cover */
-.page.cover{
-  background:#000;
-}
+.page.cover{ background:#000; }
 
-.cover-image{
+.coverImage{
   position:absolute;
   inset:0;
+  background-image:url("Front Cover.jpg");
   background-size:cover;
-  background-position:50% 0%;
   background-repeat:no-repeat;
-}
 
+  /* show more of the TOP (title) */
+  background-position:50% 12%;
+}
 .startBtn{
   position:absolute;
   left:50%;
