@@ -119,7 +119,7 @@ a.aboutLink{
   position:absolute;
   inset:0;
   background-size:cover;
-  background-position:center 85%;
+  background-position:50% 0%;
   background-repeat:no-repeat;
 }
 
