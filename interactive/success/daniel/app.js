@@ -1,6 +1,5 @@
 /* app.js */
 (() => {
-  const book = document.getElementById("book");
   const pages = Array.from(document.querySelectorAll(".page"));
   const pageLabel = document.getElementById("pageLabel");
   const prevBtn = document.getElementById("prevBtn");
@@ -19,6 +18,7 @@
     pages.forEach(p => p.classList.remove("active"));
     pages[index].classList.add("active");
     updateNav();
+
     const scroller = pages[index].querySelector(".pageInner");
     if (scroller) scroller.scrollTop = 0;
   }
@@ -37,6 +37,17 @@
     return m ? Number(m[1]) : null;
   }
 
+  function labelForChoice(i) {
+    // A,B,C... then AA,AB... if ever needed
+    const n = Number(i);
+    if (!Number.isFinite(n) || n < 0) return "";
+    const A = "A".charCodeAt(0);
+    if (n < 26) return String.fromCharCode(A + n);
+    const first = Math.floor(n / 26) - 1;
+    const second = n % 26;
+    return String.fromCharCode(A + first) + String.fromCharCode(A + second);
+  }
+
   function initNodeChoices() {
     pages.forEach(section => {
       const id = section.id || "";
@@ -50,24 +61,31 @@
       if (paras.length < 2) return;
 
       const prompt = paras[0];
-      const options = paras.slice(1);
+      const options = paras.slice(1); // preserve original order as written
 
       const choicesWrap = document.createElement("div");
       choicesWrap.className = "choices";
 
-      options.forEach((p, choiceIndex) => {
-        const text = (p.textContent || "").trim();
-        if (!text) return;
+      let made = 0;
+
+      options.forEach((p) => {
+        const raw = (p.textContent || "").trim();
+        if (!raw) { p.remove(); return; }
 
         const btn = document.createElement("button");
         btn.type = "button";
         btn.className = "choiceBtn";
         btn.dataset.action = "choose";
+        btn.dataset.raw = raw;
+
         if (nodeNum !== null) btn.dataset.node = String(nodeNum);
-        btn.dataset.choice = String(choiceIndex);
-        btn.textContent = text;
+        btn.dataset.choice = String(made);
+
+        const label = labelForChoice(made);
+        btn.textContent = `${label}) ${raw}`;
 
         choicesWrap.appendChild(btn);
+        made += 1;
         p.remove();
       });
 
@@ -83,6 +101,7 @@
     const key = "lip_success_choices";
     let data = {};
     try { data = JSON.parse(localStorage.getItem(key) || "{}"); } catch (_) { data = {}; }
+
     if (node) {
       data[node] = { choice: Number(choice), text: String(text || "") };
       localStorage.setItem(key, JSON.stringify(data));
@@ -102,7 +121,8 @@
       e.preventDefault();
       const node = t.dataset.node || "";
       const choice = t.dataset.choice || "0";
-      recordChoice(node, choice, t.textContent || "");
+      const raw = t.dataset.raw || (t.textContent || "");
+      recordChoice(node, choice, raw);
       next();
       return;
     }
