@@ -290,7 +290,7 @@ a.aboutLink{
 .page.cover .coverImage{
   position:absolute;
   inset:0;
-  background-image:url("front-cover.jpg");
+  background-image:url("Front-Cover.jpg");
   background-size:cover;
   background-repeat:no-repeat;
   background-position:50% 6%;
