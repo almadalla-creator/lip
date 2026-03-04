@@ -285,16 +285,18 @@ a.aboutLink{
   overflow:hidden;
   background:#000;
 }
-.page.cover{position:relative;padding:0;overflow:hidden;}
+.page.cover{ background:#000; }
+
 .page.cover .coverImage{
   position:absolute;
   inset:0;
-  background-image:url("Front Cover.jpg");
+  background-image:url("./front-cover.jpg");
   background-size:cover;
   background-repeat:no-repeat;
-  background-position:50% 8%;
-  z-index:0;
+  background-position:50% 6%;
+  z-index:1;
 }
+
 .page.cover .startBtn{
   position:absolute;
   left:50%;
