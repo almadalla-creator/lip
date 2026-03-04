@@ -114,7 +114,7 @@ a.aboutLink{
 .coverImage{
   position:absolute;
   inset:0;
-  background-image:url("./Front%20Cover.jpg") !important;
+  background-image:url("./front-cover.jpg") !important;
   background-size:cover;
   background-repeat:no-repeat;
   background-position:50% 12%;
