@@ -293,14 +293,9 @@ a.aboutLink{
 .coverImage{
   position:absolute;
   inset:0;
-
-  /* MUST match the real filename exactly */
-  background-image:url("./Front%20Cover.jpg") !important;
-
+  background-image:url("Front%20Cover.jpg") !important;
   background-size:cover;
   background-repeat:no-repeat;
-
-  /* show the title area at the top */
   background-position:50% 0%;
 }
 
