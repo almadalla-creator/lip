@@ -306,3 +306,37 @@ a.aboutLink{
   transform:translate(-50%,-50%);
   z-index:2;
 }
+/* === COVER FIX (Success) === */
+.page.cover{
+  position:relative;
+  overflow:hidden;
+  background:#000;
+}
+
+.page.cover .coverImage{
+  position:absolute;
+  inset:0;
+  /* try multiple exact names so one MUST match your real file */
+  background-image:
+    url("Front Cover.jpg"),
+    url("Front%20Cover.jpg"),
+    url("./Front Cover.jpg"),
+    url("./Front%20Cover.jpg"),
+    url("Front Coverjpg"),
+    url("./Front Coverjpg"),
+    url("front-cover.jpg"),
+    url("./front-cover.jpg");
+  background-size:cover;
+  background-repeat:no-repeat;
+  /* show more of the top title area */
+  background-position:50% 8%;
+  z-index:0;
+}
+
+.page.cover .startBtn{
+  position:absolute;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%);
+  z-index:2;
+}
