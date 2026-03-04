@@ -110,15 +110,6 @@ a.aboutLink{
   text-decoration:underline;
 }
 
-.page.cover{ position:relative; background:#000; }
-.coverImage{
-  position:absolute;
-  inset:0;
-  background-image:url("./front-cover.jpg") !important;
-  background-size:cover;
-  background-repeat:no-repeat;
-  background-position:50% 12%;
-}
 .startBtn{
   position:absolute;
   left:50%;
@@ -208,10 +199,6 @@ a.aboutLink{
   #book .brand{font-size:16px;}
   #book .navBar{padding:0 14px;}
 }
-/* hard-hide the cover after Start, prevents it from sitting on top */
-.page.cover.dismissed{display:none!important}
-/* style.css, add or replace these blocks */
-#book { position: relative; }
 
 /* NAV BAR INSIDE BOOK */
 #book .navBar{
@@ -297,4 +284,26 @@ a.aboutLink{
   position:relative;
   overflow:hidden;
   background:#000;
+}
+/* COVER (single source of truth) */
+.page.cover{
+  background:#000;
+}
+
+.page.cover .coverImage{
+  position:absolute;
+  inset:0;
+  background-image:url("Front%20Cover.jpg");
+  background-size:cover;
+  background-repeat:no-repeat;
+  background-position:50% 0%;
+  z-index:0;
+}
+
+.page.cover .startBtn{
+  position:absolute;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%);
+  z-index:2;
 }
