@@ -287,6 +287,7 @@ a.aboutLink{
 }
 /* COVER (Success) */
 .page.cover{
+  position:relative;
   background:#000;
 }
 
@@ -297,7 +298,6 @@ a.aboutLink{
   background-size:cover;
   background-repeat:no-repeat;
   background-position:50% 8%;
-  z-index:0;
 }
 
 /* keep Start above the image */
