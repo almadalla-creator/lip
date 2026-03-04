@@ -25,11 +25,37 @@
 
 .ix-grid{
   display:grid;
-  grid-template-columns:repeat(auto-fit,260px);
+  grid-template-columns:repeat(4,240px);
   justify-content:center;
-  gap:70px;
+  gap:48px;
   max-width:1200px;
   margin:0 auto;
+}
+
+.ix-frame{
+  width:240px;
+  aspect-ratio:2 / 3;
+  background:#111;
+  border:1px solid rgba(0,0,0,.15);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+}
+
+.ix-frame img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+}
+
+@media (max-width:1180px){
+  .ix-grid{ grid-template-columns:repeat(2,240px); }
+}
+@media (max-width:620px){
+  .ix-grid{ grid-template-columns:1fr; }
+  .ix-frame{ width:min(260px,90vw); }
 }
 
 /* each card is a vertical stack so buttons align */
