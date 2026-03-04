@@ -290,14 +290,18 @@ a.aboutLink{
   background:#000;
 }
 
-.page.cover .coverImage{
+.coverImage{
   position:absolute;
   inset:0;
-  background-image:url("Front Cover.jpg");
+
+  /* MUST match the real filename exactly */
+  background-image:url("./Front%20Cover.jpg") !important;
+
   background-size:cover;
   background-repeat:no-repeat;
+
+  /* show the title area at the top */
   background-position:50% 0%;
-  z-index:0;
 }
 
 .page.cover .startBtn{
