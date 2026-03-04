@@ -316,21 +316,14 @@ a.aboutLink{
 .page.cover .coverImage{
   position:absolute;
   inset:0;
-  /* try multiple exact names so one MUST match your real file */
-  background-image:
-    url("Front Cover.jpg"),
-    url("Front%20Cover.jpg"),
-    url("./Front Cover.jpg"),
-    url("./Front%20Cover.jpg"),
-    url("Front Coverjpg"),
-    url("./Front Coverjpg"),
-    url("front-cover.jpg"),
-    url("./front-cover.jpg");
+
+  background-image:url("Front%20Cover.jpg");
+
   background-size:cover;
   background-repeat:no-repeat;
-  /* show more of the top title area */
+
+  /* shift down so title shows */
   background-position:50% 8%;
-  z-index:0;
 }
 
 .page.cover .startBtn{
