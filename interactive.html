@@ -24,58 +24,63 @@
 .fine{font-size:16px;opacity:.65;margin-top:14px;}
 
 .ix-grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,260px);
-justify-content:center;
-gap:70px;
-max-width:1200px;
-margin:0 auto;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,260px);
+  justify-content:center;
+  gap:70px;
+  max-width:1200px;
+  margin:0 auto;
 }
+
+/* each card is a vertical stack so buttons align */
+.ix-card{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
+
 .ix-cover{display:flex;justify-content:center;}
 
 /* 6x9 FRAME */
 .ix-frame{
-width:260px;
-aspect-ratio:2 / 3;
-background:#111;
-border:1px solid rgba(0,0,0,.15);
-display:flex;
-align-items:center;
-justify-content:center;
-overflow:hidden;
+  width:260px;
+  aspect-ratio:2 / 3;
+  background:#111;
+  border:1px solid rgba(0,0,0,.15);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
 }
 
 /* REAL IMAGE FIT INSIDE FRAME */
 .ix-frame img{
-width:100%;
-height:100%;
-object-fit:contain; /* IMPORTANT */
-display:block;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
 }
 
-/* PLACEHOLDER */
+/* PLACEHOLDER TEXT INSIDE SAME FRAME */
 .ix-placeholder{
-width:260px;
-aspect-ratio:2 / 3;
-background:#111;
-border:1px solid rgba(0,0,0,.15);
-color:rgba(255,255,255,.75);
-display:flex;
-align-items:center;
-justify-content:center;
-letter-spacing:.8px;
-text-transform:uppercase;
+  width:100%;
+  height:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:rgba(255,255,255,.75);
+  letter-spacing:.8px;
+  text-transform:uppercase;
 }
 
-.ix-title{margin-top:18px;font-size:30px;font-weight:700;}
-.ix-sub{margin-top:10px;font-size:16px;line-height:1.7;opacity:.8;min-height:70px;}
+.ix-title{margin-top:18px;font-size:30px;font-weight:700;text-align:center;}
+.ix-sub{margin-top:10px;font-size:16px;line-height:1.7;opacity:.8;min-height:70px;text-align:center;max-width:260px;}
 
 .ix-btnrow{margin-top:auto;padding-top:16px;display:flex;justify-content:center;}
-.ix-btn{padding:12px 18px;border:1px solid rgba(0,0,0,.35);text-decoration:none;color:inherit;}
+.ix-btn{padding:12px 18px;border:1px solid rgba(0,0,0,.35);text-decoration:none;color:inherit;background:transparent;}
 .ix-btn:hover{background:rgba(0,0,0,.06);}
 .ix-disabled{opacity:.45;pointer-events:none;}
 
-@media(max-width:1100px){.ix-grid{grid-template-columns:repeat(2,1fr);}}
 @media(max-width:900px){.what-split{grid-template-columns:1fr;}}
 @media(max-width:640px){.ix-grid{grid-template-columns:1fr;}}
 </style>
@@ -84,102 +89,108 @@ text-transform:uppercase;
 <body>
 
 <header class="site-header">
-<div class="container nav">
-<div class="logo">LIP Editorial</div>
-<nav>
-<a href="index.html">Home</a>
-<a href="books.html">Books</a>
-<a href="primers.html">Primers</a>
-<a href="editorial.html">Editorial</a>
-<a href="interactive.html" class="active">Interactive</a>
-</nav>
-</div>
+  <div class="container nav">
+    <div class="logo">LIP Editorial</div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="books.html">Books</a>
+      <a href="primers.html">Primers</a>
+      <a href="editorial.html">Editorial</a>
+      <a href="interactive.html" class="active">Interactive</a>
+    </nav>
+  </div>
 </header>
 
 <main>
 
 <section class="hero">
-<div class="container">
-<h1>Interactive</h1>
-<p>Not a game,not a quiz,not advice. A story with decision points that exposes what you protect when pressure shows up.</p>
-</div>
+  <div class="container">
+    <h1>Interactive</h1>
+    <p>Not a game,not a quiz,not advice. A story with decision points that exposes what you protect when pressure shows up.</p>
+  </div>
 </section>
 
 <section class="section">
-<div class="container">
+  <div class="container">
 
-<div class="what-split">
-<div class="what-card">
-<div class="what-kicker">What this is</div>
-<h3>A story with pressure points</h3>
-<p>You read a real first-person story. At specific moments,the story stops and asks you to act.</p>
-<p>Your choice won’t change the plot. It exposes the reflex you use when something is at stake.</p>
-</div>
+    <div class="what-split">
+      <div class="what-card">
+        <div class="what-kicker">What this is</div>
+        <h3>A story with pressure points</h3>
+        <p>You read a real first-person story. At specific moments,the story stops and asks you to act.</p>
+        <p>Your choice won’t change the plot. It exposes the reflex you use when something is at stake.</p>
+      </div>
 
-<div class="what-card">
-<div class="what-kicker">How it works</div>
-<h3>Eight decisions,one pattern</h3>
-<ul class="steps">
-<li><span>1</span>Read normally.</li>
-<li><span>2</span>Choose what you would actually do.</li>
-<li><span>3</span>Finish the story.</li>
-<li><span>4</span>Get a short pattern readout at the end.</li>
-</ul>
-<p class="fine">No morality,no diagnosis,no “you should”. Just exposure.</p>
-</div>
-</div>
+      <div class="what-card">
+        <div class="what-kicker">How it works</div>
+        <h3>Eight decisions,one pattern</h3>
+        <ul class="steps">
+          <li><span>1</span>Read normally.</li>
+          <li><span>2</span>Choose what you would actually do.</li>
+          <li><span>3</span>Finish the story.</li>
+          <li><span>4</span>Get a short pattern readout at the end.</li>
+        </ul>
+        <p class="fine">No morality,no diagnosis,no “you should”. Just exposure.</p>
+      </div>
+    </div>
 
-<div class="ix-grid">
+    <div class="ix-grid">
 
-<div class="ix-card">
-<div class="ix-cover">
-<div class="ix-frame">
-<img src="/interactive/work/adrian/Front%20Cover.jpg" alt="Adrian Work Edition">
-</div>
-</div>
-<div class="ix-title">Work</div>
-<div class="ix-sub">Work Edition,8 decisions,one pattern report at the end.</div>
-<div class="ix-btnrow">
-<a class="ix-btn" href="/interactive/work/adrian/">Start</a>
-</div>
-</div>
+      <div class="ix-card">
+        <div class="ix-cover">
+          <div class="ix-frame">
+            <img src="/interactive/work/adrian/Front%20Cover.jpg" alt="Adrian Work Edition">
+          </div>
+        </div>
+        <div class="ix-title">Work</div>
+        <div class="ix-sub">Work Edition,8 decisions,one pattern report at the end.</div>
+        <div class="ix-btnrow">
+          <a class="ix-btn" href="/interactive/work/adrian/">Start</a>
+        </div>
+      </div>
 
-<div class="ix-card">
-<div class="ix-cover">
-<div class="ix-frame">
-<img src="/interactive/success/daniel/Front%20Cover.jpg" alt="Success Edition">
-</div>
-</div>
-<div class="ix-title">Success</div>
-<div class="ix-sub">Territory edition in development.</div>
-<div class="ix-btnrow">
-<a class="ix-btn" href="/interactive/success/daniel/">Start</a>
-</div>
+      <div class="ix-card">
+        <div class="ix-cover">
+          <div class="ix-frame">
+            <img src="/interactive/success/daniel/Front%20Cover.jpg" alt="Success Edition">
+          </div>
+        </div>
+        <div class="ix-title">Success</div>
+        <div class="ix-sub">Territory edition in development.</div>
+        <div class="ix-btnrow">
+          <a class="ix-btn" href="/interactive/success/daniel/">Start</a>
+        </div>
+      </div>
 
-<div class="ix-card">
-<div class="ix-cover">
-<div class="ix-placeholder">Coming Soon</div>
-</div>
-<div class="ix-title">Relationships</div>
-<div class="ix-sub">Territory edition in development.</div>
-<div class="ix-btnrow">
-<span class="ix-btn ix-disabled">Coming soon</span>
-</div>
-</div>
+      <div class="ix-card">
+        <div class="ix-cover">
+          <div class="ix-frame">
+            <div class="ix-placeholder">Coming Soon</div>
+          </div>
+        </div>
+        <div class="ix-title">Relationships</div>
+        <div class="ix-sub">Territory edition in development.</div>
+        <div class="ix-btnrow">
+          <span class="ix-btn ix-disabled">Coming soon</span>
+        </div>
+      </div>
 
-<div class="ix-card">
-<div class="ix-cover">
-<div class="ix-placeholder">Coming Soon</div>
-</div>
-<div class="ix-title">Faith</div>
-<div class="ix-sub">Territory edition in development.</div>
-<div class="ix-btnrow">
-<span class="ix-btn ix-disabled">Coming soon</span>
-</div>
-</div>
+      <div class="ix-card">
+        <div class="ix-cover">
+          <div class="ix-frame">
+            <div class="ix-placeholder">Coming Soon</div>
+          </div>
+        </div>
+        <div class="ix-title">Faith</div>
+        <div class="ix-sub">Territory edition in development.</div>
+        <div class="ix-btnrow">
+          <span class="ix-btn ix-disabled">Coming soon</span>
+        </div>
+      </div>
 
-</div>
-</div>
+    </div>
+
+  </div>
 </section>
 
 </main>
