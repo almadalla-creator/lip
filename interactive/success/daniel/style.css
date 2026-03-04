@@ -285,47 +285,22 @@ a.aboutLink{
   overflow:hidden;
   background:#000;
 }
-/* COVER (single source of truth) */
+/* COVER (Success) */
 .page.cover{
-  background:#000;
-}
-
-.coverImage{
-  position:absolute;
-  inset:0;
-  background-image:url("Front Cover.jpg") !important;
-  background-size:cover;
-  background-repeat:no-repeat;
-  background-position:50% 0%;
-}
-
-.page.cover .startBtn{
-  position:absolute;
-  left:50%;
-  top:50%;
-  transform:translate(-50%,-50%);
-  z-index:2;
-}
-/* === COVER FIX (Success) === */
-.page.cover{
-  position:relative;
-  overflow:hidden;
   background:#000;
 }
 
 .page.cover .coverImage{
   position:absolute;
   inset:0;
-
-  background-image:url("Front Cover.jpg");
-
+  background-image:url("Front%20Cover.jpg");
   background-size:cover;
   background-repeat:no-repeat;
-
-  /* shift down so title shows */
   background-position:50% 8%;
+  z-index:0;
 }
 
+/* keep Start above the image */
 .page.cover .startBtn{
   position:absolute;
   left:50%;
