@@ -93,17 +93,13 @@ a.aboutLink{
 .page.cover{
   position:relative;
   overflow:hidden;
-  background:#000;
+  background:none;
 }
 .coverImage{
   position:absolute;
   inset:0;
+  background:url("front-cover.jpg") center/cover no-repeat;
   z-index:0;
-  pointer-events:none;
-  background-image:url("front-cover.jpg");
-  background-size:cover;
-  background-position:center;
-  background-repeat:no-repeat;
 }
 .coverTitle{
   position:absolute;
