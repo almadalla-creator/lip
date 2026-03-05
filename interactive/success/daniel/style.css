@@ -111,10 +111,12 @@ a.aboutLink{
   top:65%;
   transform:translateX(-50%);
   z-index:2;
-  font-size:34px;
+  font-size:38px;
   letter-spacing:1px;
   text-align:center;
   color:#fff;
+  text-shadow:0 2px 10px rgba(0,0,0,.85);
+}
   padding:10px 14px;
   background:rgba(0,0,0,.40);
   border:1px solid rgba(255,255,255,.18);
