@@ -227,3 +227,10 @@ a.aboutLink{
   #book .brand{font-size:16px;}
   #book .navBar{padding:0 14px;}
 }
+.page.cover .coverTitle{
+  top:65% !important;
+}
+.page.cover .startBtn{
+  top:76% !important;
+  transform:translateX(-50%) !important;
+}
