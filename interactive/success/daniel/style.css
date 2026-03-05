@@ -231,3 +231,11 @@ a.aboutLink{
   top:76% !important;
   transform:translateX(-50%) !important;
 }
+.brand{
+  color:inherit;
+  text-decoration:none;
+  letter-spacing:3px;
+}
+.brand:hover{
+  opacity:.7;
+}
