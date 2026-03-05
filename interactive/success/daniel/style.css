@@ -110,6 +110,20 @@ a.aboutLink{
   text-decoration:underline;
 }
 
+/* cover */
+.page.cover{
+  background:#000;
+}
+
+.coverImage{
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background-image:url("front-cover.jpg");
+  background-size:cover;
+  background-position:center;
+}
+
 .startBtn{
   position:absolute;
   left:50%;
@@ -211,6 +225,9 @@ a.aboutLink{
   display:flex;
   align-items:center;
   justify-content:space-between;
+
+
+
   padding:0 22px;
   box-sizing:border-box;
   z-index:10;
@@ -286,21 +303,3 @@ a.aboutLink{
   background:#000;
 }
 .page.cover{ background:#000; }
-
-.page.cover .coverImage{
-  position:absolute;
-  inset:0;
-  background-image:url("./front-cover.jpg");
-  background-size:cover;
-  background-repeat:no-repeat;
-  background-position:50% 6%;
-  z-index:1;
-}
-
-.page.cover .startBtn{
-  position:absolute;
-  left:50%;
-  top:50%;
-  transform:translate(-50%,-50%);
-  z-index:2;
-}
