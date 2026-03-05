@@ -90,6 +90,8 @@ a.aboutLink{
   color:rgba(255,255,255,.85);
   text-decoration:underline;
 }
+
+/* COVER */
 .page.cover{
   position:absolute;
   inset:0;
@@ -99,7 +101,7 @@ a.aboutLink{
 .coverImage{
   position:absolute;
   inset:0;
-  z-index:0;
+  z-index:1;
   background:url("front-cover.jpg") center/cover no-repeat;
   pointer-events:none;
 }
@@ -117,7 +119,6 @@ a.aboutLink{
   background:rgba(0,0,0,.40);
   border:1px solid rgba(255,255,255,.18);
   border-radius:10px;
-  backdrop-filter:blur(6px);
 }
 .startBtn{
   position:absolute;
@@ -132,9 +133,10 @@ a.aboutLink{
   padding:10px 20px;
   font-size:16px;
   cursor:pointer;
-  backdrop-filter:blur(6px);
 }
 .startBtn:hover{background:rgba(0,0,0,.68);}
+
+/* NAV */
 #book .navBar{
   position:absolute;
   left:0;
@@ -177,6 +179,8 @@ a.aboutLink{
 }
 #book .navBtn:hover{background:#fff;}
 #book .navBtn:disabled{opacity:.35;cursor:not-allowed;}
+
+/* NODES */
 .choices{
   margin-top:18px;
   display:flex;
@@ -214,6 +218,7 @@ a.aboutLink{
   cursor:pointer;
 }
 .beginAgainBtn:hover{background:#fff;}
+
 @media (max-width:720px){
   .pageInner{padding:48px 26px 110px 26px;}
   .chapterTitle{font-size:34px;}
