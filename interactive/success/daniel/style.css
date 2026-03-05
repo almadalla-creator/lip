@@ -91,15 +91,17 @@ a.aboutLink{
   text-decoration:underline;
 }
 .page.cover{
-  position:relative;
+  position:absolute;
+  inset:0;
   overflow:hidden;
-  background:none;
+  background:none !important;
 }
 .coverImage{
   position:absolute;
   inset:0;
-  background:url("front-cover.jpg") center/cover no-repeat;
   z-index:0;
+  background:url("front-cover.jpg") center/cover no-repeat;
+  pointer-events:none;
 }
 .coverTitle{
   position:absolute;
