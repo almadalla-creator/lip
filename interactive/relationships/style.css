@@ -345,11 +345,15 @@ a.aboutLink{
   pointer-events:none;
   opacity:.55;
 }
-.brand{
+.brand a{
   color:#ffffff;
   text-decoration:none;
 }
 
-.brand:visited{
+.brand a:visited{
+  color:#ffffff;
+}
+
+.brand a:hover{
   color:#ffffff;
 }
