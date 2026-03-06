@@ -133,6 +133,7 @@ a.aboutLink{
   text-align:center;
   color:#fff;
   text-shadow:0 2px 10px rgba(0,0,0,.85);
+  white-space:nowrap;
 }
 
 .startBtn{
