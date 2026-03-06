@@ -282,6 +282,7 @@ a.aboutLink{
   display:flex;
   flex-direction:column;
   align-items:center;
+  height:100%;
 }
 
 .ix-cover{
@@ -296,6 +297,9 @@ a.aboutLink{
   aspect-ratio:6 / 9;
   overflow:hidden;
   background:#111;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
 
 .ix-frame img{
@@ -323,9 +327,6 @@ a.aboutLink{
 }
 
 .ix-frame--soon{
-  display:flex;
-  align-items:center;
-  justify-content:center;
   background:#050505;
 }
 
