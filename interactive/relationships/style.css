@@ -345,3 +345,11 @@ a.aboutLink{
   pointer-events:none;
   opacity:.55;
 }
+.brand{
+  color:#ffffff;
+  text-decoration:none;
+}
+
+.brand:visited{
+  color:#ffffff;
+}
