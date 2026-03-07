@@ -345,11 +345,13 @@ a.aboutLink{
   pointer-events:none;
   opacity:.55;
 }
-#book .navBar a.brand,
-#book .navBar a.brand:link,
-#book .navBar a.brand:visited,
-#book .navBar a.brand:hover,
-#book .navBar a.brand:active{
-  color:#ffffff !important;
-  text-decoration:none !important;
+.brand,
+.brand:visited{
+  color:#fff;
+  text-decoration:none;
+  letter-spacing:3px;
+}
+
+.brand:hover{
+  opacity:.7;
 }
