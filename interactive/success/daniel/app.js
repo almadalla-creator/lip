@@ -12,7 +12,7 @@
      GA4 TRACKING BLOCK
      ============================ */
 
-  const BOOK_NAME = "success";
+  const BOOK_NAME = "faith";
   const trackedChapters = new Set();
   const trackedNodes = new Set();
   let startTracked = false;
