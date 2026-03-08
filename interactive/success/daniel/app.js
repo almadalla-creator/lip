@@ -8,39 +8,74 @@
   const STORAGE_KEY = "lip_success_choices";
   let index = 0;
 
-  const STORAGE_KEY = "lip_success_choices";
-let index = 0;
+  /* ============================
+     GA4 TRACKING BLOCK
+     ============================ */
 
-/* ============================
-   GA4 TRACKING BLOCK
-   ============================ */
+  const BOOK_NAME = "success";
+  const trackedChapters = new Set();
+  const trackedNodes = new Set();
+  let startTracked = false;
+  let completionTracked = false;
 
-const BOOK_NAME = "success";
+  function trackEvent(eventName, data = {}) {
+    if (typeof gtag === "function") {
+      gtag("event", eventName, {
+        book_name: BOOK_NAME,
+        ...data,
+      });
+    }
+  }
 
-function trackEvent(eventName, data = {}) {
-  if (typeof gtag === "function") {
-    gtag("event", eventName, {
-      book_name: BOOK_NAME,
-      ...data
+  function trackStart() {
+    if (startTracked) return;
+    startTracked = true;
+    trackEvent("interactive_start");
+  }
+
+  function trackChapter(chapterNumber, pageId = "") {
+    const key = `chapter_${chapterNumber}`;
+    if (trackedChapters.has(key)) return;
+    trackedChapters.add(key);
+    trackEvent("chapter_view", {
+      chapter_number: chapterNumber,
+      page_id: pageId,
     });
   }
-}
 
-function trackChapter(chapterNumber) {
-  trackEvent("chapter_view", { chapter: chapterNumber });
-}
+  function trackNode(nodeNumber) {
+    const key = `node_${nodeNumber}`;
+    if (trackedNodes.has(key)) return;
+    trackedNodes.add(key);
+    trackEvent("node_view", {
+      node_number: nodeNumber,
+    });
+  }
 
-function trackNode(nodeNumber) {
-  trackEvent("node_view", { node: nodeNumber });
-}
+  function trackChoice(nodeNumber, choiceLetter, choiceText) {
+    trackEvent("choice_selected", {
+      node_number: nodeNumber,
+      choice_letter: choiceLetter,
+      choice_text: choiceText,
+    });
+  }
 
-function trackCompletion(result) {
-  trackEvent("interactive_complete", { result: result });
-}
+  function trackCompletion(result, answeredCount, counts) {
+    if (completionTracked) return;
+    completionTracked = true;
+    trackEvent("interactive_complete", {
+      result,
+      answered_count: answeredCount,
+      hierarchy_defense: counts[0] || 0,
+      narrative_control: counts[1] || 0,
+      emotional_withdrawal: counts[2] || 0,
+      lucid_tolerance: counts[3] || 0,
+    });
+  }
 
-/* ============================
-   END GA4 BLOCK
-   ============================ */
+  /* ============================
+     END GA4 BLOCK
+     ============================ */
 
   // Mapping is explicit:
   // A = Hierarchy Defense
@@ -133,6 +168,15 @@ function trackCompletion(result) {
 
     const scroller = pages[index]?.querySelector(".pageInner");
     if (scroller) scroller.scrollTop = 0;
+
+    const activePage = pages[index];
+    const activeId = String(activePage?.id || "");
+    trackChapter(index + 1, activeId);
+
+    const nodeNum = getNodeNumberFromId(activeId);
+    if (nodeNum !== null) {
+      trackNode(nodeNum);
+    }
 
     renderReflectionIfNeeded();
   }
@@ -264,6 +308,8 @@ function trackCompletion(result) {
     const secondaryIdx = ranked[1] && ranked[1].v > 0 ? ranked[1].i : null;
     const secondary = secondaryIdx !== null ? VECTOR[secondaryIdx] : null;
 
+    trackCompletion(dominant.key, nodeNums.length, counts);
+
     const breakdownHtml = ranked
       .map((s) => {
         const v = VECTOR[s.i];
@@ -338,6 +384,7 @@ function trackCompletion(result) {
     const startBtn = target.closest('[data-action="start"]');
     if (startBtn) {
       e.preventDefault();
+      trackStart();
       setActive(1);
       return;
     }
@@ -368,7 +415,10 @@ function trackCompletion(result) {
       const node = choiceBtn.dataset.node || "";
       const choice = choiceBtn.dataset.choice || "0";
       const text = (choiceBtn.textContent || "").trim();
+      const choiceIndex = Number(choice);
+      const choiceLetter = LETTERS[choiceIndex] || "?";
       recordChoice(node, choice, text);
+      trackChoice(Number(node), choiceLetter, text.replace(/^[A-D]\.\s*/i, "").trim());
       next();
       return;
     }
