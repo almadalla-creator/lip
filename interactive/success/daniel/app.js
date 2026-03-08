@@ -8,6 +8,40 @@
   const STORAGE_KEY = "lip_success_choices";
   let index = 0;
 
+  const STORAGE_KEY = "lip_success_choices";
+let index = 0;
+
+/* ============================
+   GA4 TRACKING BLOCK
+   ============================ */
+
+const BOOK_NAME = "success";
+
+function trackEvent(eventName, data = {}) {
+  if (typeof gtag === "function") {
+    gtag("event", eventName, {
+      book_name: BOOK_NAME,
+      ...data
+    });
+  }
+}
+
+function trackChapter(chapterNumber) {
+  trackEvent("chapter_view", { chapter: chapterNumber });
+}
+
+function trackNode(nodeNumber) {
+  trackEvent("node_view", { node: nodeNumber });
+}
+
+function trackCompletion(result) {
+  trackEvent("interactive_complete", { result: result });
+}
+
+/* ============================
+   END GA4 BLOCK
+   ============================ */
+
   // Mapping is explicit:
   // A = Hierarchy Defense
   // B = Narrative Control
