@@ -5,7 +5,7 @@
   const prevBtn = document.getElementById("prevBtn");
   const nextBtn = document.getElementById("nextBtn");
 
-  const STORAGE_KEY = "lip_relashionships_choices";
+  const STORAGE_KEY = "lip_relationships_choices";
   let index = 0;
 
   // Mapping is explicit:
